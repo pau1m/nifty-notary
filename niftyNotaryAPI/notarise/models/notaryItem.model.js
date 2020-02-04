@@ -46,6 +46,10 @@ exports.createItem = (notaryItemData) => {
 
 };
 
+exports.verifyItem = (notaryIemData) => {
+    return notaryIemData;
+};
+
 // exports.list = (perPage, page) => {
 //     return new Promise((resolve, reject) => {
 //         NotaryItem.find()
