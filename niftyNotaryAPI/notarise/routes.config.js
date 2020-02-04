@@ -20,6 +20,7 @@ exports.routesConfig = function (app) {
     ]);
 
     app.post('/notarise/verify', [
+
         // provide verification service
         // NotariseController.insert
         // create a model for the thing that we want

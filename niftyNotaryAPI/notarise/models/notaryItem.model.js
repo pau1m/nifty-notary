@@ -1,6 +1,9 @@
 const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
+
+// will be massive if store in the database
+// should there be external storage
 const notaryItemSchema = new Schema({
     file: String,
     tokenId: String,
