@@ -1,6 +1,13 @@
 //0.5.16
 pragma solidity ^0.5.16;
 
+
+//@todo either here or in separate contract... Only accept signed messages...
+// That we we never have to risk what happens to the key... It does not manage any funds...
+
+
+
+
 import './Owned.sol';
 //import './Priced.sol';
 // add a registry
@@ -26,20 +33,27 @@ contract Registry is Owned {
 }
 
 contract DocStamp is Registry {
+
+    // not sure about this list... Should all data be kept in a separate contract
+    // and this make upgradeable
+    enum IDTypes { Private, IPFS, Email, ENS, EthAddress, BTCAddress, Other }
+
+    event Notarise(bytes32 hash);
+
     struct Record {
-        string email;
-        uint timeStamp; // fire an event instead of a timestamp
+        string id; // this may refer to anything... local db, ipfs.... there can only be one... cannot be changed
+        uint8 idType; // fire an event instead of a timestamp
     }
 
     // sha256 => Record
-    mapping(string => Record) _records;
+    mapping(bytes32 => Record) _records;
 //    uint _price;
-    uint _recordCount;
+    uint _recordCount; // auto 0
 
   //  function DocStamp(uint initialPrice) {
     function DocStamp() {
 //        _price = initialPrice;
-        _recordCount = 0; // is it not 0 amyway!?
+       // _recordCount = 0; // is it not 0 amyway!?
     }
 
     // Thanks for the donation
@@ -59,14 +73,24 @@ contract DocStamp is Registry {
         return _recordCount;
     }
 
-    function stampDirect(string ownerEmail, string sha) {
+    // are string fixed in solidity now!!!??
+    //function stampDirect(string ownerEmail, string sha) {
+    // sign types
+
+
+
+    function stampDirect(string _id, bytes32 hash) {
         // check this will apply to proxy
         require(isRegistered(msg.sender));
         require(!isRecorded(sha));
 
-        Record memory rec = Record(ownerEmail, now);
+        Record memory rec = Record(_id, now);
         _records[sha] = rec;
         _recordCount = _recordCount + 1;
+
+        // hmmmm not sure about this duplication
+        emit Notarise(hash); // hmmm, we could just put it here and avoid storing on-chain in another way..._id type /
+        // could these be made tradeable
     }
 
 //    function stamp(string ownerEmail, string sha) payable costs(_price) {
@@ -88,6 +112,9 @@ contract DocStamp is Registry {
 
     // only accept incoming messages from a proxy account...
     // the proxy account exists on registrysolidity
+    // so... the contract that contains this is the one...this
+    // how do we request something to sign...
+
 
     function ecrecovery(bytes32 hash, bytes sig) public constant returns (address) {
         bytes32 r;
