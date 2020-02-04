@@ -4,11 +4,13 @@ pragma solidity ^0.5.16;
 
 //@todo either here or in separate contract... Only accept signed messages...
 // That we we never have to risk what happens to the key... It does not manage any funds...
+//import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
+import "@openzeppelin/contracts/ownership/Ownable.sol";
+//^import owned from here
 
 
-
-
-import './Owned.sol';
+//
+//import './Owned.sol';
 //import './Priced.sol';
 // add a registry
 // anyone can use directly if they pay
@@ -17,31 +19,33 @@ import './Owned.sol';
 
 
 // could just move this right in... it's going ot be pretty simple
-contract Registry is Owned {
+contract Registry is Ownable {
 
     mapping(address => bool) registered;
+    event updatedRegistry();
 
     // statoc
-    function isRegistered(address _addr) {
-        return registered['_addr'];
+    function isRegistered(address _addr) public view returns (bool) {
+        return registered[_addr];
     }
 
     // proxy owner
-    function updateRegistry(bool _active) ownerOnly {
-        registered[address] = _active;
+    function updateRegistry(address _addr, bool _active) public onlyOwner {
+        registered[_addr] = _active;
+        emit updatedRegistry();
+        // do we have to copy the whole object in for this to work?
     } // this should probably belong to the proxy...
 }
 
-contract DocStamp is Registry {
+contract Notary is Registry {
 
     // not sure about this list... Should all data be kept in a separate contract
     // and this make upgradeable
     enum IDTypes { Private, IPFS, Email, ENS, EthAddress, BTCAddress, Other }
 
-    event Notarise(bytes32 hash);
 
     struct Record {
-        string id; // this may refer to anything... local db, ipfs.... there can only be one... cannot be changed
+        bytes32 id; // this may refer to anything... local db, ipfs.... there can only be one... cannot be changed
         uint8 idType; // fire an event instead of a timestamp
     }
 
@@ -50,8 +54,11 @@ contract DocStamp is Registry {
 //    uint _price;
     uint _recordCount; // auto 0
 
+
+    event Notarise(bytes32 hash);
+
   //  function DocStamp(uint initialPrice) {
-    function DocStamp() {
+    constructor() public {
 //        _price = initialPrice;
        // _recordCount = 0; // is it not 0 amyway!?
     }
@@ -69,7 +76,7 @@ contract DocStamp is Registry {
 //        price = _price;
 //    }
 
-    function getCount() constant ownerOnly returns (uint) {
+    function getCount() public view returns (uint) {
         return _recordCount;
     }
 
@@ -79,13 +86,13 @@ contract DocStamp is Registry {
 
 
 
-    function stampDirect(string _id, bytes32 hash) {
+    function notarise(bytes32 _id, uint8 _idType, bytes32 hash) public {
         // check this will apply to proxy
         require(isRegistered(msg.sender));
-        require(!isRecorded(sha));
+        require(!isRecorded(hash));
 
-        Record memory rec = Record(_id, now);
-        _records[sha] = rec;
+        Record memory rec = Record(_id, _idType);
+        _records[hash] = rec;
         _recordCount = _recordCount + 1;
 
         // hmmmm not sure about this duplication
@@ -101,14 +108,16 @@ contract DocStamp is Registry {
 //        _recordCount = _recordCount + 1;
 //    }
 
-    function isRecorded(string sha) constant returns (bool) {
-        return _records[sha].timeStamp != 0;
+    function isRecorded(bytes32 sha) public view returns (bool) {
+        return true;
+        //@todo !!!
+        //bool(_records[sha]);
     }
 
-    function lookup(string sha) constant returns(string, uint) {
-        Record memory rec = _records[sha];
-        return (rec.email, rec.timeStamp);
-    }
+//    function lookup(bytes32 sha) public view returns(bytes32, uint) {
+//        Record memory rec = _records[sha];
+//        return (rec.email, rec.timeStamp);
+//    }
 
     // only accept incoming messages from a proxy account...
     // the proxy account exists on registrysolidity
@@ -116,13 +125,13 @@ contract DocStamp is Registry {
     // how do we request something to sign...
 
 
-    function ecrecovery(bytes32 hash, bytes sig) public constant returns (address) {
+    function ecrecovery(bytes32 hash, bytes memory sig) public view returns (address) {
         bytes32 r;
         bytes32 s;
         uint8 v;
 
         if (sig.length != 65) {
-            return 0;
+            return address(0x0);
         }
 
         assembly {
@@ -137,13 +146,13 @@ contract DocStamp is Registry {
         }
 
         if (v != 27 && v != 28) {
-            return 0;
+            return address(0x0);
         }
 
         return ecrecover(hash, v, r, s);
     }
 
-    function ecverify(bytes32 hash, bytes sig, address signer) public constant returns (bool) {
+    function ecverify(bytes32 hash, bytes memory sig, address signer) public view returns (bool) {
         return signer == ecrecovery(hash, sig);
     }
 
