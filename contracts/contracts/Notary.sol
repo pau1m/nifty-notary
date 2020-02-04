@@ -41,8 +41,12 @@ contract Notary is Registry {
 
     // not sure about this list... Should all data be kept in a separate contract
     // and this make upgradeable
-    enum IDTypes { Private, IPFS, Email, ENS, EthAddress, BTCAddress, Other }
 
+    // no point in restricting it...this
+    //
+    enum IDTypes { Private, IPFS, Email, ENS, EthAddress, BTCAddress, Other }
+    // can just put in comments rather than enforce...
+    // leave up to others..
 
     struct Record {
         bytes32 id; // this may refer to anything... local db, ipfs.... there can only be one... cannot be changed
