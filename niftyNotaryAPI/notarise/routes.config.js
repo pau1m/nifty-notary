@@ -1,4 +1,4 @@
-const NotariseController = require('./controllers/notarise.controller');
+    const NotariseController = require('./controllers/notarise.controller');
 // const PermissionMiddleware = require('../common/middlewares/auth.permission.middleware');
 // const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
 const config = require('../common/config/env.config');
@@ -17,6 +17,12 @@ exports.routesConfig = function (app) {
        // ValidationMiddleware.validJWTNeeded,
        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
        // UsersController.list
+    ]);
+
+    app.post('/notarise/verify', [
+        // provide verification service
+        // NotariseController.insert
+        // create a model for the thing that we want
     ]);
     // app.get('/users/:userId', [
     //     ValidationMiddleware.validJWTNeeded,
