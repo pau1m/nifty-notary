@@ -3,6 +3,14 @@ pragma solidity ^0.5.16;
 
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 
+
+
+
+
+// add metatransactions
+// contract pays itself in eth
+// user has tokens deducted from account...
+
 // could just move this right in... it's going ot be pretty simple
 contract Registry is Ownable {
 

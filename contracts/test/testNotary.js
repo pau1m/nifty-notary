@@ -37,13 +37,6 @@ contract("Notary", accounts => {
         // console.log(gotRecord);
     });
 
-
-
-
-
-
-
-
 });// it("It should have deployed", () =>
     //     Notary.deployed()
     //         .then(balance => {
