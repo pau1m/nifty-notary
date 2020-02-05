@@ -1,52 +1,26 @@
-//0.5.16
+//update to 0.6.x when supporting tools are out of beta
 pragma solidity ^0.5.16;
 
-
-//@todo either here or in separate contract... Only accept signed messages...
-// That we we never have to risk what happens to the key... It does not manage any funds...
-//import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
 import "@openzeppelin/contracts/ownership/Ownable.sol";
-//^import owned from here
-
-
-//
-//import './Owned.sol';
-//import './Priced.sol';
-// add a registry
-// anyone can use directly if they pay
-// anyone can use directly if they are registered
-// add a simple registry
-
 
 // could just move this right in... it's going ot be pretty simple
 contract Registry is Ownable {
 
     mapping(address => bool) registered;
-    event updatedRegistry();
+    event updatedRegistry(address);
 
-    // statoc
     function isRegistered(address _addr) public view returns (bool) {
         return registered[_addr];
     }
 
-    // proxy owner
     function updateRegistry(address _addr, bool _active) public onlyOwner {
         registered[_addr] = _active;
-        emit updatedRegistry();
-        // do we have to copy the whole object in for this to work?
-    } // this should probably belong to the proxy...
+        emit updatedRegistry(_addr);
+    }
 }
 
 contract Notary is Registry {
-
-    // not sure about this list... Should all data be kept in a separate contract
-    // and this make upgradeable
-
-    // no point in restricting it...this
-    //
     // enum IDTypes { Private, IPFS, Email, ENS, EthAddress, BTCAddress, Other }
-    // can just put in comments rather than enforce...
-    // leave up to others..
 
     // 0 email
     // 1 Private
@@ -55,18 +29,15 @@ contract Notary is Registry {
     // 4 Other
     // 5 ...
 
-    // consider making bytes32 a string
     struct Record {
         string id; // this may refer to anything... local db, ipfs.... there can only be one... cannot be changed
         uint8 idType; // fire an event instead of a timestamp
     }
 
-    // sha256 => Record
     mapping(bytes32 => Record) _records;
-//    uint _price;
+
     uint _recordCount; // auto 0
 
-    // do we even need this... could we just emit it as an event!!!!
     event Notarise(bytes32 hash/*, bytes32 id*/);
 
   //  function DocStamp(uint initialPrice) {
@@ -75,35 +46,20 @@ contract Notary is Registry {
        // _recordCount = 0; // is it not 0 amyway!?
     }
 
-    // Thanks for the donation
-    // make not payable reject
-//    function () payable {
-//    }
-
-//    function drain() ownerOnly {
-//        _owner.transfer(this.balance);
-//    }
-
-//    function getPrice() constant returns (uint price) {
-//        price = _price;
-//    }
+    // Thanks for not donating
+   function () payable {
+        throw;
+    }
 
     function getCount() public view returns (uint) {
         return _recordCount;
     }
 
-    // are string fixed in solidity now!!!??
-    //function stampDirect(string ownerEmail, string sha) {
-    // sign types
-
-
     // make this private
     function notarise(string memory _id, uint8 _idType, bytes32 hash) public {
-        // check this will apply to proxy
-        //require(_id != "");
+
         require(!emptyString(_id));
         require(hash != 0);
-        // req hash not 0
         require(isRegistered(msg.sender));
         require(!isRecorded(hash));
 
@@ -136,7 +92,7 @@ contract Notary is Registry {
     }
 
     function getRecord(bytes32 _hash) public view returns (bytes32 hash, string memory id, uint8 idType) {
-        return  (hash, _records[_hash].id, _records[_hash].idType);
+        return  (_hash, _records[_hash].id, _records[_hash].idType);
     }
 
 //    function compareStrings (string memory a, string memory b) public view
@@ -150,43 +106,36 @@ contract Notary is Registry {
 //        return (rec.email, rec.timeStamp);
 //    }
 
-    // only accept incoming messages from a proxy account...
-    // the proxy account exists on registrysolidity
-    // so... the contract that contains this is the one...this
-    // how do we request something to sign...
-    // do we need to simulate a thing to sign
-
-
-    function ecrecovery(bytes32 hash, bytes memory sig) public view returns (address) {
-        bytes32 r;
-        bytes32 s;
-        uint8 v;
-
-        if (sig.length != 65) {
-            return address(0x0);
-        }
-
-        assembly {
-            r := mload(add(sig, 32))
-            s := mload(add(sig, 64))
-            v := and(mload(add(sig, 65)), 255)
-        }
-
-        // https://github.com/ethereum/go-ethereum/issues/2053
-        if (v < 27) {
-            v += 27;
-        }
-
-        if (v != 27 && v != 28) {
-            return address(0x0);
-        }
-
-        return ecrecover(hash, v, r, s);
-    }
-
-    function ecverify(bytes32 hash, bytes memory sig, address signer) public view returns (bool) {
-        return signer == ecrecovery(hash, sig);
-    }
+//    function ecrecovery(bytes32 hash, bytes memory sig) public view returns (address) {
+//        bytes32 r;
+//        bytes32 s;
+//        uint8 v;
+//
+//        if (sig.length != 65) {
+//            return address(0x0);
+//        }
+//
+//        assembly {
+//            r := mload(add(sig, 32))
+//            s := mload(add(sig, 64))
+//            v := and(mload(add(sig, 65)), 255)
+//        }
+//
+//        // https://github.com/ethereum/go-ethereum/issues/2053
+//        if (v < 27) {
+//            v += 27;
+//        }
+//
+//        if (v != 27 && v != 28) {
+//            return address(0x0);
+//        }
+//
+//        return ecrecover(hash, v, r, s);
+//    }
+//
+//    function ecverify(bytes32 hash, bytes memory sig, address signer) public view returns (bool) {
+//        return signer == ecrecovery(hash, sig);
+//    }
 
 //    function updatePrice(uint newPrice) public ownerOnly {
 //        _price = newPrice;

@@ -6,17 +6,17 @@ const { ZERO_ADDRESS } = constants;
 const { expect } = require('chai');
 const Notary = artifacts.require('Notary');
 
-
 // Test all postive cases for the moment
 contract("Notary", accounts => {
     let admin = accounts[0];
     let alice = accounts[1];
     let bob = accounts[2];
+    notary = {};
 
     beforeEach(async () => {
         notary = await Notary.new();
         const registeredUser = await notary.updateRegistry(alice, true);
-        console.log(registeredUser);
+       // console.log(registeredUser);
     });
 
     it("Should have deployed and registered user", async () => {
@@ -28,16 +28,14 @@ contract("Notary", accounts => {
         const notarised = await notary.notarise('foo@example.com', 0, '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687', {from: alice})
 
         expect(await notary.isRecorded('0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687')).to.equal(true);
-        // getRecorded....
-
-
-
-
+        // console.log(notarised);
     });
 
-    // it("Should retrieve a hash", async () => {
-    //
-    // });
+    it("Should retrieve a hash", async () => {
+        await notary.notarise('foo@example.com', 0, '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687', {from: alice})
+        const gotRecord = await notary.getRecord('0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687');
+        // console.log(gotRecord);
+    });
 
 
 
