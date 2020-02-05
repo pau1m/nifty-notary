@@ -44,10 +44,18 @@ contract Notary is Registry {
 
     // no point in restricting it...this
     //
-    enum IDTypes { Private, IPFS, Email, ENS, EthAddress, BTCAddress, Other }
+    // enum IDTypes { Private, IPFS, Email, ENS, EthAddress, BTCAddress, Other }
     // can just put in comments rather than enforce...
     // leave up to others..
 
+    // 0 email
+    // 1 Private
+    // 2 IPFS
+    // 3 Ethereum address
+    // 4 Other
+    // 5 ...
+
+    // consider making bytes32 a string
     struct Record {
         bytes32 id; // this may refer to anything... local db, ipfs.... there can only be one... cannot be changed
         uint8 idType; // fire an event instead of a timestamp
@@ -58,8 +66,8 @@ contract Notary is Registry {
 //    uint _price;
     uint _recordCount; // auto 0
 
-
-    event Notarise(bytes32 hash);
+    // do we even need this... could we just emit it as an event!!!!
+    event Notarise(bytes32 hash/*, bytes32 id*/);
 
   //  function DocStamp(uint initialPrice) {
     constructor() public {
@@ -89,7 +97,7 @@ contract Notary is Registry {
     // sign types
 
 
-
+    // make this private
     function notarise(bytes32 _id, uint8 _idType, bytes32 hash) public {
         // check this will apply to proxy
         require(isRegistered(msg.sender));
@@ -127,6 +135,7 @@ contract Notary is Registry {
     // the proxy account exists on registrysolidity
     // so... the contract that contains this is the one...this
     // how do we request something to sign...
+    // do we need to simulate a thing to sign
 
 
     function ecrecovery(bytes32 hash, bytes memory sig) public view returns (address) {
