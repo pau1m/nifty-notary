@@ -25,12 +25,19 @@ contract("Notary", accounts => {
     });
 
     it("Should add a hash", async () => {
+        const notarised = await notary.notarise('foo@example.com', 0, '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687', {from: alice})
+
+        expect(await notary.isRecorded('0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687')).to.equal(true);
+        // getRecorded....
+
+
+
 
     });
 
-    it("Should retrieve a hash", async () => {
-
-    });
+    // it("Should retrieve a hash", async () => {
+    //
+    // });
 
 
 

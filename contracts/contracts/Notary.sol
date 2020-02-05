@@ -57,7 +57,7 @@ contract Notary is Registry {
 
     // consider making bytes32 a string
     struct Record {
-        bytes32 id; // this may refer to anything... local db, ipfs.... there can only be one... cannot be changed
+        string id; // this may refer to anything... local db, ipfs.... there can only be one... cannot be changed
         uint8 idType; // fire an event instead of a timestamp
     }
 
@@ -98,8 +98,12 @@ contract Notary is Registry {
 
 
     // make this private
-    function notarise(bytes32 _id, uint8 _idType, bytes32 hash) public {
+    function notarise(string memory _id, uint8 _idType, bytes32 hash) public {
         // check this will apply to proxy
+        //require(_id != "");
+        require(!emptyString(_id));
+        require(hash != 0);
+        // req hash not 0
         require(isRegistered(msg.sender));
         require(!isRecorded(hash));
 
@@ -121,10 +125,25 @@ contract Notary is Registry {
 //    }
 
     function isRecorded(bytes32 sha) public view returns (bool) {
-        return true;
-        //@todo !!!
-        //bool(_records[sha]);
+       return bytes(_records[sha].id).length != 0;
+        // or sha3(myVariable) != sha3("")
+
+        return (!emptyString(_records[sha].id));
     }
+
+    function emptyString(string memory item) public pure returns (bool) {
+        return bytes(item).length == 0;
+    }
+
+    function getRecord(bytes32 _hash) public view returns (bytes32 hash, string memory id, uint8 idType) {
+        return  (hash, _records[_hash].id, _records[_hash].idType);
+    }
+
+//    function compareStrings (string memory a, string memory b) public view
+//    returns (bool) {
+//        return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
+//
+//    }
 
 //    function lookup(bytes32 sha) public view returns(bytes32, uint) {
 //        Record memory rec = _records[sha];
