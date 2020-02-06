@@ -79,10 +79,22 @@ contract("Notary", accounts => {
         const registeredUser = await notary.updateRegistry(alice, true);
     });
 
-    it("Should call contract via gsn network", async () => {
+    // can jjs
+
+    it("MetaTx: Should call contract via gsn network", async () => {
         // const foo = await notaryGSM.methods.updateRegistry(alice, true ).send({ from: admin });
         const foo = await notaryGSM.methods.testRelay().send({ from: admin, gas: 4000000 });
-        console.log('foo', foo);
+        const boo = await notaryGSM.methods.relayNotarise('boo@example.com', 0, '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687').send({from: alice, gas: 4000000});
+        console.log('metaBoo', boo);
+
+
+        // const registeredUser = await notary.updateRegistry(alice, true);
+        // expect(await notary.isRegistered(alice)).to.equal(true);
+        // now we want to add for
+
+
+
+        //   console.log('foo', foo);
 
     });
 

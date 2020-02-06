@@ -84,19 +84,18 @@ contract Notary is Registry {
     }
 
     // now we
-//    function relayNotarise(string memory _id, uint8 _idType, bytes32 hash) private {
-        // return true;
-//        require(!emptyString(_id));
-//        require(hash != 0);
-//        require(isRegistered(_msgSender()));
-//        require(!isRecorded(hash));
-//
-//        Record memory rec = Record(_id, _idType);
-//        _records[hash] = rec;
-//        _recordCount = _recordCount + 1;
-//
-//        emit Notarise(hash);
-//    }
+    function relayNotarise(string memory _id, uint8 _idType, bytes32 hash) public {
+        require(!emptyString(_id));
+        require(hash != 0);
+        require(isRegistered(_msgSender()));
+        require(!isRecorded(hash));
+
+        Record memory rec = Record(_id, _idType);
+        _records[hash] = rec;
+        _recordCount = _recordCount + 1;
+
+        emit Notarise(hash);
+    }
 
 //    function stamp(string ownerEmail, string sha) payable costs(_price) {
 //        require(!isRecorded(sha));
