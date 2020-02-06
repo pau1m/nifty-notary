@@ -39,6 +39,7 @@ contract Notary is Registry {
     uint _recordCount; // auto 0
 
     event Notarise(bytes32 hash/*, bytes32 id*/);
+    event relayWorks(uint num);
 
   //  function DocStamp(uint initialPrice) {
     constructor() public {
@@ -58,7 +59,6 @@ contract Notary is Registry {
         return _recordCount;
     }
 
-
     // make this private
     function notarise(string memory _id, uint8 _idType, bytes32 hash) public {
 
@@ -76,7 +76,15 @@ contract Notary is Registry {
         // could these be made tradeable
     }
 
-    function relayNotarise(string memory _id, uint8 _idType, bytes32 hash) private {
+
+
+    function testRelay() public returns (bool) {
+        emit relayWorks(1);
+        return true;
+    }
+
+    // now we
+//    function relayNotarise(string memory _id, uint8 _idType, bytes32 hash) private {
         // return true;
 //        require(!emptyString(_id));
 //        require(hash != 0);
@@ -88,7 +96,7 @@ contract Notary is Registry {
 //        _recordCount = _recordCount + 1;
 //
 //        emit Notarise(hash);
-    }
+//    }
 
 //    function stamp(string ownerEmail, string sha) payable costs(_price) {
 //        require(!isRecorded(sha));
@@ -117,6 +125,7 @@ contract Notary is Registry {
     // how do we setup for dev accepting relay call...
     // on deploy transfer money to contract
     // allow for draining of contract
+    // add conditons to our contract
 
     function acceptRelayedCall(
         address relay,

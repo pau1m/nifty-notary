@@ -23,8 +23,8 @@ const Notary = artifacts.require('Notary');
 
 
 
-const { GSNDevProvider } = require("@openzeppelin/gsn-provider");
-
+// const { GSNDevProvider } = require("@openzeppelin/gsn-provider");
+const { GSNProvider } = require("@openzeppelin/gsn-provider");
 
 // maybe rework this to use helpers
 // have to do something to target config properly
@@ -43,23 +43,21 @@ contract("Notary", accounts => {
     notary = {};
     notaryGSM = {};
 
-
+    console.log(accounts);
     // should we not be giving the address of the actuall provider -- does this go ahead and set it
     // up for us in the background... I should look in to creating an actual node
     // that does actual relaying
-    const gsnDevProvider = new GSNDevProvider("http://localhost:8545", {
-        ownerAddress: admin,
-        relayerAddress: '0xD216153c06E857cD7f72665E0aF1d7D82172F494'//relayer
-    });
+    // const gsnDevProvider = new GSNProvider("http://localhost:8545", {
+    //     ownerAddress: admin,
+    //     relayerAddress: '0xD216153c06E857cD7f72665E0aF1d7D82172F494'//relayer
+    // });
 
 
 
     // we can't do this before each!!!!!!!!
     before(async () => {
-
-        await deployRelayHub(web3);
-        await runRelayer(web3, { quiet: true });
-       // await fundRecipient(web3, { recipient: <address>, amount: 50000000 });
+        // await deployRelayHub(web3);
+        // await runRelayer(web3, { quiet: true });
     });
 
 
@@ -68,18 +66,28 @@ contract("Notary", accounts => {
         notary = await Notary.new();
         notaryGSM = new web3.eth.Contract(notary.abi, notary.address);
 
-        web3.eth.sendTransaction({from: admin, to: notary.address, value: web3.utils.toWei('1', 'ether')})
+        console.log('NOTARY: ', notaryGSM.address);
+       // console.log(notaryGSM.abi)
+       // await web3.eth.sendTransaction({from: admin, to: notary.address, value: web3.utils.toWei('1', 'ether')})
+        notaryGSM.setProvider(new GSNProvider('http://localhost:8545'));
+        await fundRecipient(web3, { recipient: notary.address, amount: web3.utils.toWei('0.5', 'ether') });
 
-        const registeredUser = await notary.updateRegistry(alice, true);
+        //web3.eth.sendTransaction({from: admin, to: notaryGSM.address, value: web3.utils.toWei('1', 'ether')})
+
+      //
        // console.log(registeredUser);
+        const registeredUser = await notary.updateRegistry(alice, true);
     });
 
     it("Should call contract via gsn network", async () => {
-        const foo = await notaryGSM.methods.updateRegistry(alice, true, ).send({ from: admin });
-        console.log(foo)
+        // const foo = await notaryGSM.methods.updateRegistry(alice, true ).send({ from: admin });
+        const foo = await notaryGSM.methods.testRelay().send({ from: admin, gas: 4000000 });
+        console.log('foo', foo);
+
     });
 
     it("Should have deployed and registered user", async () => {
+        const registeredUser = await notary.updateRegistry(alice, true);
         expect(await notary.isRegistered(alice)).to.equal(true);
         expect(await notary.isRegistered(bob)).to.equal(false);
     });
