@@ -47,9 +47,12 @@ contract Notary is Registry {
     }
 
     // What is this supposed to be in 5.x 6.x
+    // allow for loading funds for paying GSN
    function () external payable {
-        revert('Keep ur money');
     }
+
+    //@todo function withdraw
+    //@todo user tokens
 
     function getCount() public view returns (uint) {
         return _recordCount;

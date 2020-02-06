@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aac7a7b8-b161-40f5-98f8-9b28d6b70fb1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/notarise-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/notarise-app/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notarise-app/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/notarise-app/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/contracts/Notary.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/contracts/Notary.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/test/testNotary.js.old" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/test/testNotary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/test/testRelayNotary.js" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/test/testRelayNotary.js.old" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,11 +26,13 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/niftySign" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="ProjectId" id="1XI104lsAJ8naUY56KE4CiJpFly" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -41,6 +46,7 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -77,6 +83,8 @@
       <workItem from="1580718571253" duration="11384000" />
       <workItem from="1580733908301" duration="107000" />
       <workItem from="1580734030448" duration="2752000" />
+      <workItem from="1580894566916" duration="14742000" />
+      <workItem from="1580980131476" duration="12713000" />
     </task>
     <servers />
   </component>
@@ -100,6 +108,10 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="349" y="175" key="SettingsEditor/0.23.1680.1027/1680.-2767.2160.3817@0.23.1680.1027" timestamp="1580729069664" />
+    <state x="2425" y="-1859" width="670" height="676" key="search.everywhere.popup" timestamp="1580993804290">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
+    </state>
+    <state x="2425" y="-1859" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1580993804290" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -113,6 +125,17 @@
           <url>file://$PROJECT_DIR$/niftySignAPI/notarise/controllers/notarise.controller.js</url>
           <line>15</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/contracts/test/testNotary.js</url>
+          <line>95</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/contracts/node_modules/@openzeppelin/test-environment/lib/ganache-server.js</url>
+          <line>12</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
