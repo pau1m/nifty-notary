@@ -2,9 +2,9 @@
 pragma solidity ^0.5.16;
 
 import "@openzeppelin/contracts/ownership/Ownable.sol";
+import "@openzeppelin/contracts/GSN/GSNRecipient.sol";
 
-// could just move this right in... it's going ot be pretty simple
-contract Registry is Ownable {
+contract Registry is Ownable, GSNRecipient {
 
     mapping(address => bool) registered;
     event updatedRegistry(address);
@@ -46,14 +46,15 @@ contract Notary is Registry {
        // _recordCount = 0; // is it not 0 amyway!?
     }
 
-    // Thanks for not donating
-   function () payable {
-        throw;
+    // What is this supposed to be in 5.x 6.x
+   function () external payable {
+        revert('Keep ur money');
     }
 
     function getCount() public view returns (uint) {
         return _recordCount;
     }
+
 
     // make this private
     function notarise(string memory _id, uint8 _idType, bytes32 hash) public {
@@ -70,6 +71,20 @@ contract Notary is Registry {
         // hmmmm not sure about this duplication
         emit Notarise(hash); // hmmm, we could just put it here and avoid storing on-chain in another way..._id type /
         // could these be made tradeable
+    }
+
+    function relayNotarise(string memory _id, uint8 _idType, bytes32 hash) private {
+        // return true;
+//        require(!emptyString(_id));
+//        require(hash != 0);
+//        require(isRegistered(_msgSender()));
+//        require(!isRecorded(hash));
+//
+//        Record memory rec = Record(_id, _idType);
+//        _records[hash] = rec;
+//        _recordCount = _recordCount + 1;
+//
+//        emit Notarise(hash);
     }
 
 //    function stamp(string ownerEmail, string sha) payable costs(_price) {
@@ -93,6 +108,32 @@ contract Notary is Registry {
 
     function getRecord(bytes32 _hash) public view returns (bytes32 hash, string memory id, uint8 idType) {
         return  (_hash, _records[_hash].id, _records[_hash].idType);
+    }
+
+
+    // how do we setup for dev accepting relay call...
+    // on deploy transfer money to contract
+    // allow for draining of contract
+
+    function acceptRelayedCall(
+        address relay,
+        address from,
+        bytes calldata encodedFunction,
+        uint256 transactionFee,
+        uint256 gasPrice,
+        uint256 gasLimit,
+        uint256 nonce,
+        bytes calldata approvalData,
+        uint256 maxPossibleCharge
+    ) external view returns (uint256, bytes memory) {
+        return _approveRelayedCall();
+    }
+
+    // May use these later _preRelayedCall and _postRelayedCall empty
+    function _preRelayedCall(bytes memory context) internal returns (bytes32) {
+    }
+
+    function _postRelayedCall(bytes memory context, bool, uint256 actualCharge, bytes32) internal {
     }
 
 //    function compareStrings (string memory a, string memory b) public view

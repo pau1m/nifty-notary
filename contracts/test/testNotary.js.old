@@ -1,10 +1,29 @@
 
+const { GSNProvider } = require("@openzeppelin/gsn-provider");
+// maybe should just use the stuff from openzeppelin in here
+// might make things easier.. retrofit for now.. get one tx working
 //const { accounts, contract } = require('@openzeppelin/test-environment');
 
 const { constants, expectEvent } = require('@openzeppelin/test-helpers');
 const { ZERO_ADDRESS } = constants;
 const { expect } = require('chai');
+
+// npm install @openzeppelin/gsn-provider
+const Web3 = require("web3");
+const web3 = new Web3(new GSNProvider("http://localhost:8545"));
+
 const Notary = artifacts.require('Notary');
+
+// maybe rework this to use helpers
+// have to do something to target config properly
+
+// const myContract = new web3.eth.Contract(abi, address);
+//
+// // Sends the transaction via the GSN
+// await myContract.methods.myFunction().send({ from });
+//
+// // Disable GSN for a specific transaction
+// await myContract.methods.myFunction().send({ from, useGSN: false });
 
 // Test all postive cases for the moment
 contract("Notary", accounts => {
@@ -44,7 +63,17 @@ contract("Notary", accounts => {
 
 
 
-});// it("It should have deployed", () =>
+});
+
+
+
+
+
+
+
+
+
+// it("It should have deployed", () =>
     //     Notary.deployed()
     //         .then(balance => {
     //             assert.equal(
