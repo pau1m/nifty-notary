@@ -4,6 +4,7 @@ pragma solidity ^0.5.16;
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 import "@openzeppelin/contracts/GSN/GSNRecipient.sol";
 
+
 contract Registry is Ownable, GSNRecipient {
 
     mapping(address => bool) registered;

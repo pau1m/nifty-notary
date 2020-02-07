@@ -116,29 +116,9 @@ contract("Notary", accounts => {
         const gotRecord = await notary.getRecord('0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687');
         // console.log(gotRecord);
     });
-
-    // USING GSN
-
-
-
-
-
-
-
-
-
-
 });
 
 
-
-
-
-
-
-
-
-// it("It should have deployed", () =>
     //     Notary.deployed()
     //         .then(balance => {
     //             assert.equal(
