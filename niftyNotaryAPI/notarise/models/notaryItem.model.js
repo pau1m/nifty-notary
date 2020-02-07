@@ -1,13 +1,21 @@
 const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
-
+// wonder if mebs should be using mysql
 // will be massive if store in the database
 // should there be external storage
 const notaryItemSchema = new Schema({
-    file: String,
+    //file: String,
     tokenId: String,
-    onChain: false
+    onChain: Boolean,
+    fileHash: String,
+    chainTxId: String,
+    chainId: String,
+
+    // store this stuff locally ... cache still to be sent in another table maybe
+    //
+
+    // add rest of stuff here
 });
 
 notaryItemSchema.virtual('id').get(function () {
@@ -40,6 +48,13 @@ const NotaryItem = mongoose.model('NotaryItem', notaryItemSchema);
 // };
 
 exports.createItem = (notaryItemData) => {
+    // need to check some stuff
+    // and need to setup debugging
+    // hash the data
+    // should this really be in a model
+
+    // have a look at other apis
+
     const item = new NotaryItem(notaryItemData);
     return item.save();
     //return () => new Promise(() => notaryItemData);
