@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aac7a7b8-b161-40f5-98f8-9b28d6b70fb1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="aac7a7b8-b161-40f5-98f8-9b28d6b70fb1" name="Default Changelist" comment="Merge branch 'master' into metatx-relay&#10;&#10;# Conflicts:&#10;#&#9;contracts/contracts/Notary.sol&#10;#&#9;contracts/test/testNotary.js">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/contracts/Notary.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/contracts/Notary.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/test/testNotary.js.old" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/test/testNotary.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/test/testRelayNotary.js" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/test/testRelayNotary.js.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +30,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="ProjectId" id="1XI104lsAJ8naUY56KE4CiJpFly" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -41,11 +49,12 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="10.16.0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/niftySignAPI/notarise" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
@@ -55,6 +64,9 @@
   </component>
   <component name="RunManager">
     <configuration default="true" type="NodeJSConfigurationType" working-dir="$PROJECT_DIR$/niftySignAPI">
+      <method v="2" />
+    </configuration>
+    <configuration name="niftyjsnodedebug" type="NodeJSConfigurationType" path-to-js-file="index.js" working-dir="$PROJECT_DIR$/niftyNotaryAPI">
       <method v="2" />
     </configuration>
   </component>
@@ -92,9 +104,14 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580729130304">
-      <screen x="0" y="23" width="1680" height="1027" />
+    <state x="2220" y="-2196" key="#Usage_Scope" timestamp="1581080552266">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
+    <state x="2220" y="-2196" key="#Usage_Scope/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581080552266" />
+    <state x="2071" y="-2136" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581080961817">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
+    </state>
+    <state x="2071" y="-2136" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581080961817" />
     <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027/1680.-2767.2160.3817@0.23.1680.1027" timestamp="1580729130304" />
     <state x="586" y="346" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1580733850490">
       <screen x="0" y="23" width="1680" height="1027" />
@@ -104,10 +121,36 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="528" y="279" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1680.1027/1680.-2767.2160.3817@0.23.1680.1027" timestamp="1580733869171" />
-    <state x="349" y="175" key="SettingsEditor" timestamp="1580729069664">
-      <screen x="0" y="23" width="1680" height="1027" />
+    <state x="2408" y="-2099" key="FileChooserDialogImpl" timestamp="1581080509047">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
+    <state x="2408" y="-2099" key="FileChooserDialogImpl/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581080509047" />
+    <state width="2118" height="1215" key="GridCell.Tab.0.bottom" timestamp="1581081073302">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
+    </state>
+    <state width="2118" height="1215" key="GridCell.Tab.0.bottom/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581081073302" />
+    <state width="2118" height="1215" key="GridCell.Tab.0.center" timestamp="1581081073301">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
+    </state>
+    <state width="2118" height="1215" key="GridCell.Tab.0.center/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581081073301" />
+    <state width="2118" height="1215" key="GridCell.Tab.0.left" timestamp="1581081073300">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
+    </state>
+    <state width="2118" height="1215" key="GridCell.Tab.0.left/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581081073300" />
+    <state width="2118" height="1215" key="GridCell.Tab.0.right" timestamp="1581081073302">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
+    </state>
+    <state width="2118" height="1215" key="GridCell.Tab.0.right/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581081073302" />
+    <state x="2129" y="-2222" key="SettingsEditor" timestamp="1581080731574">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
+    </state>
+    <state x="2129" y="-2222" key="SettingsEditor/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581080731574" />
     <state x="349" y="175" key="SettingsEditor/0.23.1680.1027/1680.-2767.2160.3817@0.23.1680.1027" timestamp="1580729069664" />
+    <state x="2129" y="-2222" key="SettingsEditor/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581080225615" />
+    <state x="2345" y="-2046" key="jetbrains.nodejs.interpreters-dialog" timestamp="1581080512929">
+      <screen x="1680" y="-2790" width="2160" height="3840" />
+    </state>
+    <state x="2345" y="-2046" key="jetbrains.nodejs.interpreters-dialog/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581080512929" />
     <state x="2425" y="-1859" width="670" height="676" key="search.everywhere.popup" timestamp="1580993804290">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
@@ -134,8 +177,37 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/contracts/node_modules/@openzeppelin/test-environment/lib/ganache-server.js</url>
           <line>12</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
+          <line>25</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
+          <line>24</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
+          <line>18</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/index.js</url>
+          <line>26</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/index.js</url>
+          <line>23</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
