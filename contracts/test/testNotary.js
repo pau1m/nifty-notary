@@ -1,25 +1,105 @@
 
+//const { GSNProvider } = require("@openzeppelin/gsn-provider");
+// maybe should just use the stuff from openzeppelin in here
+// might make things easier.. retrofit for now.. get one tx working
 //const { accounts, contract } = require('@openzeppelin/test-environment');
 
+
+
+const {
+    deployRelayHub,
+    runRelayer,
+    fundRecipient,
+} = require('@openzeppelin/gsn-helpers');
 const { constants, expectEvent } = require('@openzeppelin/test-helpers');
 const { ZERO_ADDRESS } = constants;
 const { expect } = require('chai');
+
+// npm install @openzeppelin/gsn-provider
+// const Web3 = require("web3");
+// const web3 = new Web3(new GSNProvider("http://localhost:8545"));
+
 const Notary = artifacts.require('Notary');
+
+
+
+// const { GSNDevProvider } = require("@openzeppelin/gsn-provider");
+const { GSNProvider } = require("@openzeppelin/gsn-provider");
+
+// maybe rework this to use helpers
+// have to do something to target config properly
+
+// const myContract = new web3.eth.Contract(abi, address);
+//
+// // Sends the transaction via the GSN
+// await myContract.methods.myFunction().send({ from });
+//
+// // Disable GSN for a specific transaction
+// await myContract.methods.myFunction().send({ from, useGSN: false });
 
 // Test all postive cases for the moment
 contract("Notary", accounts => {
-    let admin = accounts[0];
-    let alice = accounts[1];
-    let bob = accounts[2];
+    const [ admin, relayer, alice, bob, charlie ] = accounts;
     notary = {};
+    notaryGSM = {};
+
+    console.log(accounts);
+    // should we not be giving the address of the actuall provider -- does this go ahead and set it
+    // up for us in the background... I should look in to creating an actual node
+    // that does actual relaying
+    // const gsnDevProvider = new GSNProvider("http://localhost:8545", {
+    //     ownerAddress: admin,
+    //     relayerAddress: '0xD216153c06E857cD7f72665E0aF1d7D82172F494'//relayer
+    // });
+
+
+
+    // we can't do this before each!!!!!!!!
+    before(async () => {
+        // await deployRelayHub(web3);
+        // await runRelayer(web3, { quiet: true });
+    });
+
 
     beforeEach(async () => {
+
         notary = await Notary.new();
-        const registeredUser = await notary.updateRegistry(alice, true);
+        notaryGSM = new web3.eth.Contract(notary.abi, notary.address);
+
+        console.log('NOTARY: ', notaryGSM.address);
+       // console.log(notaryGSM.abi)
+       // await web3.eth.sendTransaction({from: admin, to: notary.address, value: web3.utils.toWei('1', 'ether')})
+        notaryGSM.setProvider(new GSNProvider('http://localhost:8545'));
+        await fundRecipient(web3, { recipient: notary.address, amount: web3.utils.toWei('0.5', 'ether') });
+
+        //web3.eth.sendTransaction({from: admin, to: notaryGSM.address, value: web3.utils.toWei('1', 'ether')})
+
+      //
        // console.log(registeredUser);
+        const registeredUser = await notary.updateRegistry(alice, true);
+    });
+
+    // can jjs
+
+    it("MetaTx: Should call contract via gsn network", async () => {
+        // const foo = await notaryGSM.methods.updateRegistry(alice, true ).send({ from: admin });
+        const foo = await notaryGSM.methods.testRelay().send({ from: admin, gas: 4000000 });
+        const boo = await notaryGSM.methods.relayNotarise('boo@example.com', 0, '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687').send({from: alice, gas: 4000000});
+        console.log('metaBoo', boo);
+
+
+        // const registeredUser = await notary.updateRegistry(alice, true);
+        // expect(await notary.isRegistered(alice)).to.equal(true);
+        // now we want to add for
+
+
+
+        //   console.log('foo', foo);
+
     });
 
     it("Should have deployed and registered user", async () => {
+        const registeredUser = await notary.updateRegistry(alice, true);
         expect(await notary.isRegistered(alice)).to.equal(true);
         expect(await notary.isRegistered(bob)).to.equal(false);
     });
@@ -36,8 +116,9 @@ contract("Notary", accounts => {
         const gotRecord = await notary.getRecord('0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687');
         // console.log(gotRecord);
     });
+});
 
-});// it("It should have deployed", () =>
+
     //     Notary.deployed()
     //         .then(balance => {
     //             assert.equal(

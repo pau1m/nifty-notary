@@ -18,6 +18,25 @@
  *
  */
 
+// const {
+//     deployRelayHub,
+//     runRelayer,
+//     fundRecipient,
+// } = require('@openzeppelin/gsn-helpers');
+//
+// const web3 = new Web3('http://localhost:8545');
+//
+// await deployRelayHub(web3);
+//
+// await runRelayer(web3, { quiet: true });
+//
+// await fundRecipient(web3, { recipient: <address>, amount: 50000000 });
+
+
+// RelayHub found at 0xd216153c06e857cd7f72665e0af1d7d82172f494
+// 0xd216153c06e857cd7f72665e0af1d7d82172f494
+
+
 // const HDWalletProvider = require('truffle-hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
 //
