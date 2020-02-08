@@ -4,18 +4,17 @@ const Schema = mongoose.Schema;
 // wonder if mebs should be using mysql
 // will be massive if store in the database
 // should there be external storage
+// maybe should be parsing base64
+// @todo schema indexws
 const notaryItemSchema = new Schema({
     //file: String,
-    tokenId: String,
-    onChain: Boolean,
-    fileHash: String,
-    chainTxId: String,
-    chainId: String,
-
-    // store this stuff locally ... cache still to be sent in another table maybe
-    //
-
-    // add rest of stuff here
+    userId: String,
+    userIdType: String,
+    txStatus: String,
+    docHash: String,
+    docType: String,
+    txId: String,
+    chainId: String
 });
 
 notaryItemSchema.virtual('id').get(function () {
@@ -33,7 +32,7 @@ notaryItemSchema.findById = function (cb) {
 
 const NotaryItem = mongoose.model('NotaryItem', notaryItemSchema);
 
-
+// cant be arsed
 // exports.findByEmail = (email) => {
 //     return User.find({email: email});
 // };
@@ -54,6 +53,7 @@ exports.createItem = (notaryItemData) => {
     // should this really be in a model
 
     // have a look at other apis
+    // hmmmmm.... how do we watch this as requests come in!!!???
 
     const item = new NotaryItem(notaryItemData);
     return item.save();

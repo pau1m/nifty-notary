@@ -15,6 +15,8 @@ const options = {
 };
 const connectWithRetry = () => {
     console.log('MongoDB connection with retry')
+    // changed to 'localhost' from 'mongo'
+    //@todo adding a localhosts entry for mongo would also fix and may be preferable
     mongoose.connect("mongodb://localhost:27017/test", options).then(()=>{
         console.log('MongoDB is connected')
     }).catch(err=>{

@@ -1,4 +1,4 @@
-    const NotariseController = require('./controllers/notarise.controller');
+const NotariseController = require('./controllers/notarise.controller');
 // const PermissionMiddleware = require('../common/middlewares/auth.permission.middleware');
 // const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
 const config = require('../common/config/env.config');
@@ -7,16 +7,36 @@ const config = require('../common/config/env.config');
 // const PAID = config.permissionLevels.PAID_USER;
 // const FREE = config.permissionLevels.NORMAL_USER;
 
+    // so we should have an ethereum bridge...
+
 exports.routesConfig = function (app) {
     app.post('/notarise', [
-         NotariseController.insert
+        NotariseController.insert,
+        NotariseController.submitToChain
+
+
+        // can write it in place and then refactor to here
         // create a model for the thing that we want
     ]);
-    app.get('/notarise/:hash', [
+    app.get('/notarise/hash/:hash', [
        NotariseController.getById
        // ValidationMiddleware.validJWTNeeded,
        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
        // UsersController.list
+    ]);
+
+    app.get('/notarise/dbid/:dbid', [
+        NotariseController.getById
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        // UsersController.list
+    ]);
+
+    app.get('/notarise/txid/:txid', [
+        NotariseController.getById
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        // UsersController.list
     ]);
 
     app.post('/notarise/verify', [
