@@ -114,7 +114,7 @@ exports.insert = async (req, res) => {
     const fooby = await web3.eth.sendTransaction({to: contractAddress, from: accounts[0], value: web3.utils.toWei('1', 'ether')})
     const balance = await web3.eth.getBalance(contractAddress);
 
-
+    // any issues we should be able to address right in here
 
 
 

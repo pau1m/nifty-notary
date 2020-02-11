@@ -5,6 +5,8 @@ const { fundRecipient } = require('@openzeppelin/gsn-helpers');
 //const web3 = require(web3);
 //@todo setup environment vars
 // this mechanism is only for dev... add others later
+// store and pass down values whilst moving thrugh thsi
+
 module.exports = function(deployer) {
   deployer.deploy(Migrations);
   deployer.deploy(Notary)
