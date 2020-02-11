@@ -9,7 +9,7 @@ const config = require('../common/config/env.config');
 
     // so we should have an ethereum bridge...
 
-exports.routesConfig = function (app) {
+exports.routesConfig = async function (app) {
     app.post('/notarise', [
         NotariseController.insert,
         NotariseController.submitToChain

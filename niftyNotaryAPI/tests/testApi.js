@@ -33,11 +33,11 @@ const content = {
 //@todo also have to deal with auth
 //@todo should we prepend path
 
-it('should be a teapot', () => {
-    // Return the Frisby.js Spec in the 'it()' (just like a promise)
-    return frisby.get('http://httpbin.org/status/418')
-        .expect('status', 418);
-});
+// it('should be a teapot', () => {
+//     // Return the Frisby.js Spec in the 'it()' (just like a promise)
+//     return frisby.get('http://httpbin.org/status/418')
+//         .expect('status', 418);
+// });
 
 
 // @todo --- we should add accept to this

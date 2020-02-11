@@ -90,10 +90,7 @@ contract("Notary", accounts => {
 
         // const registeredUser = await notary.updateRegistry(alice, true);
         // expect(await notary.isRegistered(alice)).to.equal(true);
-        // now we want to add for
-
-
-
+        // now we want to add fo
         //   console.log('foo', foo);
 
     });

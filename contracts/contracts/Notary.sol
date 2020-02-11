@@ -51,7 +51,8 @@ contract Notary is Registry {
     // What is this supposed to be in 5.x 6.x
     // allow for loading funds for paying GSN
    function () external payable {
-    }
+
+   }
 
     //@todo function withdraw
     //@todo user tokens

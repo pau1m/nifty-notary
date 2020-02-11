@@ -64,6 +64,7 @@ exports.createItem = (notaryItemData) => {
 
 };
 
+
 exports.verifyItem = (notaryIemData) => {
     return notaryIemData;
 };
