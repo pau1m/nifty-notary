@@ -1,6 +1,6 @@
 const NotaryItemModel = require('../models/notaryItem.model.js');
 const crypto = require('crypto');
-
+const { generate } = require('ethereumjs-wallet');
 
 
 
@@ -115,7 +115,7 @@ exports.insert = async (req, res) => {
     const balance = await web3.eth.getBalance(contractAddress);
 
     // any issues we should be able to address right in here
-
+    const foop = generate().privKey;
 
 
 // const {
@@ -128,10 +128,13 @@ exports.insert = async (req, res) => {
 //const { generate } = require("ethereumjs-wallet");
     const { GSNProvider } = require("@openzeppelin/gsn-provider");
     const gsnProvider = new GSNProvider("http://localhost:8545", {
-       // signKey: '0x2219082ae071dc68723e2b5b82e766662c9a6217e9357cc3da4363a8b7fa3611'  // we also need the address of hub here, no?
+        signKey: '0x2219082ae071dc68723e2b5b82e766662c9a6217e9357cc3da4363a8b7fa3611'  // we also need the address of hub here, no?
     });
 
+   // const { generate } = require("ethereumjs-wallet");
+
     web3.setProvider(gsnProvider);
+
 
 
 
@@ -145,22 +148,30 @@ exports.insert = async (req, res) => {
     // const notaryContract = await new web3.eth.Contract(notaryArtifacts.abi, notaryArtifacts.networks[networkId].address);
     // const fooby = await web3.eth.sendTransaction({to: notaryContract.address, from: accounts[0], value: web3.utils.toWei('1', 'ether')})
 
-    // mebs should try
-    const foo = await notaryContract.methods.testRelay().send({ from: accounts[0], gas: 4000000 });
-    //const moo = await notaryContract.methods.relayNotarise('boo@example.com', 0, '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687').send({from: accounts[0], gas: 4000000});
-    console.log('foo', moo);
+    // this.recipient.setProvider(gsnProvider);
+    // should use keccak instead... since is standard for smart contracts
+    const docHash = '0x' + crypto.createHash('sha256').update(req.body.doc).digest('hex');
 
-    const docHash = crypto.createHash('sha256').update(req.body.doc).digest('hex');
+    // mebs should try
+    const addedHashReceipt = await notaryContract.methods.testRelay().send({ from: accounts[0], gas: 4000000 });
+    const notaryReceipt = await notaryContract.methods.relayNotarise('boo@example.com', 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: accounts[0], gas: 4000000});
+    // console.log('foo', foo);
+
+   // const docHash = crypto.createHash('sha256').update(req.body.doc).digest('hex');
 
     // make the request here!!!!!
 
-
+   // here we can populate
 
     // this is a lot of data to store on chain
     // really need to check all of these things -- makes think worth using typescript
-    req.body.txStatus = txState.pending;
+    req.body.txStatus = txState.success;
+    req.body.confirmations = 1; //@todo actual
     req.body.docHash = docHash;
-    req.body.txId = '0x0';
+    req.body.txId = notaryReceipt.transactionHash;
+
+    // need some sort of front end
+    // should this be JS...
 
     // @todo change name to encoded doc
     // @todo all we should really care

@@ -890,12 +890,12 @@
     "666": {
       "events": {},
       "links": {},
-      "address": "0xd0afF921ba64ED1cFB40695AA62e589220b60d76",
-      "transactionHash": "0x1e5db67ff4794287d6d8a7c3fd7c6b5d09ef81b0882cb6ec175c0378cf066e85"
+      "address": "0x0dAfa707499E10E720ce5E7BCBa65416Ad2D3C36",
+      "transactionHash": "0x00dffd066ced8779a498398312b8e2cdd3fd648ffb8d04f59ac3cbb722c56913"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-11T20:57:26.661Z",
+  "updatedAt": "2020-02-12T10:16:51.393Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

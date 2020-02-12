@@ -10,14 +10,17 @@ const { fundRecipient } = require('@openzeppelin/gsn-helpers');
 module.exports = function(deployer) {
   deployer.deploy(Migrations);
   deployer.deploy(Notary)
-      .then((notary) => {
-         // console.log('wtf!!!!!', notary);
-        fundRecipient(web3, { recipient: notary.address, amount: web3.utils.toWei('0.5', 'ether') });
-        notary.updateRegistry(web3.eth.accounts[0], true);
-        notary.updateRegistry(web3.eth.accounts[1], true);
-        notary.updateRegistry(web3.eth.accounts[2], true).then((foo) => {
-          //  console.log('foo', foo);
-        })
+      .then(async (notary) => {
+          // console.log('NOT: ', notary);
+          console.log(web3.eth.accounts);
+          const accounts = await web3.eth.getAccounts()
+        // do we have to pass anything in?
+       // await notary.initialize();
+        await fundRecipient(web3, { recipient: notary.address, amount: web3.utils.toWei('1', 'ether') })
+        await notary.updateRegistry(accounts[0], true);
+        await notary.updateRegistry(accounts[1], true);
+        await notary.updateRegistry(accounts[2], true);
+        // deployed contract stuff
         // whittle this down to one -- just want these for testing just now
 
 
