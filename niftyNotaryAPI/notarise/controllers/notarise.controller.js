@@ -76,8 +76,6 @@ const gsnProvider = new GSNProvider({
  */
 
 
-// const web3  =
-
 // const { fromInjected, fromConnection } = require(’@openzeppelin/network’);
 // const injected = await fromConnection(‘infura-io-url’, {
 //     gsn: { signKey: “xxx” }
@@ -86,9 +84,6 @@ const gsnProvider = new GSNProvider({
 // const tx = await instance.methods.mint().send({
 //     from: address
 // });
-//console.log(tx);
-
-// @todo do web3 stuff here and then move elsewhere...
 
 const txState = {
     sending: 'sending', // just getting things going, not yet submitted
@@ -253,7 +248,30 @@ exports.getById = (req, res) => {
 
 //@todo
 exports.fetchTxByTxId = async (req, res) => {
-    res.status(200).send(await web3.eth.getTransactionReceipt(req.params.txId));
+    const ethAbi = require('ethereumjs-abi');
+    const notaryAbi = notaryArtifacts.abi;
+    const { parseLog } = require('ethereum-event-logs');
+
+
+
+
+    web3.eth.getTransactionReceipt(req.params.txId)
+        .then((receipt) => {
+            //const decoded = ethAbi.rawDecode(notaryAbi, receipt.logs);
+            // hmmmmm. this falls over and am not sure why.
+            // @todo extract just array of events and pass it that as abi...
+            // my no have map... tis an array
+            // const events = parseLog(receipt.logs, notaryArtifacts.abi);
+            let pi = 3;
+            res.status(200).send(receipt);
+        })
+        .catch((e) => {
+            console.error('Could not retrieve receipt ', e);
+        });
+
+   // res.status(200).send(receipt);
+
+    // res.status(200).send(await web3.eth.getTransactionReceipt(req.params.txId));
 };
 
 /*

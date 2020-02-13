@@ -1,8 +1,6 @@
-const frisby = require('frisby');
+// const frisby = require('frisby');
 const superagent = require('superagent');
-
-
-
+const { assert, expect } = require('chai')
 // create object -- do we also need mocha for this and chai
 // const config = {
 //   url: 'http://localhost
@@ -13,7 +11,7 @@ const superagent = require('superagent');
 // where should the hash be created...
 // maybe that should be done further upstream...
 //base64encoded
-
+//@todo look at jest for better unit testing of express code - split app in launching of app so can pass it in
 const content = {
     doc: makeId(200), // mod this to use an actual file, cos we will have to deal with
     docType: 'text',    // should probs be utf 8 or something like that
@@ -22,12 +20,7 @@ const content = {
     token: 'somesecrettobedone',
 };
 
-//let dbid  = '';
-
 // !!! @todo pull in the actual types used on the db
-
-
-
 //@todo also have to deal with auth
 //@todo should we prepend path
 
@@ -39,63 +32,51 @@ const content = {
 
 
 // @todo --- we should add accept to this
-
 // should be wrapped in describe
-
 // @todo --- now to assertions...
+//@todo end point for just user
+// does a user really want to attach it to their name
+// can start to consider refactoring of contracta
+// erc721 no reason not to use that above all else...
+// @todo update end points
+// describe('API', () => {
+    it('Should post and get data', () => {
+        superagent
+            .post('http://localhost:3600/notarise')
+            .set('Content-Type', 'application/json')
+            .send(content)
+            .then((res) => {
+                // assert stuff
 
+                superagent
+                    .get('http://localhost:3600/notarise/getById/' + res.body.dbId)
+                    .set('Content-Type', 'application/json')
+                    .then((res2) => {
+                        // assert stuff here
+                        console.log('res2: ', res2.body);
+                    });
 
-it('Should post and get data', () => {
-    superagent
-        .post('http://localhost:3600/notarise')
-        .set('Content-Type', 'application/json')
-        .send(content)
-        .then((res) => {
-            superagent
-                .get('http://localhost:3600/notarise/getById/'+res.body.dbId)
-                .set('Content-Type', 'application/json')
-                .then((res2) => {
-                    // assert stuff here
-                    console.log('res2: ', res2.body);
-                })
-
-            superagent
-                .get('http://localhost:3600/notarise/getTxByTxId/'+res.body.txId)
-                .set('Content-Type', 'application/json')
-                .then((res3) => {
-                    // assert stuff here
-                    console.log('res3: ', res3.body);
-                })
-        })
-        .catch((e) => {
-           console.log('exception: ', e)
-        })
-});
+                superagent
+                    .get('http://localhost:3600/notarise/getTxByTxId/' + res.body.txId)
+                    .set('Content-Type', 'application/json')
+                    .then((res3) => {
+                        // assert stuff here
+                        console.log('res3: ', res3.body);
+                    });
+            })
+            .catch((e) => {
+                console.log('exception: ', e)
+            })
+    });
+// });
 
 function makeId(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
+    for (var i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
 }
 
-
-// hmmmmm
-// maybe I should test through postman instead
-
-// it('Should retrieve data', () => {
-//     // cons
-//     console.log('wtf')
-//     superagent
-//         .get('http://localhost:3600/notarise/dbid/'+dbid)
-//         .set('Content-Type', 'application/json')
-//         .then    (() => {
-//             console.log(then);
-//         })
-//
-//    // or maybe we could check it directly from the application
-//    // need to do this anyway...
-// });
