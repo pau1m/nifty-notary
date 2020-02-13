@@ -9,6 +9,11 @@ const config = require('../common/config/env.config');
 
     // so we should have an ethereum bridge...
 
+// @todo make route root /notary
+// giving post: /notary/notarise
+// and get /notary/
+
+
 exports.routesConfig = async function (app) {
     app.post('/notarise', [
         NotariseController.insert,

@@ -14,17 +14,15 @@ const superagent = require('superagent');
 // maybe that should be done further upstream...
 //base64encoded
 
-
-
 const content = {
-    doc: 'hello world', // mod this to use an actual file, cos we will have to deal with
+    doc: makeId(200), // mod this to use an actual file, cos we will have to deal with
     docType: 'text',    // should probs be utf 8 or something like that
-    userId: 'foo@example.com', // consider making random types
+    userId: 'feoseo@example.com', // consider making random types
     userIdType: 'email', // need to create hard coded types in the receiving code
     token: 'somesecrettobedone',
 };
 
-
+//let dbid  = '';
 
 // !!! @todo pull in the actual types used on the db
 
@@ -48,17 +46,51 @@ it('Should post data', () => {
         .set('Content-Type', 'application/json')
         .send(content)
         .then((res) => {
-            console.log(res.body);
+
+            console.log('response: ', res.body);
+            dbId = res.body.dbId;
+
+            // console.log('response: ', res.body);
+            // superagent
+            //     .get('http://localhost:3600/notarise/dbid/'+dbId)
+            //     .set('Content-Type', 'application/json')
+            //     .then((r) => {
+            //         console.log('R: ', r);
+            //     })
+            //             // dbid =
             // assertiosn here
             // do some comparisons here!?? is that the right thing to do
             // can always rewrite in furture, just need to take this approach just to get the ball rolling
         })
         .catch((e) => {
-           console.log('exception', e)
+           console.log('exception: e', e)
         })
 });
 
-it('Should retrieve hash', () => {
-   // or maybe we could check it directly from the application
-   // need to do this anyway...
-});
+function makeId(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+
+// hmmmmm
+// maybe I should test through postman instead
+
+// it('Should retrieve data', () => {
+//     // cons
+//     console.log('wtf')
+//     superagent
+//         .get('http://localhost:3600/notarise/dbid/'+dbid)
+//         .set('Content-Type', 'application/json')
+//         .then    (() => {
+//             console.log(then);
+//         })
+//
+//    // or maybe we could check it directly from the application
+//    // need to do this anyway...
+// });

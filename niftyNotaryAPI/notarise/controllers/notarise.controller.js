@@ -111,11 +111,11 @@ exports.insert = async (req, res) => {
     const networkId = await web3.eth.net.getId();
     const contractAddress = notaryArtifacts.networks[networkId].address;
     const notaryContract = await new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
-    const fooby = await web3.eth.sendTransaction({to: contractAddress, from: accounts[0], value: web3.utils.toWei('1', 'ether')})
+    const fundingContract = await web3.eth.sendTransaction({to: contractAddress, from: accounts[0], value: web3.utils.toWei('1', 'ether')})
     const balance = await web3.eth.getBalance(contractAddress);
 
     // any issues we should be able to address right in here
-    const foop = generate().privKey;
+    // const foop = generate().privKey;
 
 
 // const {
@@ -130,8 +130,6 @@ exports.insert = async (req, res) => {
     const gsnProvider = new GSNProvider("http://localhost:8545", {
         signKey: '0x2219082ae071dc68723e2b5b82e766662c9a6217e9357cc3da4363a8b7fa3611'  // we also need the address of hub here, no?
     });
-
-   // const { generate } = require("ethereumjs-wallet");
 
     web3.setProvider(gsnProvider);
 
@@ -150,11 +148,24 @@ exports.insert = async (req, res) => {
 
     // this.recipient.setProvider(gsnProvider);
     // should use keccak instead... since is standard for smart contracts
+
+    // get email
     const docHash = '0x' + crypto.createHash('sha256').update(req.body.doc).digest('hex');
 
     // mebs should try
-    const addedHashReceipt = await notaryContract.methods.testRelay().send({ from: accounts[0], gas: 4000000 });
-    const notaryReceipt = await notaryContract.methods.relayNotarise('boo@example.com', 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: accounts[0], gas: 4000000});
+    // const addedHashReceipt = await notaryContract.methods.testRelay().send({ from: accounts[0], gas: 4000000 });
+
+
+
+    // try {
+        const notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: accounts[0], gas: 4000000});
+    // } catch(e) {
+    //     console.log('txreq failed: ', e);
+    // }
+
+
+
+   // const notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: accounts[0], gas: 4000000});
     // console.log('foo', foo);
 
    // const docHash = crypto.createHash('sha256').update(req.body.doc).digest('hex');
@@ -194,7 +205,8 @@ exports.insert = async (req, res) => {
             // send via meta transactions -- requires other stuff to be setup
             // do we really need token in the responese
             // !!!! does this actually send at this point or does the response object continue to get passed through
-            res.status(203).send(req.body);
+            console.log('RES: ', req.body);
+                res.status(203).send(req.body); // @todo 20x?
         })
          .catch((e) => {
             console.log('exception: ', e);
@@ -231,6 +243,8 @@ exports.submitToChain = (req, res) => {
     console.log('SUBMITTING TO CHAIN')
 };
 
+
+//@todo retrieve data after posting it from the id
 exports.getById = (req, res) => {
     NotaryItemModel.findById(req.params.hash)
         .then((result) => {

@@ -14,7 +14,7 @@ const notaryItemSchema = new Schema({
     docHash: String,
     docType: String,
     txId: String,
-    chainId: String
+    chainId: String //@todo networkId
 });
 
 notaryItemSchema.virtual('id').get(function () {
