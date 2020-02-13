@@ -32,19 +32,18 @@ notaryItemSchema.findById = function (cb) {
 
 const NotaryItem = mongoose.model('NotaryItem', notaryItemSchema);
 
-// cant be arsed
 // exports.findByEmail = (email) => {
 //     return User.find({email: email});
-// };
-// exports.findById = (id) => {
-//     return User.findById(id)
-//         .then((result) => {
-//             result = result.toJSON();
-//             delete result._id;
-//             delete result.__v;
-//             return result;
-//         });
-// };
+// // };
+exports.findById = (id) => {
+    return NotaryItem.findById(id)
+        .then((result) => {
+            result = result.toJSON();
+            delete result._id;
+            delete result.__v;
+            return result;
+        });
+};
 
 exports.createItem = (notaryItemData) => {
     // need to check some stuff

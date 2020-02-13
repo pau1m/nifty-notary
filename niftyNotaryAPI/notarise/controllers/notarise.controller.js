@@ -1,10 +1,10 @@
 const NotaryItemModel = require('../models/notaryItem.model.js');
 const crypto = require('crypto');
 const { generate } = require('ethereumjs-wallet');
+const Web3 = require('web3');
 
-
-
-
+const web3 = new Web3('http://localhost:8545');
+const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
 
 /*
 const Web3 = require('web3');
@@ -102,9 +102,8 @@ const txState = {
 // @todo we need conffig for deployment... should be a shared env thing
 
 exports.insert = async (req, res) => {
-    const Web3 = require('web3');
-    const web3 = new Web3('http://localhost:8545');
-    const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
+ //   const web3 = new Web3('http://localhost:8545');
+ //   const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
     // const accounts = await web3.eth.getAccounts();
     // const networkId = await web3.eth.net.getId();
     const accounts = await web3.eth.getAccounts();
@@ -246,20 +245,15 @@ exports.submitToChain = (req, res) => {
 
 //@todo retrieve data after posting it from the id
 exports.getById = (req, res) => {
-    NotaryItemModel.findById(req.params.hash)
+    NotaryItemModel.findById(req.params.id)
         .then((result) => {
             res.status(200).send(result);
         });
 };
 
-
-
 //@todo
-exports.fetchByTxId = (req, res) => {
-    NotaryItemModel.findById(req.params.hash)
-        .then((result) => {
-            res.status(200).send(result);
-        });
+exports.fetchTxByTxId = async (req, res) => {
+    res.status(200).send(await web3.eth.getTransactionReceipt(req.params.txId));
 };
 
 /*

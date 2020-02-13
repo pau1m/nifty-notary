@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aac7a7b8-b161-40f5-98f8-9b28d6b70fb1" name="Default Changelist" comment="tx">
+    <list default="true" id="aac7a7b8-b161-40f5-98f8-9b28d6b70fb1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/contracts/build/contracts/Context.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/Context.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/contracts/build/contracts/GSNRecipient.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/GSNRecipient.json" afterDir="false" />
@@ -11,14 +11,10 @@
       <change beforePath="$PROJECT_DIR$/contracts/build/contracts/Notary.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/Notary.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/contracts/build/contracts/Ownable.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/Ownable.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/contracts/build/contracts/Registry.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/Registry.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/contracts/Notary.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/contracts/Notary.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/migrations/1_initial_migration.js" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/migrations/1_initial_migration.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/routes.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/routes.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +130,7 @@
       <workItem from="1581531963292" duration="627000" />
       <workItem from="1581533346472" duration="1766000" />
       <workItem from="1581536505014" duration="634000" />
-      <workItem from="1581586112451" duration="2682000" />
+      <workItem from="1581586112451" duration="5774000" />
     </task>
     <task id="LOCAL-00001" summary="resolved issue where would not connect to mongodb...&#10;may cos issue with deploy with docker">
       <created>1581164217495</created>
@@ -201,10 +197,10 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="585" y="399" key="#com.intellij.ws.actions.HttpClientConvertFromCurlDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1581533695346" />
-    <state x="2238" y="-2457" key="CommitChangelistDialog2" timestamp="1581415460230">
+    <state x="2238" y="-2457" key="CommitChangelistDialog2" timestamp="1581599804090">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state x="2238" y="-2457" key="CommitChangelistDialog2/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581415460230" />
+    <state x="2238" y="-2457" key="CommitChangelistDialog2/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599804090" />
     <state x="434" y="91" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1581106158826" />
     <state x="434" y="112" key="CommitChangelistDialog2/0.23.1680.1027@0.23.1680.1027" timestamp="1581164217349" />
     <state width="1647" height="466" key="DebuggerActiveHint" timestamp="1581502885295">
@@ -215,115 +211,115 @@
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
     <state x="2408" y="-2099" key="FileChooserDialogImpl/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581080509047" />
-    <state width="2118" height="969" key="GridCell.Tab.0.bottom" timestamp="1581595984784">
+    <state width="2118" height="1215" key="GridCell.Tab.0.bottom" timestamp="1581599786942">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.0.bottom/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984784" />
+    <state width="2118" height="1215" key="GridCell.Tab.0.bottom/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599786942" />
     <state width="1638" height="921" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1581534248784" />
     <state width="2118" height="1479" key="GridCell.Tab.0.bottom/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794655" />
     <state width="1638" height="921" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1581536391099" />
-    <state width="2118" height="969" key="GridCell.Tab.0.center" timestamp="1581595984783">
+    <state width="2118" height="1215" key="GridCell.Tab.0.center" timestamp="1581599786941">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.0.center/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984783" />
+    <state width="2118" height="1215" key="GridCell.Tab.0.center/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599786941" />
     <state width="1638" height="921" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1581534248783" />
     <state width="2118" height="1479" key="GridCell.Tab.0.center/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794655" />
     <state width="1638" height="921" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1581536391098" />
-    <state width="2118" height="969" key="GridCell.Tab.0.left" timestamp="1581595984782">
+    <state width="2118" height="1215" key="GridCell.Tab.0.left" timestamp="1581599786940">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.0.left/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984782" />
+    <state width="2118" height="1215" key="GridCell.Tab.0.left/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599786940" />
     <state width="1638" height="921" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1581534248782" />
     <state width="2118" height="1479" key="GridCell.Tab.0.left/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794654" />
     <state width="1638" height="921" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1581536391098" />
-    <state width="2118" height="969" key="GridCell.Tab.0.right" timestamp="1581595984783">
+    <state width="2118" height="1215" key="GridCell.Tab.0.right" timestamp="1581599786941">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.0.right/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984783" />
+    <state width="2118" height="1215" key="GridCell.Tab.0.right/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599786941" />
     <state width="1638" height="921" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1581534248783" />
     <state width="2118" height="1479" key="GridCell.Tab.0.right/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794655" />
     <state width="1638" height="921" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1581536391099" />
-    <state width="2118" height="969" key="GridCell.Tab.1.bottom" timestamp="1581595984786">
+    <state width="2118" height="969" key="GridCell.Tab.1.bottom" timestamp="1581599635768">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.1.bottom/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984786" />
+    <state width="2118" height="969" key="GridCell.Tab.1.bottom/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635768" />
     <state width="1638" height="921" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1581534248785" />
     <state width="2118" height="1479" key="GridCell.Tab.1.bottom/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794657" />
     <state width="1638" height="921" key="GridCell.Tab.1.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1581536391100" />
-    <state width="2118" height="969" key="GridCell.Tab.1.center" timestamp="1581595984785">
+    <state width="2118" height="969" key="GridCell.Tab.1.center" timestamp="1581599635767">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.1.center/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984785" />
+    <state width="2118" height="969" key="GridCell.Tab.1.center/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635767" />
     <state width="1638" height="921" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1581534248784" />
     <state width="2118" height="1479" key="GridCell.Tab.1.center/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794656" />
     <state width="1638" height="921" key="GridCell.Tab.1.center/0.23.1680.1027@0.23.1680.1027" timestamp="1581536391100" />
-    <state width="2118" height="969" key="GridCell.Tab.1.left" timestamp="1581595984784">
+    <state width="2118" height="969" key="GridCell.Tab.1.left" timestamp="1581599635766">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.1.left/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984784" />
+    <state width="2118" height="969" key="GridCell.Tab.1.left/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635766" />
     <state width="1638" height="921" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1581534248784" />
     <state width="2118" height="1479" key="GridCell.Tab.1.left/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794656" />
     <state width="1638" height="921" key="GridCell.Tab.1.left/0.23.1680.1027@0.23.1680.1027" timestamp="1581536391099" />
-    <state width="2118" height="969" key="GridCell.Tab.1.right" timestamp="1581595984786">
+    <state width="2118" height="969" key="GridCell.Tab.1.right" timestamp="1581599635767">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.1.right/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984786" />
+    <state width="2118" height="969" key="GridCell.Tab.1.right/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635767" />
     <state width="1638" height="921" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1581534248784" />
     <state width="2118" height="1479" key="GridCell.Tab.1.right/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794657" />
     <state width="1638" height="921" key="GridCell.Tab.1.right/0.23.1680.1027@0.23.1680.1027" timestamp="1581536391100" />
-    <state width="2118" height="969" key="GridCell.Tab.2.bottom" timestamp="1581595984788">
+    <state width="2118" height="969" key="GridCell.Tab.2.bottom" timestamp="1581599635770">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.2.bottom/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984788" />
+    <state width="2118" height="969" key="GridCell.Tab.2.bottom/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635770" />
     <state width="1638" height="514" key="GridCell.Tab.2.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1581163907241" />
     <state width="2118" height="1479" key="GridCell.Tab.2.bottom/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794659" />
     <state width="1638" height="921" key="GridCell.Tab.2.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1581518189817" />
-    <state width="2118" height="969" key="GridCell.Tab.2.center" timestamp="1581595984787">
+    <state width="2118" height="969" key="GridCell.Tab.2.center" timestamp="1581599635769">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.2.center/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984787" />
+    <state width="2118" height="969" key="GridCell.Tab.2.center/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635769" />
     <state width="1638" height="514" key="GridCell.Tab.2.center/0.0.1680.1050@0.0.1680.1050" timestamp="1581163907240" />
     <state width="2118" height="1479" key="GridCell.Tab.2.center/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794658" />
     <state width="1638" height="921" key="GridCell.Tab.2.center/0.23.1680.1027@0.23.1680.1027" timestamp="1581518189816" />
-    <state width="2118" height="969" key="GridCell.Tab.2.left" timestamp="1581595984786">
+    <state width="2118" height="969" key="GridCell.Tab.2.left" timestamp="1581599635768">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.2.left/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984786" />
+    <state width="2118" height="969" key="GridCell.Tab.2.left/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635768" />
     <state width="1638" height="514" key="GridCell.Tab.2.left/0.0.1680.1050@0.0.1680.1050" timestamp="1581163907240" />
     <state width="2118" height="1479" key="GridCell.Tab.2.left/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794658" />
     <state width="1638" height="921" key="GridCell.Tab.2.left/0.23.1680.1027@0.23.1680.1027" timestamp="1581518189816" />
-    <state width="2118" height="969" key="GridCell.Tab.2.right" timestamp="1581595984788">
+    <state width="2118" height="969" key="GridCell.Tab.2.right" timestamp="1581599635769">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.2.right/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984788" />
+    <state width="2118" height="969" key="GridCell.Tab.2.right/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635769" />
     <state width="1638" height="514" key="GridCell.Tab.2.right/0.0.1680.1050@0.0.1680.1050" timestamp="1581163907241" />
     <state width="2118" height="1479" key="GridCell.Tab.2.right/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794658" />
     <state width="1638" height="921" key="GridCell.Tab.2.right/0.23.1680.1027@0.23.1680.1027" timestamp="1581518189817" />
-    <state width="2118" height="969" key="GridCell.Tab.3.bottom" timestamp="1581595984791">
+    <state width="2118" height="969" key="GridCell.Tab.3.bottom" timestamp="1581599635772">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.3.bottom/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984791" />
+    <state width="2118" height="969" key="GridCell.Tab.3.bottom/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635772" />
     <state width="1638" height="514" key="GridCell.Tab.3.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1581163907242" />
     <state width="2118" height="1479" key="GridCell.Tab.3.bottom/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794660" />
     <state width="1638" height="921" key="GridCell.Tab.3.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1581518189818" />
-    <state width="2118" height="969" key="GridCell.Tab.3.center" timestamp="1581595984789">
+    <state width="2118" height="969" key="GridCell.Tab.3.center" timestamp="1581599635771">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.3.center/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984789" />
+    <state width="2118" height="969" key="GridCell.Tab.3.center/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635771" />
     <state width="1638" height="514" key="GridCell.Tab.3.center/0.0.1680.1050@0.0.1680.1050" timestamp="1581163907241" />
     <state width="2118" height="1479" key="GridCell.Tab.3.center/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794660" />
     <state width="1638" height="921" key="GridCell.Tab.3.center/0.23.1680.1027@0.23.1680.1027" timestamp="1581518189817" />
-    <state width="2118" height="969" key="GridCell.Tab.3.left" timestamp="1581595984789">
+    <state width="2118" height="969" key="GridCell.Tab.3.left" timestamp="1581599635770">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.3.left/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984789" />
+    <state width="2118" height="969" key="GridCell.Tab.3.left/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635770" />
     <state width="1638" height="514" key="GridCell.Tab.3.left/0.0.1680.1050@0.0.1680.1050" timestamp="1581163907241" />
     <state width="2118" height="1479" key="GridCell.Tab.3.left/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794659" />
     <state width="1638" height="921" key="GridCell.Tab.3.left/0.23.1680.1027@0.23.1680.1027" timestamp="1581518189817" />
-    <state width="2118" height="969" key="GridCell.Tab.3.right" timestamp="1581595984790">
+    <state width="2118" height="969" key="GridCell.Tab.3.right" timestamp="1581599635771">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
-    <state width="2118" height="969" key="GridCell.Tab.3.right/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581595984790" />
+    <state width="2118" height="969" key="GridCell.Tab.3.right/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581599635771" />
     <state width="1638" height="514" key="GridCell.Tab.3.right/0.0.1680.1050@0.0.1680.1050" timestamp="1581163907242" />
     <state width="2118" height="1479" key="GridCell.Tab.3.right/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581083794660" />
     <state width="1638" height="921" key="GridCell.Tab.3.right/0.23.1680.1027@0.23.1680.1027" timestamp="1581518189818" />
@@ -376,37 +372,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
-          <line>208</line>
+          <line>207</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
-          <line>242</line>
+          <line>241</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
-          <line>168</line>
+          <line>167</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
-          <line>178</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
-          <line>170</line>
+          <line>169</line>
           <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
-          <line>180</line>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
-          <line>192</line>
+          <line>191</line>
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -426,16 +412,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js</url>
-          <line>52</line>
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js</url>
-          <line>50</line>
-          <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js</url>
           <line>54</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="63" />
@@ -445,6 +421,48 @@
           <line>53</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
+          <line>247</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
+          <line>248</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
+          <line>210</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
+          <line>250</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
+          <line>249</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js</url>
+          <line>29</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js</url>
+          <line>255</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="75" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -23,22 +23,22 @@ exports.routesConfig = async function (app) {
         // can write it in place and then refactor to here
         // create a model for the thing that we want
     ]);
-    app.get('/notarise/hash/:hash', [
+    app.get('/notarise/getById/:id', [
        NotariseController.getById
        // ValidationMiddleware.validJWTNeeded,
        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
        // UsersController.list
     ]);
 
-    app.get('/notarise/dbid/:dbid', [
-        NotariseController.getById
-        // ValidationMiddleware.validJWTNeeded,
-        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
-        // UsersController.list
-    ]);
+    // app.get('/notarise/dbid/:dbid', [
+    //     NotariseController.getById
+    //     // ValidationMiddleware.validJWTNeeded,
+    //     // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+    //     // UsersController.list
+    // ]);
 
-    app.get('/notarise/txid/:txid', [
-        NotariseController.getById
+    app.get('/notarise/getTxByTxId/:txId', [
+        NotariseController.fetchTxByTxId
         // ValidationMiddleware.validJWTNeeded,
         // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         // UsersController.list

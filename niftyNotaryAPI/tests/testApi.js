@@ -40,30 +40,35 @@ const content = {
 
 // @todo --- we should add accept to this
 
-it('Should post data', () => {
+// should be wrapped in describe
+
+// @todo --- now to assertions...
+
+
+it('Should post and get data', () => {
     superagent
         .post('http://localhost:3600/notarise')
         .set('Content-Type', 'application/json')
         .send(content)
         .then((res) => {
+            superagent
+                .get('http://localhost:3600/notarise/getById/'+res.body.dbId)
+                .set('Content-Type', 'application/json')
+                .then((res2) => {
+                    // assert stuff here
+                    console.log('res2: ', res2.body);
+                })
 
-            console.log('response: ', res.body);
-            dbId = res.body.dbId;
-
-            // console.log('response: ', res.body);
-            // superagent
-            //     .get('http://localhost:3600/notarise/dbid/'+dbId)
-            //     .set('Content-Type', 'application/json')
-            //     .then((r) => {
-            //         console.log('R: ', r);
-            //     })
-            //             // dbid =
-            // assertiosn here
-            // do some comparisons here!?? is that the right thing to do
-            // can always rewrite in furture, just need to take this approach just to get the ball rolling
+            superagent
+                .get('http://localhost:3600/notarise/getTxByTxId/'+res.body.txId)
+                .set('Content-Type', 'application/json')
+                .then((res3) => {
+                    // assert stuff here
+                    console.log('res3: ', res3.body);
+                })
         })
         .catch((e) => {
-           console.log('exception: e', e)
+           console.log('exception: ', e)
         })
 });
 
