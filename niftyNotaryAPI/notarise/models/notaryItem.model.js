@@ -1,13 +1,20 @@
 const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
-
+// wonder if mebs should be using mysql
 // will be massive if store in the database
 // should there be external storage
+// maybe should be parsing base64
+// @todo schema indexws
 const notaryItemSchema = new Schema({
-    file: String,
-    tokenId: String,
-    onChain: false
+    //file: String,
+    userId: String,
+    userIdType: String,
+    txStatus: String,
+    docHash: String,
+    docType: String,
+    txId: String,
+    chainId: String //@todo networkId
 });
 
 notaryItemSchema.virtual('id').get(function () {
@@ -25,21 +32,28 @@ notaryItemSchema.findById = function (cb) {
 
 const NotaryItem = mongoose.model('NotaryItem', notaryItemSchema);
 
-
 // exports.findByEmail = (email) => {
 //     return User.find({email: email});
-// };
-// exports.findById = (id) => {
-//     return User.findById(id)
-//         .then((result) => {
-//             result = result.toJSON();
-//             delete result._id;
-//             delete result.__v;
-//             return result;
-//         });
-// };
+// // };
+exports.findById = (id) => {
+    return NotaryItem.findById(id)
+        .then((result) => {
+            result = result.toJSON();
+            delete result._id;
+            delete result.__v;
+            return result;
+        });
+};
 
 exports.createItem = (notaryItemData) => {
+    // need to check some stuff
+    // and need to setup debugging
+    // hash the data
+    // should this really be in a model
+
+    // have a look at other apis
+    // hmmmmm.... how do we watch this as requests come in!!!???
+
     const item = new NotaryItem(notaryItemData);
     return item.save();
     //return () => new Promise(() => notaryItemData);
@@ -48,6 +62,7 @@ exports.createItem = (notaryItemData) => {
     // how do we watch to observe...
 
 };
+
 
 exports.verifyItem = (notaryIemData) => {
     return notaryIemData;

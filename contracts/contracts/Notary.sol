@@ -51,7 +51,8 @@ contract Notary is Registry {
     // What is this supposed to be in 5.x 6.x
     // allow for loading funds for paying GSN
    function () external payable {
-    }
+
+   }
 
     //@todo function withdraw
     //@todo user tokens
@@ -86,10 +87,10 @@ contract Notary is Registry {
 
     // now we
     function relayNotarise(string memory _id, uint8 _idType, bytes32 hash) public {
-        require(!emptyString(_id));
-        require(hash != 0);
-        require(isRegistered(_msgSender()));
-        require(!isRecorded(hash));
+        require(!emptyString(_id), "Id is empty");
+        require(hash != 0, "Provided hash is empty");
+        require(isRegistered(_msgSender()), "Account not registered");
+        require(!isRecorded(hash), "Hash already recorded");
 
         Record memory rec = Record(_id, _idType);
         _records[hash] = rec;
