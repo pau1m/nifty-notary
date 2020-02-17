@@ -15,9 +15,9 @@ sleep 3 #wait for ganache to spin up
 npx oz-gsn deploy-relay-hub --ethereumNodeURL http://localhost:8545
 npx oz-gsn run-relayer --quiet &> /dev/null & #npx oz-gsn run-relayer --quiet
 echo "Started Relayer"
-rm ./build/contracts/*.json #dragons
+rm ./build/contracts/*.json &>/dev/null #dragons
 truffle compile
 truffle migrate --reset
-npx oz-gsn fund-recipient --recipient 0xd7d41932F3d8D22869C207e0a7cD038EA9746c68 #this needs to go - we cannot rely on hardcoding
+#npx oz-gsn fund-recipient --recipient 0xd7d41932F3d8D22869C207e0a7cD038EA9746c68 #this needs to go - we cannot rely on hardcoding
 #could launch a script to print the details we lose from ganache
 echo "Finished setup of test eth node, contracts and relayer"

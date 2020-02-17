@@ -1,8 +1,12 @@
 
+// so it might actually be better to do these as regular vanialla js type
+
+
 //const { GSNProvider } = require("@openzeppelin/gsn-provider");
 // maybe should just use the stuff from openzeppelin in here
 // might make things easier.. retrofit for now.. get one tx working
 //const { accounts, contract } = require('@openzeppelin/test-environment');
+
 
 
 
@@ -20,8 +24,9 @@ const { expect } = require('chai');
 // const web3 = new Web3(new GSNProvider("http://localhost:8545"));
 
 const Notary = artifacts.require('Notary');
+const RelayHub = artifacts.require('IRelayHub');
 
-
+const config = require('../config')
 
 // const { GSNDevProvider } = require("@openzeppelin/gsn-provider");
 const { GSNProvider } = require("@openzeppelin/gsn-provider");
@@ -66,11 +71,19 @@ contract("Notary", accounts => {
         notary = await Notary.new();
         notaryGSM = new web3.eth.Contract(notary.abi, notary.address);
 
+        const relayHub = await new web3.eth.Contract(RelayHub.abi, config.relayHub);
+        const funded = await relayHub.methods.depositFor(notary.address).send({from: accounts[0], value: web3.utils.toWei('0.2', 'ether')});
+
         console.log('NOTARY: ', notaryGSM.address);
        // console.log(notaryGSM.abi)
        // await web3.eth.sendTransaction({from: admin, to: notary.address, value: web3.utils.toWei('1', 'ether')})
+
+        //@todo this has to be take from env file...
+        // because we cant use fund reciepet any more
         notaryGSM.setProvider(new GSNProvider('http://localhost:8545'));
-        await fundRecipient(web3, { recipient: notary.address, amount: web3.utils.toWei('0.5', 'ether') });
+      //  notaryGSM.setProvider(new GSNProvider('https://ropsten.infura.io/v3/72558b256e3148358d057eea53feb029'));
+
+       // await fundRecipient(web3, { recipient: notary.address, amount: web3.utils.toWei('0.5', 'ether') });
 
         //web3.eth.sendTransaction({from: admin, to: notaryGSM.address, value: web3.utils.toWei('1', 'ether')})
 
@@ -84,7 +97,7 @@ contract("Notary", accounts => {
     it("MetaTx: Should call contract via gsn network", async () => {
         // const foo = await notaryGSM.methods.updateRegistry(alice, true ).send({ from: admin });
         const foo = await notaryGSM.methods.testRelay().send({ from: admin, gas: 4000000 });
-        const boo = await notaryGSM.methods.relayNotarise('boo@example.com', 0, '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687').send({from: alice, gas: 4000000});
+        const boo = await notaryGSM.methods.relayNotarise('boo@example.com', '0', '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687').send({from: alice, gas: 4000000});
         console.log('metaBoo', boo);
 
 

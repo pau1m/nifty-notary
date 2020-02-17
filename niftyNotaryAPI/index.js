@@ -1,5 +1,18 @@
 const config = require('./common/config/env.config.js');
+// @todo merge these into one
+require('dotenv').config({path:__dirname+'/./../.env' });
 
+
+// pullin and export with that othwer thing
+// require('dotenv').config({ path: require('find-config')('.env') })
+// console.log(process.env);
+// console.log(poo);
+// how can we process this to displau important informaiton
+// should create a js file that pulls om merge and exports
+// from a single file...
+// read a bit more throoughly
+// https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786
+//     https://www.twilio.com/blog/2017/08/working-with-environment-variables-in-node-js.html
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
