@@ -9612,115 +9612,6 @@
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {
-    "3": {
-      "events": {
-        "0x35983fe11458a3a89e173189b95d610445d86b5a1a11a3c87faf08c7f6c463da": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "internalType": "bytes32",
-              "name": "hash",
-              "type": "bytes32"
-            }
-          ],
-          "name": "Notarise",
-          "type": "event"
-        },
-        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "previousOwner",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "newOwner",
-              "type": "address"
-            }
-          ],
-          "name": "OwnershipTransferred",
-          "type": "event"
-        },
-        "0xb9f84b8e65164b14439ae3620df0a4d8786d896996c0282b683f9d8c08f046e8": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "oldRelayHub",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "newRelayHub",
-              "type": "address"
-            }
-          ],
-          "name": "RelayHubChanged",
-          "type": "event"
-        },
-        "0x7bb3a2fb2c2592872b4704ba5282ff4e036f5ffd42999fc83da680228b7ea5c4": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "num",
-              "type": "uint256"
-            }
-          ],
-          "name": "relayWorks",
-          "type": "event"
-        },
-        "0x74f3b522272ee729250fcd7d4113cdeca8c4ec9a603fb5b7535e0bd8f7c6e2b6": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "foo",
-              "type": "uint256"
-            },
-            {
-              "indexed": false,
-              "internalType": "bool",
-              "name": "boo",
-              "type": "bool"
-            },
-            {
-              "indexed": false,
-              "internalType": "string",
-              "name": "moo",
-              "type": "string"
-            }
-          ],
-          "name": "someRandomShit",
-          "type": "event"
-        },
-        "0x4a249455b9cbb17d2537cf8b10b48f47d4a3662fa15715680e3488480c7df20f": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "internalType": "address",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "name": "updatedRegistry",
-          "type": "event"
-        }
-      },
-      "links": {},
-      "address": "0xd102C4949eAb1D3e50f4bB967F4e7F76AAb0Af15",
-      "transactionHash": "0x709786cef8055d7ce04f799e1eeee291128e8a14187374c9da68738091f6a532"
-    },
     "666": {
       "events": {
         "0x35983fe11458a3a89e173189b95d610445d86b5a1a11a3c87faf08c7f6c463da": {
@@ -9832,7 +9723,7 @@
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-02-17T10:47:54.774Z",
+  "updatedAt": "2020-02-17T14:35:27.865Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {
