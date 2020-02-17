@@ -18,6 +18,15 @@
  *
  */
 
+const config = require('./config');
+const Web3 = require('web3');
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+//@todo from env
+const mnemonic = "timber initial unhappy transfer genre divorce noodle liberty hen steel trumpet clever";
+
+// read the mnemonid from config...
+
+
 // const {
 //     deployRelayHub,
 //     runRelayer,
@@ -43,6 +52,10 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+
+//@todo mnemonic from env pull this from
+//@todo proper migration handling
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -66,6 +79,18 @@ module.exports = {
      port: 8545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     },
+    ropsten: {
+      provider: function() {
+          return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/72558b256e3148358d057eea53feb029")
+      },
+      network_id: 3,
+      gasPrice: Web3.utils.toWei('30', 'gwei'),
+        // @todo get gas estimate.... set gas amd set from address
+    },
+    live: {
+      //@todo
+    }
+
 
     // Another network with more advanced options...
     // advanced: {

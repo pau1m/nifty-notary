@@ -41,6 +41,7 @@ contract Notary is Registry {
 
     event Notarise(bytes32 hash/*, bytes32 id*/);
     event relayWorks(uint num);
+    event someRandomShit(uint256 foo, bool boo, string moo);
 
   //  function DocStamp(uint initialPrice) {
     constructor() public {
@@ -97,6 +98,7 @@ contract Notary is Registry {
         _recordCount = _recordCount + 1;
 
         emit Notarise(hash);
+        emit someRandomShit(42, true, 'moo');
     }
 
 //    function stamp(string ownerEmail, string sha) payable costs(_price) {

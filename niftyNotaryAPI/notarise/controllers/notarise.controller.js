@@ -1,11 +1,21 @@
+const config = require('../../common/config/env.config');
+console.log('c: ', config);
+
 const NotaryItemModel = require('../models/notaryItem.model.js');
 const crypto = require('crypto');
-const { generate } = require('ethereumjs-wallet');
-const Web3 = require('web3');
-
-const web3 = new Web3('http://localhost:8545');
+// const { generate } = require('ethereumjs-wallet');
 const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
 
+const Web3 = require('web3');
+const web3 = new Web3(config.nodeEndPoint);
+const signerAccount = web3.eth.accounts.wallet.add(config.signKey)
+
+//
+// console.log(config.signKey)
+// console.log(config.signKey)
+// console.log(web3.eth.accounts.wallet.add(config.signKey));
+// console.log(web3.eth.accounts[0])
+// console.log(web3.eth.getAccounts())
 /*
 const Web3 = require('web3');
 //const notaryArtifacts = require('../../../contracts/build/contracts.json')
@@ -97,20 +107,23 @@ const txState = {
 // @todo we need conffig for deployment... should be a shared env thing
 
 exports.insert = async (req, res) => {
+
+    console.log(await web3.eth.getAccounts())
  //   const web3 = new Web3('http://localhost:8545');
  //   const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
     // const accounts = await web3.eth.getAccounts();
     // const networkId = await web3.eth.net.getId();
-    const accounts = await web3.eth.getAccounts();
-    const networkId = await web3.eth.net.getId();
-    const contractAddress = notaryArtifacts.networks[networkId].address;
-    const notaryContract = await new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
-    const fundingContract = await web3.eth.sendTransaction({to: contractAddress, from: accounts[0], value: web3.utils.toWei('1', 'ether')})
+  //  const accounts = await web3.eth.getAccounts(); // ahhhh... here is the problem we can't get accounts from web3 because we are on ropsten and its not a local node
+  //  const networkId = await web3.eth.net.getId();
+    const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
+    const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
+    // this should already be funded on the hub
+    // const fundingContract = await web3.eth.sendTransaction({to: contractAddress, from: accounts[0], value: web3.utils.toWei('1', 'ether')})
     const balance = await web3.eth.getBalance(contractAddress);
 
     // any issues we should be able to address right in here
     // const foop = generate().privKey;
-
+        // add account 0- to sign key and it weill get used automaticallt
 
 // const {
 //     deployRelayHub,
@@ -118,17 +131,21 @@ exports.insert = async (req, res) => {
 //     fundRecipient,
 // } = require('@openzeppelin/gsn-helpers');
 
+    //@todo at the moment we justhave one key in the system that signs
+    //in future we can allow signings via metamask or create other account on behalf of users
+
 //const { utils, GSNProvider } = require("@openzeppelin/gsn-provider");
 //const { generate } = require("ethereumjs-wallet");
     const { GSNProvider } = require("@openzeppelin/gsn-provider");
-    const gsnProvider = new GSNProvider("http://localhost:8545", {
-        signKey: '0x2219082ae071dc68723e2b5b82e766662c9a6217e9357cc3da4363a8b7fa3611'  // we also need the address of hub here, no?
+    //@todo  this should be derived from seedPhrase
+    const gsnProvider = new GSNProvider(config.nodeEndPoint, {
+      //  signKey:  config.signKey  // we also need the address of hub here, no?
     });
 
     web3.setProvider(gsnProvider);
 
 
-
+   // console.log(accounts[0])
 
 
     // let salt = crypto.randomBytes(16).toString('base64');
@@ -152,7 +169,7 @@ exports.insert = async (req, res) => {
 
 
     // try {
-        const notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: accounts[0], gas: 4000000});
+        const notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: signerAccount.address, gas: 4000000});
     // } catch(e) {
     //     console.log('txreq failed: ', e);
     // }
@@ -199,7 +216,7 @@ exports.insert = async (req, res) => {
             // send via meta transactions -- requires other stuff to be setup
             // do we really need token in the responese
             // !!!! does this actually send at this point or does the response object continue to get passed through
-            console.log('RES: ', req.body);
+            //console.log('RES: ', req.body);
                 res.status(203).send(req.body); // @todo 20x?
         })
          .catch((e) => {
@@ -251,25 +268,28 @@ exports.fetchTxByTxId = async (req, res) => {
     const ethAbi = require('ethereumjs-abi');
     const notaryAbi = notaryArtifacts.abi;
     const { parseLog } = require('ethereum-event-logs');
-
-
+    //const abiEventLst = notaryAbi.map(item => item.type === 'event' ? item.type: null);
+    // const abiEventList2 = notaryAbi.reduce((acc, item) => {
+    //     if (item.type === 'event') {
+    //         acc += item;
+    //     }
+    // });
+    const abiEventList = notaryAbi.filter(item => item.type === 'event');
 
 
     web3.eth.getTransactionReceipt(req.params.txId)
         .then((receipt) => {
-            //const decoded = ethAbi.rawDecode(notaryAbi, receipt.logs);
-            // hmmmmm. this falls over and am not sure why.
-            // @todo extract just array of events and pass it that as abi...
-            // my no have map... tis an array
-            // const events = parseLog(receipt.logs, notaryArtifacts.abi);
-            let pi = 3;
+
+            // grab what we can in human readable form...
+            // how should we handle this!????
+            const parsedEvents = parseLog(receipt.logs, abiEventList);
+            receipt.parsedEvents = parsedEvents;
+
             res.status(200).send(receipt);
         })
         .catch((e) => {
             console.error('Could not retrieve receipt ', e);
         });
-
-   // res.status(200).send(receipt);
 
     // res.status(200).send(await web3.eth.getTransactionReceipt(req.params.txId));
 };

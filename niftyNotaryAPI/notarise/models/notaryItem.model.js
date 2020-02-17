@@ -60,7 +60,6 @@ exports.createItem = (notaryItemData) => {
     // middleware ... or....?
     // perhaps triggers an even in the system...
     // how do we watch to observe...
-
 };
 
 

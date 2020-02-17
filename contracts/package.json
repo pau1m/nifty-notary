@@ -5,7 +5,9 @@
     "@openzeppelin/gsn-provider": "^0.1.9",
     "@openzeppelin/test-environment": "^0.1.2",
     "@openzeppelin/test-helpers": "^0.5.4",
-    "chai": "^4.2.0"
+    "@truffle/hdwallet-provider": "^1.0.31",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
