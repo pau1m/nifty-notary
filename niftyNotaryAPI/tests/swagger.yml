@@ -5,22 +5,54 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://niftyNotary.io/v1
+  - url: http://localhost:3600
 paths:
-  /notary:
-    get:
-      summary: List all transactions
-      operationId: listTransactions
+  /notarise:
+    post:
+      summary: Post a new file
+      requestBody:
+        description: File to notarise
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+      #    opeationId: notariseFile
       tags:
-        - pets
+        - notary
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotarisedFileResponse"
+        '203':
+          description: Transaction submitted but not mined
+        '422':
+          description: Hash already exists
+
+  /notary/{id}:
+    get:
+      summary: Get notary object from db
+      operationId: getNotarised #what is the operationId: for???
+      tags:
+        - notary
       parameters:
-        - name: limit
-          in: query
-          description: How many items to return at one time (max 100)
-          required: false
+        - name: id
+          in: path
+          required: true
+          description: The database key of the item to retrieve
           schema:
-            type: integer
-            format: int32
+            type: string
+      #      parameters:
+      #        - name: limit
+      #          in: query
+      #          description: How many items to return at one time (max 100)
+      #          required: false
+      #          schema:
+      #            type: integer
+      #            format: int32
       responses:
         '200':
           description: A paged array of pets
@@ -39,20 +71,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    post:
-      summary: Create a pet
-      operationId: createPets
-      tags:
-        - pets
-      responses:
-        '201':
-          description: Null response
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+  #    post:
+  #      summary: Notarise a file
+  #      operationId: notariseFile
+  #      tags:
+  #        - notary
+  #      responses:
+  #        '201':
+  #          description: Null response
+  #        default:
+  #          description: unexpected error
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: "#/components/schemas/Error"
   /pets/{petId}:
     get:
       summary: Info for a specific pet
@@ -81,6 +113,36 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
+    NotarisedFileResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        userIdType:
+          type: string
+        txStatus:
+          type: string
+        docHash:
+          type: string
+        docType:
+          type: string
+        txId:
+          type: string
+        chainId:
+          type: string
+    Document:
+      type: object
+      required:
+        - file
+        - fileType
+      properties:
+        file:
+          type: string
+        fileType:
+          type: string
+      example:
+        file: 'SGVsbG8gV29ybGQ=' #Hello World
+        fileType: 'text/plain' #maybe not best to send as json could be described otherwise
     Pet:
       type: object
       required:
@@ -109,3 +171,285 @@ components:
           format: int32
         message:
           type: string
+#openapi: "3.0.0"
+#info:
+#  version: 1.0.0
+#  title: niftyNotary Swagger
+#  license:
+#    name: MIT
+#servers:
+#  - url: http://localhost:3600
+#paths:
+#  /notarise:
+#    post:
+#      summary: Post a new file
+#      requestBody:
+#        description: File to notarise
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/Document'
+#      #    opeationId: notariseFile
+#      tags:
+#        - notary
+#      responses:
+#        '200':
+#          description: Response object
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/NotarisedFileResponse"
+#        '203':
+#          description: Not yet mined... @should return tx id!? or...?
+#
+#  /notary/{id}:
+#    get:
+#      summary: Get notary object from db
+#      operationId: getNotarised #what is the operationId: for???
+#      tags:
+#        - notary
+#      parameters:
+#        - name: id
+#          in: path
+#          required: true
+#          description: The database key of the item to retrieve
+#          schema:
+#            type: string
+#      #      parameters:
+#      #        - name: limit
+#      #          in: query
+#      #          description: How many items to return at one time (max 100)
+#      #          required: false
+#      #          schema:
+#      #            type: integer
+#      #            format: int32
+#      responses:
+#        '200':
+#          description: A paged array of pets
+#          headers:
+#            x-next:
+#              description: A link to the next page of responses
+#              schema:
+#                type: string
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Pets"
+#        default:
+#          description: unexpected error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Error"
+#  #    post:
+#  #      summary: Notarise a file
+#  #      operationId: notariseFile
+#  #      tags:
+#  #        - notary
+#  #      responses:
+#  #        '201':
+#  #          description: Null response
+#  #        default:
+#  #          description: unexpected error
+#  #          content:
+#  #            application/json:
+#  #              schema:
+#  #                $ref: "#/components/schemas/Error"
+#  /pets/{petId}:
+#    get:
+#      summary: Info for a specific pet
+#      operationId: showPetById
+#      tags:
+#        - pets
+#      parameters:
+#        - name: petId
+#          in: path
+#          required: true
+#          description: The id of the pet to retrieve
+#          schema:
+#            type: string
+#      responses:
+#        '200':
+#          description: Expected response to a valid request
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Pet"
+#        default:
+#          description: unexpected error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Error"
+#components:
+#  schemas:
+#    NotarisedFileResponse:
+#      type: object
+#      properties:
+#        userId:
+#          type: string
+#        userIdType:
+#          type: string
+#        txStatus:
+#          type: string
+#        docHash:
+#          type: string
+#        docType:
+#          type: string
+#        txId:
+#          type: string
+#        chainId:
+#          type: string
+#    Document:
+#      type: object
+#      required:
+#        - file
+#        - fileType
+#      properties:
+#        file:
+#          type: string
+#        fileType:
+#          type: string
+#      example:
+#        file: 'SGVsbG8gV29ybGQ=' #Hello World
+#        fileType: 'text/plain' #maybe not best to send as json could be described otherwise
+#    Pet:
+#      type: object
+#      required:
+#        - id
+#        - name
+#      properties:
+#        id:
+#          type: integer
+#          format: int64
+#        name:
+#          type: string
+#        tag:
+#          type: string
+#    Pets:
+#      type: array
+#      items:
+#        $ref: "#/components/schemas/Pet"
+#    Error:
+#      type: object
+#      required:
+#        - code
+#        - message
+#      properties:
+#        code:
+#          type: integer
+#          format: int32
+#        message:
+#          type: string
+#openapi: "3.0.0"
+#info:
+#  version: 1.0.0
+#  title: niftyNotary Swagger
+#  license:
+#    name: MIT
+#servers:
+#  - url: http://niftyNotary.io/v1
+#paths:
+#  /notary:
+#    get:
+#      summary: List all transactions
+#      operationId: listTransactions
+#      tags:
+#        - pets
+#      parameters:
+#        - name: limit
+#          in: query
+#          description: How many items to return at one time (max 100)
+#          required: false
+#          schema:
+#            type: integer
+#            format: int32
+#      responses:
+#        '200':
+#          description: A paged array of pets
+#          headers:
+#            x-next:
+#              description: A link to the next page of responses
+#              schema:
+#                type: string
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Pets"
+#        default:
+#          description: unexpected error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Error"
+#    post:
+#      summary: Create a pet
+#      operationId: createPets
+#      tags:
+#        - pets
+#      responses:
+#        '201':
+#          description: Null response
+#        default:
+#          description: unexpected error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Error"
+#  /pets/{petId}:
+#    get:
+#      summary: Info for a specific pet
+#      operationId: showPetById
+#      tags:
+#        - pets
+#      parameters:
+#        - name: petId
+#          in: path
+#          required: true
+#          description: The id of the pet to retrieve
+#          schema:
+#            type: string
+#      responses:
+#        '200':
+#          description: Expected response to a valid request
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Pet"
+#        default:
+#          description: unexpected error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Error"
+#components:
+#  schemas:
+#    Pet:
+#      type: object
+#      required:
+#        - id
+#        - name
+#      properties:
+#        id:
+#          type: integer
+#          format: int64
+#        name:
+#          type: string
+#        tag:
+#          type: string
+#    Pets:
+#      type: array
+#      items:
+#        $ref: "#/components/schemas/Pet"
+#    Error:
+#      type: object
+#      required:
+#        - code
+#        - message
+#      properties:
+#        code:
+#          type: integer
+#          format: int32
+#        message:
+#          type: string

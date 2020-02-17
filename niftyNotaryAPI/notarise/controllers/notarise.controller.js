@@ -8,7 +8,7 @@ const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
 
 const Web3 = require('web3');
 const web3 = new Web3(config.nodeEndPoint);
-const signerAccount = web3.eth.accounts.wallet.add(config.signKey)
+const signerAccount = web3.eth.accounts.wallet.add(config.signKey);
 
 //
 // console.log(config.signKey)
@@ -139,7 +139,7 @@ exports.insert = async (req, res) => {
     const { GSNProvider } = require("@openzeppelin/gsn-provider");
     //@todo  this should be derived from seedPhrase
     const gsnProvider = new GSNProvider(config.nodeEndPoint, {
-      //  signKey:  config.signKey  // we also need the address of hub here, no?
+        signKey:  config.signKey  // we also need the address of hub here, no?
     });
 
     web3.setProvider(gsnProvider);
@@ -161,32 +161,39 @@ exports.insert = async (req, res) => {
     // should use keccak instead... since is standard for smart contracts
 
     // get email
-    const docHash = '0x' + crypto.createHash('sha256').update(req.body.doc).digest('hex');
+    const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
 
     // mebs should try
     // const addedHashReceipt = await notaryContract.methods.testRelay().send({ from: accounts[0], gas: 4000000 });
 
 
+    // quick hack
+    req.body.userId = 'poo';
 
-    // try {
+    try {
         const notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: signerAccount.address, gas: 4000000});
-    // } catch(e) {
-    //     console.log('txreq failed: ', e);
-    // }
+    } catch(e) {
+        if (e.message.indexOf('Hash already recorded')) {
+          res.status('422').send(e.message);
+          return;
+        }
+    }
+      const pie = 3;
+    // deal with rejection
+    // @todo we should handle receipt in case where the item has already been posted
 
 
+     // const notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: accounts[0], gas: 4000000});
+      // console.log('foo', foo);
 
-   // const notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: accounts[0], gas: 4000000});
-    // console.log('foo', foo);
+     // const docHash = crypto.createHash('sha256').update(req.body.doc).digest('hex');
 
-   // const docHash = crypto.createHash('sha256').update(req.body.doc).digest('hex');
+      // make the request here!!!!!
 
-    // make the request here!!!!!
+     // here we can populate
 
-   // here we can populate
-
-    // this is a lot of data to store on chain
-    // really need to check all of these things -- makes think worth using typescript
+      // this is a lot of data to store on chain
+      // really need to check all of these things -- makes think worth using typescript
     req.body.txStatus = txState.success;
     req.body.confirmations = 1; //@todo actual
     req.body.docHash = docHash;
@@ -304,6 +311,12 @@ exports.verifyTransactionByTxId = (req, res) => {
             res.status(200).send(result);
         });
 };
+
+exports.verifyHash = (req, res) => {
+  res.sendStatus(200).send('it works');
+};
+
+
 
 //@todo allow creation of tx to be signed or could add a wrapper around something for client to do ny self
 

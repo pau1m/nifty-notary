@@ -44,12 +44,25 @@ exports.routesConfig = async function (app) {
         // UsersController.list
     ]);
 
+    //
     app.post('/notarise/verify', [
-
-        // provide verification service
-        // NotariseController.insert
-        // create a model for the thing that we want
+      NotariseController.verifyHash
     ]);
+
+    // app.post('/notarise/verify', [
+    //
+    //     // provide verification service
+    //     // NotariseController.insert
+    //     // create a model for the thing that we want
+    // ]);
+
+    // need to fill out other endpoints
+
+
+
+
+
+
     // app.get('/users/:userId', [
     //     ValidationMiddleware.validJWTNeeded,
     //     PermissionMiddleware.minimumPermissionLevelRequired(FREE),
