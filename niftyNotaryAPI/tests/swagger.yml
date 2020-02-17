@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.0
+  version: 0.0.1
   title: niftyNotary Swagger
   license:
     name: MIT
@@ -32,7 +32,7 @@ paths:
         '422':
           description: Hash already exists
 
-  /notary/{id}:
+  /notarise/getById/{id}:
     get:
       summary: Get notary object from db
       operationId: getNotarised #what is the operationId: for???
@@ -45,6 +45,7 @@ paths:
           description: The database key of the item to retrieve
           schema:
             type: string
+          example: 123456789
       #      parameters:
       #        - name: limit
       #          in: query
@@ -55,22 +56,22 @@ paths:
       #            format: int32
       responses:
         '200':
-          description: A paged array of pets
-          headers:
-            x-next:
-              description: A link to the next page of responses
-              schema:
-                type: string
+          description: todo should send back the same details as post
+          #          headers:
+          #            x-next:
+          #              description: A link to the next page of responses
+          #              schema:
+          #                type: string
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pets"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/NotarisedFileResponse"
+  #        default:
+  #          description: unexpected error
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: "#/components/schemas/Error"
   #    post:
   #      summary: Notarise a file
   #      operationId: notariseFile
