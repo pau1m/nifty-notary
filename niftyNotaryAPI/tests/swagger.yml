@@ -1,7 +1,7 @@
 openapi: "3.0.0"
 info:
   version: 0.0.1
-  title: niftyNotary Swagger
+  title: niftyNotary API
   license:
     name: MIT
 servers:
@@ -62,6 +62,53 @@ paths:
           #              description: A link to the next page of responses
           #              schema:
           #                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotarisedFileResponse"
+  /notarise/getByTxId/{txId}:
+    get:
+      summary: Get notary object from db
+      operationId: getFromTxId #what is the operationId: for???
+      tags:
+        - notary
+      parameters:
+        - name: txId
+          in: path
+          required: true
+          description: The tx id of the item to retrieve
+          schema:
+            type: string
+          example: '0x1111111111111111111111111111111111'
+      responses:
+        '200':
+          description: todo should send back the same details as post
+          #          headers:
+          #            x-next:
+          #              description: A link to the next page of responses
+          #              schema:
+          #                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotarisedFileResponse"
+  /notarise/getByHash/{fileHash}:
+    get:
+      summary: Get notary object from db
+      operationId: getFromHash #what is the operationId: for???
+      tags:
+        - notary
+      parameters:
+        - name: fileHash
+          in: path
+          required: true
+          description: The hash of the item to retrieve
+          schema:
+            type: string
+            example: '0x1111111111111111111111111111111111'
+      responses:
+        '200':
+          description: todo should send back the same details as post
           content:
             application/json:
               schema:
@@ -144,6 +191,10 @@ components:
       example:
         file: 'SGVsbG8gV29ybGQ=' #Hello World
         fileType: 'text/plain' #maybe not best to send as json could be described otherwise
+    fileHash:
+      type: string
+    txId:
+      type: string
     Pet:
       type: object
       required:
