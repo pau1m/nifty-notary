@@ -23,6 +23,15 @@ exports.routesConfig = async function (app) {
         // can write it in place and then refactor to here
         // create a model for the thing that we want
     ]);
+
+    // @todo
+    // no
+
+    // @todo rename all the endpoints for consistancy
+    app.post('/notarise-basic', [
+        NotariseController.insertAnonBasic
+    ]);
+
     app.get('/notarise/getById/:id', [
        NotariseController.getById
        // ValidationMiddleware.validJWTNeeded,

@@ -115,6 +115,10 @@ exports.insert = async (req, res) => {
     // const networkId = await web3.eth.net.getId();
   //  const accounts = await web3.eth.getAccounts(); // ahhhh... here is the problem we can't get accounts from web3 because we are on ropsten and its not a local node
   //  const networkId = await web3.eth.net.getId();
+
+    //  SO THIS FALLS OVER IN OUT TEST INSTANCE
+    // IN THE CONFIG SETUP WE CAN CHECK THE NETWORK ID
+  // AND IF IT IS OUR TEST ID IT CONFIGURES WITH DIFFERENT SETTINGS
     const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
     const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
     // this should already be funded on the hub
@@ -169,10 +173,11 @@ exports.insert = async (req, res) => {
 
     // quick hack
     req.body.userId = 'poo';
-
+    let notaryReceipt = {}
     try {
-        const notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: signerAccount.address, gas: 4000000});
-    } catch(e) {
+        notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: signerAccount.address, gas: 4000000});
+    }
+    catch(e) {
         if (e.message.indexOf('Hash already recorded')) {
           res.status('422').send(e.message);
           return;
@@ -197,7 +202,7 @@ exports.insert = async (req, res) => {
     req.body.txStatus = txState.success;
     req.body.confirmations = 1; //@todo actual
     req.body.docHash = docHash;
-    req.body.txId = notaryReceipt.transactionHash;
+    req.body.txId = notaryReceipt.transactionHash || null;
 
     // need some sort of front end
     // should this be JS...
@@ -256,6 +261,61 @@ exports.insert = async (req, res) => {
 //         })
 // };
 
+exports.insertAnonBasic = async (req, res) => {
+
+  const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
+  const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
+  //const balance = await web3.eth.getBalance(contractAddress);
+  const { GSNProvider } = require("@openzeppelin/gsn-provider");
+  const gsnProvider = new GSNProvider(config.nodeEndPoint, {
+    signKey:  config.signKey  // we also need the address of hub here, no?
+  });
+
+  web3.setProvider(gsnProvider);
+
+  //@todo use keccak
+  const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
+
+  // mebs should try
+  // const addedHashReceipt = await notaryContract.methods.testRelay().send({ from: accounts[0], gas: 4000000 });
+
+  let notaryReceipt = {}
+  try {
+    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(docHash).send({from: signerAccount.address, gas: 4000000}); // calculate what this should be
+  }
+  catch(e) {
+    if (e.message.indexOf('Hash already recorded')) {
+      res.status('422').send(e.message);
+      return;
+    }
+  }
+
+  // @todo get txStatus from tx
+  // do we have to calculate hash for ourselves ? that would work well when not mined yet
+  req.body.txStatus = txState.success;
+  req.body.confirmations = 1; //@todo actual
+  req.body.docHash = docHash;
+  req.body.txId = notaryReceipt.transactionHash || '0x0';
+
+  NotaryItemModel.createItem(req.body)
+    .then((result) => {
+      req.body.dbId = result._id.toHexString();
+
+
+      // we probably want the time stamp
+      // timestamp
+      // dbid
+      // tx id
+      // dbid
+      // should we also include the hash type in the db or on chain?
+      res.status(200).send(req.body);
+    })
+    .catch((e) => {
+      console.log('exception: ', e);
+    });
+
+};
+
 exports.submitToChain = (req, res) => {
 
     console.log('SUBMITTING TO CHAIN')
@@ -264,13 +324,14 @@ exports.submitToChain = (req, res) => {
 
 //@todo retrieve data after posting it from the id
 exports.getById = (req, res) => {
+    //@todo make sure we get all the stuff back that we need
+    // so we can post the same data as we get when we do a post
     NotaryItemModel.findById(req.params.id)
         .then((result) => {
             res.status(200).send(result);
         });
 };
 
-//@todo
 exports.fetchTxByTxId = async (req, res) => {
     const ethAbi = require('ethereumjs-abi');
     const notaryAbi = notaryArtifacts.abi;

@@ -96,9 +96,23 @@ contract Notary is Registry {
         Record memory rec = Record(_id, _idType);
         _records[hash] = rec;
         _recordCount = _recordCount + 1;
-
+        // should we count this as record Idf?
         emit Notarise(hash);
         emit someRandomShit(42, true, 'moo');
+    }
+
+    /**
+     * If user just wants to prove that something existed, we don't need to record anything but the hash.
+     * Is cheaper just to store this on-chain.
+     * Assumes we don't want or need to interact with this on-chain
+     * And is only recorded for off-chain consumption
+     */
+    function relayAnonProofOfExistence(bytes32 hash) public {
+        require(isRegistered(_msgSender()), "Account not registered");
+        require(!isRecorded(hash), "Hash already recorded");
+        // _recordCount = _recordCount + 1; // is there any point recording this
+        // @todo make past tense
+        emit Notarise(hash);
     }
 
 //    function stamp(string ownerEmail, string sha) payable costs(_price) {
@@ -141,6 +155,12 @@ contract Notary is Registry {
         bytes calldata approvalData,
         uint256 maxPossibleCharge
     ) external view returns (uint256, bytes memory) {
+
+        // is from, from the relayer or the user?
+        //require(isRegistered(_msgSender()), "Account not registered");
+        // we have to be a bit more strict about who can use this
+        // keep gas low
+
         return _approveRelayedCall();
     }
 

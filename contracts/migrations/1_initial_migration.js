@@ -18,6 +18,7 @@ module.exports = (deployer) => {
     await deployer.deploy(Notary);
 
     const notary = await Notary.deployed();
+    console.log('Contract deployed at: ', notary.address);
 
     const relayHub = new web3.eth.Contract(RelayHub.abi, '0xD216153c06E857cD7f72665E0aF1d7D82172F494'/*config.relayHub*/);
     await relayHub.methods.depositFor(notary.address).send({

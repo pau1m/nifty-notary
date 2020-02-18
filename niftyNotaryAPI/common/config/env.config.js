@@ -1,5 +1,8 @@
 require('dotenv').config({path:__dirname+'/./../../../.env' });
 
+// CHECK TO SEE IF WE ARE ON A TEST INSTANCE
+// CANT DEBUG THE CONTRACT ID
+
 module.exports = {
     "signKey": process.env.SIGN_KEY,
     "seedPhrase": process.env.SEED_PHRASE,

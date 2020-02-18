@@ -1,6 +1,8 @@
 
 // so it might actually be better to do these as regular vanialla js type
-
+/**
+ * Only intended to test against local node. Not for upstream.
+ */
 
 //const { GSNProvider } = require("@openzeppelin/gsn-provider");
 // maybe should just use the stuff from openzeppelin in here
@@ -98,7 +100,7 @@ contract("Notary", accounts => {
         // const foo = await notaryGSM.methods.updateRegistry(alice, true ).send({ from: admin });
         const foo = await notaryGSM.methods.testRelay().send({ from: admin, gas: 4000000 });
         const boo = await notaryGSM.methods.relayNotarise('boo@example.com', '0', '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687').send({from: alice, gas: 4000000});
-        console.log('metaBoo', boo);
+       //  console.log('metaBoo', boo);
 
 
         // const registeredUser = await notary.updateRegistry(alice, true);
@@ -126,6 +128,27 @@ contract("Notary", accounts => {
         const gotRecord = await notary.getRecord('0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687');
         // console.log(gotRecord);
     });
+
+    it("Should post a hash", async () => {
+        // use account creation just to generate a random hash
+        const randomBytes32 = web3.eth.accounts.create()['privateKey'];
+
+
+        // could probably take out the relay part
+        // we only care about the event
+        const proved = await notary.relayAnonProofOfExistence(randomBytes32, {from: alice});
+        console.log(proved.logs[0].args);
+        //expect(proved.args);
+        // @todo Should change event wording to be past tense Notarised!
+        assert(proved.logs[0].event === 'Notarise');
+        assert(proved.logs[0].args.hash === randomBytes32);
+
+        // when we return stuff we probably care about time stamps
+        // maybe should have a different end point for
+
+
+        // const gotRecord = await notary.getRecord('0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687');
+    })
 });
 
 
