@@ -11,7 +11,7 @@ Populate parameters in .env
 Testing API
 ===========
 
-In contracts folder ```yarn start``` to launch all the blockchain stuff
+In contracts folder ```yarn start``` launches a local instance of ganache-cli in background, deployes contracts, launches a relayer and funds the contract on relay hub
 
 In niftyNotaryAPI folder ```yarn start``` then in test folder ```mocha [testfilename]```
 
@@ -31,3 +31,6 @@ Node end points
 
 * https://ropsten.infura.io/v3/72558b256e3148358d057eea53feb029
 * https://mainnet.infura.io/v3/72558b256e3148358d057eea53feb029
+
+#Test and Usage
+

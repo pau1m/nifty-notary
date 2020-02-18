@@ -2,26 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aac7a7b8-b161-40f5-98f8-9b28d6b70fb1" name="Default Changelist" comment="adding values to example.env">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/build/contracts/Context.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/Context.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/build/contracts/GSNRecipient.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/GSNRecipient.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/build/contracts/IRelayHub.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/IRelayHub.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/build/contracts/IRelayRecipient.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/IRelayRecipient.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/build/contracts/Migrations.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/Migrations.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/build/contracts/Notary.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/Notary.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/build/contracts/Ownable.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/Ownable.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/build/contracts/Registry.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build/contracts/Registry.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/contracts/Notary.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/contracts/Notary.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/migrations/1_initial_migration.js" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/migrations/1_initial_migration.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/test/testNotary.js" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/test/testNotary.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/common/config/env.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/common/config/env.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/routes.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/routes.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryWebApp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryWebApp/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryWebApp/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryWebApp/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryWebApp/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryWebApp/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example.env" beforeDir="false" afterPath="$PROJECT_DIR$/example.env" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
