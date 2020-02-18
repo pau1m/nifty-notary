@@ -9,13 +9,18 @@ README
 Testing API
 ===========
 
+Testing just contracts. In contracts folder ```truffle test```
+
 In contracts folder ```yarn start``` launches a local instance of ganache-cli in background, deployes contracts, launches a relayer and funds the contract on relay hub
 
-In niftyNotaryAPI folder ```yarn start``` then in test folder ```mocha [testfilename]```
+In niftyNotaryAPI folder ```yarn start``` API available at localhost:8080. Run tests with ```mocha [testfilename]```
+
 
 Click testing with Swagger. @too maybe an additional step to fetch the docker image. Oh and you need to have docker installed.
 If you install Docker through brew, be aware that have to click run it from Applications folder (mac
 and then you'll be able to get it on the command line.
+
+Access swagger at localhost:80
 
 ```
 cd  niftyNotaryAPI/tests

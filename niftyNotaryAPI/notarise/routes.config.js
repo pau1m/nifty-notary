@@ -15,29 +15,60 @@ const config = require('../common/config/env.config');
 
 
 exports.routesConfig = async function (app) {
-    app.post('/notarise', [
-        NotariseController.insert,
-        NotariseController.submitToChain
+    app.post('/notarise/file', [
+        NotariseController.insertFile
+    ]);
+
+    app.post('/notarise/file', [
+        NotariseController.insertHash
+    ]);
+
+    app.get('/notarised/getById/:id', [
+        NotariseController.getById
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        // UsersController.list
+    ]);
+
+    app.get('/transaction/getByTxId/:txId', [
+        NotariseController.fetchTxByTxId
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        // UsersController.list
+    ]);
+
+    app.post('/notarise/verify', [
+        NotariseController.verifyHash
+    ]);
+
+
+
+
+
+
+    // app.post('/notarise', [
+    //     NotariseController.insert,
+    //     NotariseController.submitToChain
 
 
         // can write it in place and then refactor to here
         // create a model for the thing that we want
-    ]);
+ //   ]);
 
     // @todo
     // no
 
     // @todo rename all the endpoints for consistancy
-    app.post('/notarise-basic', [
-        NotariseController.insertAnonBasic
-    ]);
+    // app.post('/notarise-basic', [
+    //     NotariseController.insertAnonBasic
+    // ]);
 
-    app.get('/notarise/getById/:id', [
-       NotariseController.getById
-       // ValidationMiddleware.validJWTNeeded,
-       // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
-       // UsersController.list
-    ]);
+    // app.get('/notarise/getById/:id', [
+    //    NotariseController.getById
+    //    // ValidationMiddleware.validJWTNeeded,
+    //    // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+    //    // UsersController.list
+    // ]);
 
     // app.get('/notarise/dbid/:dbid', [
     //     NotariseController.getById
@@ -46,17 +77,15 @@ exports.routesConfig = async function (app) {
     //     // UsersController.list
     // ]);
 
-    app.get('/notarise/getTxByTxId/:txId', [
-        NotariseController.fetchTxByTxId
-        // ValidationMiddleware.validJWTNeeded,
-        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
-        // UsersController.list
-    ]);
+    // app.get('/notarise/getTxByTxId/:txId', [
+    //     NotariseController.fetchTxByTxId
+    //     // ValidationMiddleware.validJWTNeeded,
+    //     // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+    //     // UsersController.list
+    // ]);
 
     //
-    app.post('/notarise/verify', [
-      NotariseController.verifyHash
-    ]);
+
 
     // app.post('/notarise/verify', [
     //

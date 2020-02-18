@@ -10,6 +10,12 @@ const Web3 = require('web3');
 const web3 = new Web3(config.nodeEndPoint);
 const signerAccount = web3.eth.accounts.wallet.add(config.signKey);
 
+// const { GSNProvider } = require("@openzeppelin/gsn-provider");
+// const gsnProvider = new GSNProvider(config.nodeEndPoint, {
+//   signKey:  config.signKey  // we also need the address of hub here, no?
+// });
+// web3.setProvider(gsnProvider);
+
 //
 // console.log(config.signKey)
 // console.log(config.signKey)
@@ -104,7 +110,112 @@ const txState = {
     rejected: 'rejected'
 };
 
-// @todo we need conffig for deployment... should be a shared env thing
+exports.insertFile = async (req, res) => {
+
+  const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
+  const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
+
+  const { GSNProvider } = require("@openzeppelin/gsn-provider");
+  const gsnProvider = new GSNProvider(config.nodeEndPoint, {
+    signKey:  config.signKey  // we also need the address of hub here, no?
+  });
+  web3.setProvider(gsnProvider);
+
+  //@todo  get hash method sha256 and keccak
+  const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
+
+  let notaryReceipt = {}
+  try {
+    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: signerAccount.address, gas: 4000000});
+  }
+  catch(e) {
+    if (e.message.indexOf('Hash already recorded')) {
+      res.status('422').send(e.message);
+      return;
+    }
+    // @todo add proper default clause
+    res.status('422').send('Uhmmmm. Something web wrong');
+  }
+
+  // Insert stuff to db
+  req.body.txStatus = txState.success;
+  req.body.confirmations = 1; //@todo actual
+  req.body.docHash = docHash;
+  req.body.txId = notaryReceipt.transactionHash || '0x0';
+
+  // Prepare response
+  const response = {
+    txStatus: txState.success,
+    fileHash: docHash,
+    hashType: 'sha256',
+    docType: 'text/plain',
+    txId: notaryReceipt.transactionHash || null,
+    chainId: 1, // as below
+    timestamp: '1' // @todo derive from receipt
+  };
+
+  NotaryItemModel.createItem(req.body)
+    .then((result) => {
+      req.body.dbId = result._id.toHexString();
+      res.status(200).send(response); // @todo 20x?
+    })
+    .catch((e) => {
+      console.log('exception: ', e);
+    });
+};
+
+exports.insertHash = async (req, res) => {
+  const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
+  const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
+
+  const { GSNProvider } = require("@openzeppelin/gsn-provider");
+  const gsnProvider = new GSNProvider(config.nodeEndPoint, {
+    signKey:  config.signKey  // we also need the address of hub here, no?
+  });
+  web3.setProvider(gsnProvider);
+
+  //@todo  get hash method sha256 and keccak
+  const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
+
+  let notaryReceipt = {}
+  try {
+    notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: signerAccount.address, gas: 4000000});
+  }
+  catch(e) {
+    if (e.message.indexOf('Hash already recorded')) {
+      res.status('422').send(e.message);
+      return;
+    }
+      // @todo add proper default clause
+      res.status('422').send('Uhmmmm. Something web wrong');
+  }
+
+  req.body.txStatus = txState.success;
+  req.body.confirmations = 1; //@todo actual
+  req.body.docHash = docHash;
+  req.body.txId = notaryReceipt.transactionHash || null;
+
+  // @todo change name to encoded doc
+  // @todo all we should really care
+  // @todo resolve why db not connecting
+  // @todo write some script to push data to ethereum and back
+  // @todo solidify what we need to receieve and what we need to send back.
+
+  NotaryItemModel.createItem(req.body)
+    .then((result) => {
+      req.body.dbId = result._id.toHexString();
+
+      res.status(200).send(req.body); // @todo 20x?
+    })
+    .catch((e) => {
+      console.log('exception: ', e);
+    });
+
+
+
+
+};
+
 
 exports.insert = async (req, res) => {
 
@@ -124,6 +235,8 @@ exports.insert = async (req, res) => {
     // this should already be funded on the hub
     // const fundingContract = await web3.eth.sendTransaction({to: contractAddress, from: accounts[0], value: web3.utils.toWei('1', 'ether')})
     const balance = await web3.eth.getBalance(contractAddress);
+
+
 
     // any issues we should be able to address right in here
     // const foop = generate().privKey;
@@ -147,6 +260,8 @@ exports.insert = async (req, res) => {
     });
 
     web3.setProvider(gsnProvider);
+
+
 
 
    // console.log(accounts[0])
