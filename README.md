@@ -1,10 +1,8 @@
 README
 ======
 
-
-Populate parameters in .env
-
-@todo 
+@todo v2
+*  now that all the pieces are put together reworking api to match what is given in swagger
 
 
 
@@ -15,12 +13,22 @@ In contracts folder ```yarn start``` launches a local instance of ganache-cli in
 
 In niftyNotaryAPI folder ```yarn start``` then in test folder ```mocha [testfilename]```
 
+Click testing with Swagger. @too maybe an additional step to fetch the docker image. Oh and you need to have docker installed.
+If you install Docker through brew, be aware that have to click run it from Applications folder (mac
+and then you'll be able to get it on the command line.
 
+```
+cd  niftyNotaryAPI/tests
+sh startSwagger.sh
+```
+
+To start blockchain stuff manually
 ```
 yarn global add ganache-cli
 yarn install
 ganache-cli -m "timber initial unhappy transfer genre divorce noodle liberty hen steel trumpet clever" 
 npx oz-gsn deploy-relay-hub --ethereumNodeURL http://localhost:8545
+npx oz-gsn fund-recipient --recipient <address> --amount 50000000
 npx oz-gsn run-relayer
 truffle test
 ```
