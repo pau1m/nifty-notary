@@ -133,14 +133,13 @@ contract("Notary", accounts => {
         // use account creation just to generate a random hash
         const randomBytes32 = web3.eth.accounts.create()['privateKey'];
 
-
         // could probably take out the relay part
         // we only care about the event
         const proved = await notary.relayAnonProofOfExistence(randomBytes32, {from: alice});
         console.log(proved.logs[0].args);
         //expect(proved.args);
         // @todo Should change event wording to be past tense Notarised!
-        assert(proved.logs[0].event === 'Notarise');
+        assert(proved.logs[0].event === 'Notarised');
         assert(proved.logs[0].args.hash === randomBytes32);
 
         // when we return stuff we probably care about time stamps

@@ -39,7 +39,7 @@ contract Notary is Registry {
 
     uint _recordCount; // auto 0
 
-    event Notarise(bytes32 hash/*, bytes32 id*/);
+    event Notarised(bytes32 hash/*, bytes32 id*/);
     event relayWorks(uint num);
     event someRandomShit(uint256 foo, bool boo, string moo);
 
@@ -75,7 +75,7 @@ contract Notary is Registry {
         _recordCount = _recordCount + 1;
 
         // hmmmm not sure about this duplication
-        emit Notarise(hash); // hmmm, we could just put it here and avoid storing on-chain in another way..._id type /
+        emit Notarised(hash); // hmmm, we could just put it here and avoid storing on-chain in another way..._id type /
         // could these be made tradeable
     }
 
@@ -97,7 +97,7 @@ contract Notary is Registry {
         _records[hash] = rec;
         _recordCount = _recordCount + 1;
         // should we count this as record Idf?
-        emit Notarise(hash);
+        emit Notarised(hash);
         emit someRandomShit(42, true, 'moo');
     }
 
@@ -112,7 +112,7 @@ contract Notary is Registry {
         require(!isRecorded(hash), "Hash already recorded");
         // _recordCount = _recordCount + 1; // is there any point recording this
         // @todo make past tense
-        emit Notarise(hash);
+        emit Notarised(hash);
     }
 
 //    function stamp(string ownerEmail, string sha) payable costs(_price) {
