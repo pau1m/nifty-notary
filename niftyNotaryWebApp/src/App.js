@@ -2,6 +2,12 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// @todo pull in material
+// make it a nice but dumb front end that more or less copies existing options
+// dl file with details
+// mebs a zip package
+// drag and drop
+
 function App() {
   return (
     <div className="App">
