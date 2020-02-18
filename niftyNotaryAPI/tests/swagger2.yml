@@ -1,0 +1,244 @@
+openapi: "3.0.0"
+info:
+  version: 0.0.1
+  title: niftyNotary API
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3600
+paths:
+  /notarise/file:
+    post:
+      summary: Post a new file to hash and store on Ethereum
+      requestBody:
+        description: Post Base64 encoded file
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+      #    opeationId: notariseFile
+      tags:
+        - notary
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notarised"
+        '203':
+          description: Transaction submitted but not mined
+        '422':
+          description: Hash already exists
+  /notarise/hash:
+    post:
+      summary: Post a hash on Etherum to prove existance.
+      requestBody:
+        description: Hash to store onchain
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileHash'
+      #    opeationId: notariseFile
+      tags:
+        - notary
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notarised"
+        '203':
+          description: Transaction submitted but not mined
+        '422':
+          description: Hash already exists
+    # /notarised/transaction/{txId}
+    # get:
+    #   summary: Fetch ethereum transaction
+  /notarised/getById/{id}:
+    get:
+      summary: Get notary object from db
+      operationId: getNotarised #what is the operationId: for???
+      tags:
+        - notary
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The database key of the item to retrieve
+          schema:
+            type: string
+          example: 123456789
+      #      parameters:
+      #        - name: limit
+      #          in: query
+      #          description: How many items to return at one time (max 100)
+      #          required: false
+      #          schema:
+      #            type: integer
+      #            format: int32
+      responses:
+        '200':
+          description: todo should send back the same details as post
+          #          headers:
+          #            x-next:
+          #              description: A link to the next page of responses
+          #              schema:
+          #                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notarised"
+  /notarised/getByTxId/{txId}:
+    get:
+      summary: Get notary object from db
+      operationId: getFromTxId #what is the operationId: for???
+      tags:
+        - notary
+      parameters:
+        - name: txId
+          in: path
+          required: true
+          description: The tx id of the item to retrieve
+          schema:
+            type: string
+          example: '0x1111111111111111111111111111111111'
+      responses:
+        '200':
+          description: todo should send back the same details as post
+          #          headers:
+          #            x-next:
+          #              description: A link to the next page of responses
+          #              schema:
+          #                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notarised"
+  /notarised/getByHash/{fileHash}:
+    get:
+      summary: Get notary object from db
+      operationId: getFromHash #what is the operationId: for???
+      tags:
+        - notary
+      parameters:
+        - name: fileHash
+          in: path
+          required: true
+          description: The hash of the item to retrieve
+          schema:
+            type: string
+            example: '0x1111111111111111111111111111111111'
+      responses:
+        '200':
+          description: todo should send back the same details as post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notarised"
+      #        default:
+      #          description: unexpected error
+      #          content:
+      #            application/json:
+      #              schema:
+      #                $ref: "#/components/schemas/Error"
+      #    post:
+      #      summary: Notarise a file
+      #      operationId: notariseFile
+      #      tags:
+      #        - notary
+      #      responses:
+      #        '201':
+      #          description: Null response
+      #        default:
+      #          description: unexpected error
+      #          content:
+      #            application/json:
+      #              schema:
+      #                $ref: "#/components/schemas/Error"
+      # /pets/{petId}:
+      #   get:
+      #     summary: Info for a specific pet
+      #     operationId: showPetById
+      #     tags:
+      #       - pets
+      #     parameters:
+      #       - name: petId
+      #         in: path
+      #         required: true
+      #         description: The id of the pet to retrieve
+      #         schema:
+      #           type: string
+      # responses:
+      #   '200':
+      #     description: Expected response to a valid request
+      #     content:
+      #       application/json:
+      #         schema:
+      #           $ref: "#/components/schemas/Pet"
+      #   default:
+      #     description: unexpected error
+      #     content:
+      #       application/json:
+      #         schema:
+      #           $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Notarised:
+      type: object
+      properties:
+        txStatus:
+          type: string
+        fileHash:
+          type: string
+        hashType:
+          type: string
+          enum: [keccak, sha256] #this should probably be its own object
+        docType:
+          type: string
+        txId:
+          type: string
+        chainId:
+          type: string
+          enum: [1]
+        timestamp:
+          type: string
+    FileHash:
+      type: object
+      properties:
+        hash:
+          type: string
+        hashType:
+          type: string
+          enum: [keccak, sha256]
+    Document:
+      type: object
+      required:
+        - file
+        - fileType
+      properties:
+        file:
+          type: string
+        fileType:
+          type: string
+      example:
+        file: 'SGVsbG8gV29ybGQ=' #Hello World
+        fileType: 'text/plain' #maybe not best to send as json could be described otherwise
+    # fileHash:
+    #   type: string
+    txId:
+      type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

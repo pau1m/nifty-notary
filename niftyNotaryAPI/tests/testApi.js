@@ -42,7 +42,7 @@ const content = {
 // describe('API', () => {
     it('Should post and get data', () => {
         superagent
-            .post('http://localhost:3600/notarise')
+            .post('http://localhost:3600/notarise-basic')
             .set('Content-Type', 'application/json')
             .send(content)
             .then((res) => {
@@ -68,6 +68,38 @@ const content = {
                 console.log('exception: ', e)
             })
     });
+
+
+
+    // We dont need all the bits of content
+// it('Should post and get simple adata', () => {
+//     superagent
+//       .post('http://localhost:3600/notarise')
+//       .set('Content-Type', 'application/json')
+//       .send(content)
+//       .then((res) => {
+//           // assert stuff
+//
+//           superagent
+//             .get('http://localhost:3600/notarise/getById/' + res.body.dbId)
+//             .set('Content-Type', 'application/json')
+//             .then((res2) => {
+//                 // assert stuff here
+//                 console.log('res2: ', res2.body);
+//             });
+//
+//           superagent
+//             .get('http://localhost:3600/notarise/getTxByTxId/' + res.body.txId)
+//             .set('Content-Type', 'application/json')
+//             .then((res3) => {
+//                 // assert stuff here
+//                 console.log('res3: ', res3.body);
+//             });
+//       })
+//       .catch((e) => {
+//           console.log('exception: ', e)
+//       })
+// });
 // });
 
 function makeId(length) {

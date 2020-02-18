@@ -5,7 +5,7 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:3600
+  - url: http://localhost:3600/
 paths:
   /notarise:
     post:
@@ -31,7 +31,54 @@ paths:
           description: Transaction submitted but not mined
         '422':
           description: Hash already exists
-
+  /notarise-basic:
+    post:
+      summary: Post a new file
+      requestBody:
+        description: File to notarise
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+      #    opeationId: notariseFile
+      tags:
+        - notary
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotarisedFileResponse"
+        '203':
+          description: Transaction submitted but not mined
+        '422':
+          description: Hash already exists
+  /notarise-hash:
+    post:
+      summary: Post a new file
+      requestBody:
+        description: File to notarise
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+      #    opeationId: notariseFile
+      tags:
+        - notary
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotarisedFileResponse"
+        '203':
+          description: Transaction submitted but not mined
+        '422':
+          description: Hash already exists
   /notarise/getById/{id}:
     get:
       summary: Get notary object from db
