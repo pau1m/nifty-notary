@@ -4,7 +4,7 @@ pragma solidity ^0.5.16;
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 import "@openzeppelin/contracts/GSN/GSNRecipient.sol";
 
-
+//@todo tidy up use of p[receding underscore
 contract Registry is Ownable, GSNRecipient {
 
     mapping(address => bool) registered;
@@ -35,6 +35,8 @@ contract Notary is Registry {
         uint8 idType; // fire an event instead of a timestamp
     }
 
+    mapping(bytes32 => bool) _exists;
+
     mapping(bytes32 => Record) _records;
 
     uint _recordCount; // auto 0
@@ -58,9 +60,9 @@ contract Notary is Registry {
     //@todo function withdraw
     //@todo user tokens
 
-    function getCount() public view returns (uint) {
-        return _recordCount;
-    }
+        function getCount() public view returns (uint) {
+            return _recordCount;
+        }
 
     // make this private
     function notarise(string memory _id, uint8 _idType, bytes32 hash) public {
@@ -109,9 +111,10 @@ contract Notary is Registry {
      */
     function relayAnonProofOfExistence(bytes32 hash) public {
         require(isRegistered(_msgSender()), "Account not registered");
-        require(!isRecorded(hash), "Hash already recorded");
+        require(!_exists[hash], "Hash already recorded");
         // _recordCount = _recordCount + 1; // is there any point recording this
         // @todo make past tense
+        _exists[hash] = true;
         emit Notarised(hash);
     }
 

@@ -28,6 +28,12 @@ sh startSwagger.sh
 ```
 
 To start blockchain stuff manually
+==================================
+
+Deploy contracts to testnet
+
+```Truffle migrate --reset --network ropsten``` Note the contract address and put it in .env
+
 ```
 yarn global add ganache-cli
 yarn install

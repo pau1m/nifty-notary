@@ -19,12 +19,19 @@ exports.routesConfig = async function (app) {
         NotariseController.insertFile
     ]);
 
-    app.post('/notarise/file', [
+    app.post('/notarise/hash', [
         NotariseController.insertHash
     ]);
 
     app.get('/notarised/getById/:id', [
         NotariseController.getById
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        // UsersController.list
+    ]);
+
+    app.get('/notarised/getTxByTxId/:txId', [
+        NotariseController.fetchTxByTxId
         // ValidationMiddleware.validJWTNeeded,
         // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         // UsersController.list

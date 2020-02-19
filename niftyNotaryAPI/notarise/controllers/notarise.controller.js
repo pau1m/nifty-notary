@@ -126,15 +126,14 @@ exports.insertFile = async (req, res) => {
 
   let notaryReceipt = {}
   try {
-    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: signerAccount.address, gas: 4000000});
+    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(docHash).send({from: signerAccount.address, gas: 4000000});
   }
   catch(e) {
-    if (e.message.indexOf('Hash already recorded')) {
+    if (e.message.indexOf('Hash already recorded') !== -1) {
       res.status('422').send(e.message);
-      return;
     }
     // @todo add proper default clause
-    res.status('422').send('Uhmmmm. Something web wrong');
+    res.status('422').send(e.message);
   }
 
   // Insert stuff to db
@@ -151,12 +150,14 @@ exports.insertFile = async (req, res) => {
     docType: 'text/plain',
     txId: notaryReceipt.transactionHash || null,
     chainId: 1, // as below
-    timestamp: '1' // @todo derive from receipt
+    timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
   };
+
+  // @TODO EVERY HOUR WE COULD HASH THESE IN TO A MERCKLE TREE AND JUST STORE THAT
 
   NotaryItemModel.createItem(req.body)
     .then((result) => {
-      req.body.dbId = result._id.toHexString();
+      response.id = result._id.toHexString();
       res.status(200).send(response); // @todo 20x?
     })
     .catch((e) => {
@@ -175,45 +176,50 @@ exports.insertHash = async (req, res) => {
   web3.setProvider(gsnProvider);
 
   //@todo  get hash method sha256 and keccak
-  const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
+  //const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
 
   let notaryReceipt = {}
   try {
-    notaryReceipt = await notaryContract.methods.relayNotarise(req.body.userId/*'boo@example.com'*/, 0, docHash/*'0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687'*/).send({from: signerAccount.address, gas: 4000000});
+    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(req.body.hash).send({from: signerAccount.address, gas: 4000000});
   }
   catch(e) {
-    if (e.message.indexOf('Hash already recorded')) {
+    if (e.message.indexOf('Hash already recorded') !== -1) {
       res.status('422').send(e.message);
-      return;
+    } else {
+      res.status('422').send(e.message);
     }
       // @todo add proper default clause
-      res.status('422').send('Uhmmmm. Something web wrong');
+
   }
 
   req.body.txStatus = txState.success;
-  req.body.confirmations = 1; //@todo actual
-  req.body.docHash = docHash;
+  req.body.confirmations = 1; //@todo actual or scrubb it
+  req.body.fileHash = req.body.hash; //@todo undo dup
   req.body.txId = notaryReceipt.transactionHash || null;
+  req.body.gasUsed = notaryReceipt.gasUsed || null;
 
-  // @todo change name to encoded doc
-  // @todo all we should really care
-  // @todo resolve why db not connecting
-  // @todo write some script to push data to ethereum and back
-  // @todo solidify what we need to receieve and what we need to send back.
+  // Prepare response
+  const response = {
+    txStatus: txState.success,
+    fileHash: docHash,
+    hashType: 'sha256',
+    docType: 'text/plain',
+    txId: notaryReceipt.transactionHash || null,
+    chainId: 1, // as below
+    timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
+  };
 
   NotaryItemModel.createItem(req.body)
     .then((result) => {
       req.body.dbId = result._id.toHexString();
 
-      res.status(200).send(req.body); // @todo 20x?
+      res.status(200).send(response); // @todo 20x?
+      // return;
     })
     .catch((e) => {
-      console.log('exception: ', e);
+      res.send(e.message)
+      // console.log('exception: ', e);
     });
-
-
-
-
 };
 
 

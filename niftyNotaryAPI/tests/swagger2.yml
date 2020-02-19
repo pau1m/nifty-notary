@@ -95,7 +95,7 @@ paths:
   /notarised/getByTxId/{txId}:
     get:
       summary: Get notary object from db
-      operationId: getFromTxId #what is the operationId: for???
+      operationId: fetchTxByTxId #what is the operationId: for???
       tags:
         - notary
       parameters:
@@ -211,9 +211,10 @@ components:
       properties:
         hash:
           type: string
+          example: '0x7c43a38c80ff272aa82209066a2fce0fcd9e15c60eb587f3692f43d9cd2c467a'
         hashType:
           type: string
-          enum: [keccak, sha256]
+          enum: [sha256, keccak]
     Document:
       type: object
       required:
