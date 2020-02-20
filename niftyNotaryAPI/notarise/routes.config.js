@@ -11,8 +11,11 @@ const config = require('../common/config/env.config');
 
 // @todo make route root /notary
 // giving post: /notary/notarise
-// and get /notary/
+// and get /notary/\
 
+
+// So we basically just have to make all of these end points work
+// mebs should be doing postman instead of
 
 exports.routesConfig = async function (app) {
     app.post('/notarise/file', [
@@ -37,6 +40,13 @@ exports.routesConfig = async function (app) {
         // UsersController.list
     ]);
 
+    app.get('/notarised/getByHash/:fileHash', [
+        NotariseController.getByFileHash
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        // UsersController.list
+    ]);
+
     app.get('/transaction/getByTxId/:txId', [
         NotariseController.fetchTxByTxId
         // ValidationMiddleware.validJWTNeeded,
@@ -44,13 +54,9 @@ exports.routesConfig = async function (app) {
         // UsersController.list
     ]);
 
-    app.post('/notarise/verify', [
+    app.post('/notarised/verify', [
         NotariseController.verifyHash
     ]);
-
-
-
-
 
 
     // app.post('/notarise', [

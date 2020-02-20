@@ -58,6 +58,28 @@ paths:
     # /notarised/transaction/{txId}
     # get:
     #   summary: Fetch ethereum transaction
+  /notarised/verify:
+    post:
+      summary: Verify that a given file matches the given hash
+      requestBody:
+        description: Post Base64 encoded file and a hash
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Verfiable'
+      #    opeationId: notariseFile
+      tags:
+        - notary
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notarised"
+        '203':
+          description: Transaction submitted but not mined
   /notarised/getById/{id}:
     get:
       summary: Get notary object from db
@@ -109,11 +131,6 @@ paths:
       responses:
         '200':
           description: todo should send back the same details as post
-          #          headers:
-          #            x-next:
-          #              description: A link to the next page of responses
-          #              schema:
-          #                type: string
           content:
             application/json:
               schema:
@@ -187,6 +204,23 @@ paths:
       #           $ref: "#/components/schemas/Error"
 components:
   schemas:
+    Verified:
+      type: object
+      properties:
+        matches:
+          type: boolean #ref to verifiable object + return what was posted
+    Verfiable:
+      type: object
+      properties:
+        fileHash:
+          type: string
+        hashType:
+          type: string
+          enum: [sha256, keccak] #this should probably be its own object
+        fileType:
+          type: string
+        file:
+          type: string
     Notarised:
       type: object
       properties:
@@ -196,7 +230,7 @@ components:
           type: string
         hashType:
           type: string
-          enum: [keccak, sha256] #this should probably be its own object
+          enum: [sha256, keccak] #this should probably be its own object
         docType:
           type: string
         txId:
@@ -206,6 +240,10 @@ components:
           enum: [1]
         timestamp:
           type: string
+        id:
+          type: string
+        explorer:
+          type: String
     FileHash:
       type: object
       properties:

@@ -13,11 +13,12 @@ const { assert, expect } = require('chai')
 //base64encoded
 //@todo look at jest for better unit testing of express code - split app in launching of app so can pass it in
 const content = {
-    doc: makeId(200), // mod this to use an actual file, cos we will have to deal with
-    docType: 'text',    // should probs be utf 8 or something like that
-    userId: 'feoseo@example.com', // consider making random types
-    userIdType: 'email', // need to create hard coded types in the receiving code
-    token: 'somesecrettobedone',
+    file: makeId(200), // mod this to use an actual file, cos we will have to deal with
+    fileType: 'text/plain',    // should probs be utf 8 or something like that
+  //  hashType: 'sha256',
+    // userId: 'feoseo@example.com', // consider making random types
+    // userIdType: 'email', // need to create hard coded types in the receiving code
+    // token: 'somesecrettobedone',
 };
 
 // !!! @todo pull in the actual types used on the db
@@ -42,27 +43,35 @@ const content = {
 // describe('API', () => {
     it('Should post and get data', () => {
         superagent
-            .post('http://localhost:3600/notarise-basic')
+            .post('http://localhost:3600/notarise/file')
             .set('Content-Type', 'application/json')
             .send(content)
-            .then((res) => {
+            .then(async (res) => {
+                console.log(res)
                 // assert stuff
+                await superagent
+                  .get('http://localhost:3600/notarised/getByDocHash/' + res.body.txId)
+                  .set('Content-Type', 'application/json')
+                  .then((res4) => {
+                      // assert stuff here
+                      console.log('res4: ', res4.body);
+                  });
 
-                superagent
-                    .get('http://localhost:3600/notarise/getById/' + res.body.dbId)
-                    .set('Content-Type', 'application/json')
-                    .then((res2) => {
-                        // assert stuff here
-                        console.log('res2: ', res2.body);
-                    });
+                // superagent
+                //     .get('http://localhost:3600/notarise/getById/' + res.body.dbId)
+                //     .set('Content-Type', 'application/json')
+                //     .then((res2) => {
+                //         // assert stuff here
+                //         console.log('res2: ', res2.body);
+                //     });
 
-                superagent
-                    .get('http://localhost:3600/notarise/getTxByTxId/' + res.body.txId)
-                    .set('Content-Type', 'application/json')
-                    .then((res3) => {
-                        // assert stuff here
-                        console.log('res3: ', res3.body);
-                    });
+                // superagent
+                //     .get('http://localhost:3600/notarised/getTxByTxId/' + res.body.txId)
+                //     .set('Content-Type', 'application/json')
+                //     .then((res3) => {
+                //         // assert stuff here
+                //         console.log('res3: ', res3.body);
+                //     });
             })
             .catch((e) => {
                 console.log('exception: ', e)
