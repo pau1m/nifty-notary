@@ -10,97 +10,6 @@ const Web3 = require('web3');
 const web3 = new Web3(config.nodeEndPoint);
 const signerAccount = web3.eth.accounts.wallet.add(config.signKey);
 
-// const { GSNProvider } = require("@openzeppelin/gsn-provider");
-// const gsnProvider = new GSNProvider(config.nodeEndPoint, {
-//   signKey:  config.signKey  // we also need the address of hub here, no?
-// });
-// web3.setProvider(gsnProvider);
-
-//
-// console.log(config.signKey)
-// console.log(config.signKey)
-// console.log(web3.eth.accounts.wallet.add(config.signKey));
-// console.log(web3.eth.accounts[0])
-// console.log(web3.eth.getAccounts())
-/*
-const Web3 = require('web3');
-//const notaryArtifacts = require('../../../contracts/build/contracts.json')
-// hardcode values just now and go back to env vars later
-const web3 = new Web3('http://localhost:8545');
-/*const networkId = web3.eth.net.getId();*/
-// const accounts =
-//
-// // async web3.eth.net.getId();
-// // must be an easier way to get this
-// console.log(web3);
-
-
-
-
-
-
-// const {
-//     deployRelayHub,
-//     runRelayer,
-//     fundRecipient,
-// } = require('@openzeppelin/gsn-helpers');
-
-//const { utils, GSNProvider } = require("@openzeppelin/gsn-provider");
-//const { generate } = require("ethereumjs-wallet");
-// const { GSNProvider } = require("@openzeppelin/gsn-provider");
-// const gsnProvider = new GSNProvider("http://localhost:8545", {
-//     signKey: '0x2219082ae071dc68723e2b5b82e766662c9a6217e9357cc3da4363a8b7fa3611'  // we also need the address of hub here, no?
-// });
-// const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
-// web3.setProvider(gsnProvider);
-
-
-// this will only work in these early stages where we have a single network
-//const networkId = notaryArtifacts[Object.keys(notaryArtifacts)[0]];
-
-// web3.eth.net
-//@todo in ganache set network_id
-// pass param --network_id
-// cant embed here becos asunc
-
-// console.log('grarrrrrr', web3.eth.net.getId())
-//const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, notaryArtifacts.networks[web3.eth.net.getId()].address);
-// const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, notaryArtifacts.networks['1581421274860'].address);
-// notaryContract.methods.relayNotarise('boo@example.com', 0, '0xB03D0ae6e31c5ff9259fA85642009bF4ad6b2687').send({from: web3.eth.accounts[2], gas: 4000000});
-// console.log(notaryContract);
-// 1581421274860
-//create the contract
-$pi = 3;
-// create new contract
-
-
-// so we still have to create an actual contract to be used
-// and also add a user in the deployment
-
-
-// we need to set this to local so we know what is happening
-
-
-
-/*
-
-const { utils, GSNProvider } = require("@openzeppelin/gsn-provider");
-
-const gsnProvider = new GSNProvider({
-  approveFunction: utils.makeApproveFunction(data => web3.eth.sign(data, approver))
-});
- */
-
-
-// const { fromInjected, fromConnection } = require(’@openzeppelin/network’);
-// const injected = await fromConnection(‘infura-io-url’, {
-//     gsn: { signKey: “xxx” }
-// });
-// const instance = new injected.lib.eth.Contract(abi, address);
-// const tx = await instance.methods.mint().send({
-//     from: address
-// });
-
 const txState = {
     sending: 'sending', // just getting things going, not yet submitted
     pending: 'pending', // submitted onchain
@@ -132,6 +41,7 @@ exports.insertFile = async (req, res) => {
   catch(e) {
     if (e.message.indexOf('Hash already recorded') !== -1) {
       res.status('422').send(e.message);
+      return;
     }
     // @todo add proper default clause
     res.status('422').send(e.message);
