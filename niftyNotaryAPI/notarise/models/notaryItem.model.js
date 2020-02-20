@@ -3,22 +3,24 @@ const Schema = mongoose.Schema;
 
 const notaryItemSchema = new Schema({
     txStatus: String,
-    fileHash: String,
-    txId: String,
-    // fileHash: {
-    //   type:
-    //     - String,
-    //   index: true
-    // },
+//    fileHash: String,
+//    txId: String,
+    fileHash: {
+      type: String,
+      index: true,
+      unique: true
+    },
     hashType: String,
     docType: String,
-    // txId: {
-    //   type: String,
-    //   index: true
-    // },
+    txId: {
+      type: String,
+      index: true,
+      unique: true
+    },
     chainId: String
 });
 
+// maybe this is why the other bits arent working
 notaryItemSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
@@ -32,13 +34,13 @@ notaryItemSchema.findById = function (cb) {
     return this.model('NotaryItem').find({id: this.id}, cb);
 };
 
-notaryItemSchema.findByTxId = function (cb) {
-    return this.model('NotaryItem').find({txId: this.txId}, cb)
-};
-
-notaryItemSchema.findByFileHash = function (cb) {
-    return this.model('NotaryItem').find({fileHash: this.fileHash}, cb)
-};
+// notaryItemSchema.findByTxId = function (cb) {
+//     return this.model('NotaryItem').find({txId: this.txId}, cb)
+// };
+//
+// notaryItemSchema.findByFileHash = function (cb) {
+//     return this.model('NotaryItem').find({fileHash: this.fileHash}, cb)
+// };
 
 const NotaryItem = mongoose.model('NotaryItem', notaryItemSchema);
 
@@ -56,26 +58,28 @@ exports.findByTxId = (txId) => {
   return NotaryItem.findByTxId(txId)
     .then((result) => {
       result = result.toJSON();
-      // delete result._id;
-      // delete result.__v;
+      delete result._id;
+      delete result.__v;
       return result;
     })
 };
 
-exports.findByFileHash = (docHash) => {
-  // return new Promise((resolve, reject) => {
-  //   // I am totally missing something obvious...
-  //   // need to go away and come back to this
-  //
-  // })
-
-  return NotaryItem.findByFileHash(docHash)
+exports.findByFileHash = (fileHash) => {
+  return NotaryItem.findOne({fileHash: fileHash})
     .then((result) => {
       result = result.toJSON();
-      // delete result._id;
-      // delete result.__v;
+      delete result._id;
+      delete result.__v;
       return result;
-    })
+    });
+
+  // return NotaryItem.findByFileHash(fileHash)
+  //   .then((result) => {
+  //     result = result.toJSON();
+  //     delete result._id;
+  //     delete result.__v;
+  //     return result;
+  //   })
 };
 
 exports.createItem = (notaryItemData) => {

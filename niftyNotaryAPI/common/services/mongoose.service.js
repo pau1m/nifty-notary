@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 let count = 0;
 
 const options = {
-    autoIndex: false, // Don't build indexes
+    autoIndex: true, // Rebuild indexes every time -- @todo disable for live
+    useCreateIndex: true,
     // reconnectTries: 30, // Retry up to 30 times
     // reconnectInterval: 500, // Reconnect every 500ms
     poolSize: 10, // Maintain up to 10 socket connections

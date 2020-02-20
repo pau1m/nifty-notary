@@ -126,7 +126,7 @@ exports.insertFile = async (req, res) => {
 
   let notaryReceipt = {}
   try {
-    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(docHash).send({from: signerAccount.address, gas: 4000000});
+    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(fileHash).send({from: signerAccount.address, gas: 4000000});
   }
   catch(e) {
     if (e.message.indexOf('Hash already recorded') !== -1) {
@@ -456,9 +456,9 @@ exports.getByFileHash = (req, res) => {
     .then((result) => {
       res.status(200).send(result);
     })
-    // .catch((e) => {
-    //   console.log('getbydochash e: ', e)
-    // })
+    .catch((e) => {
+     res.send(e)
+    })
 };
 
 exports.fetchTxByTxId = async (req, res) => {
