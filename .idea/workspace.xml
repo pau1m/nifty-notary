@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aac7a7b8-b161-40f5-98f8-9b28d6b70fb1" name="Default Changelist" comment="adding values to example.env">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/common/services/mongoose.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/common/services/mongoose.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/tests/swagger2.yml" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/tests/swagger2.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +133,7 @@
       <workItem from="1582105783261" duration="2639000" />
       <workItem from="1582191444433" duration="8228000" />
       <workItem from="1582200052593" duration="1277000" />
-      <workItem from="1582201784879" duration="5945000" />
+      <workItem from="1582201784879" duration="6182000" />
     </task>
     <task id="LOCAL-00001" summary="resolved issue where would not connect to mongodb...&#10;may cos issue with deploy with docker">
       <created>1581164217495</created>
@@ -517,25 +514,25 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js</url>
-          <line>72</line>
+          <line>80</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="150" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js</url>
-          <line>69</line>
+          <line>77</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="151" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js</url>
-          <line>70</line>
+          <line>78</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="152" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/notarise/models/notaryItem.model.js</url>
-          <line>71</line>
+          <line>79</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="153" />
         </line-breakpoint>

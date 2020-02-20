@@ -55,13 +55,21 @@ exports.findById = (id) => {
 };
 
 exports.findByTxId = (txId) => {
-  return NotaryItem.findByTxId(txId)
+  return NotaryItem.findOne({txId: txId})
     .then((result) => {
       result = result.toJSON();
       delete result._id;
       delete result.__v;
       return result;
-    })
+    });
+
+  // return NotaryItem.findByTxId(txId)
+  //   .then((result) => {
+  //     result = result.toJSON();
+  //     delete result._id;
+  //     delete result.__v;
+  //     return result;
+  //   })
 };
 
 exports.findByFileHash = (fileHash) => {
@@ -92,7 +100,6 @@ exports.createItem = (notaryItemData) => {
     // perhaps triggers an even in the system...
     // how do we watch to observe...
 };
-
 
 exports.verifyItem = (notaryItemData) => {
   // suppose this would be checking existance on chain
