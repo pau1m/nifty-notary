@@ -58,6 +58,28 @@ paths:
     # /notarised/transaction/{txId}
     # get:
     #   summary: Fetch ethereum transaction
+  /notarised/verify:
+    post:
+      summary: Verify that a given file matches the given hash
+      requestBody:
+        description: Post Base64 encoded file and a hash
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Verfiable'
+      #    opeationId: notariseFile
+      tags:
+        - notary
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notarised"
+        '203':
+          description: Transaction submitted but not mined
   /notarised/getById/{id}:
     get:
       summary: Get notary object from db
@@ -95,7 +117,7 @@ paths:
   /notarised/getByTxId/{txId}:
     get:
       summary: Get notary object from db
-      operationId: getFromTxId #what is the operationId: for???
+      operationId: fetchTxByTxId #what is the operationId: for???
       tags:
         - notary
       parameters:
@@ -109,11 +131,6 @@ paths:
       responses:
         '200':
           description: todo should send back the same details as post
-          #          headers:
-          #            x-next:
-          #              description: A link to the next page of responses
-          #              schema:
-          #                type: string
           content:
             application/json:
               schema:
@@ -139,6 +156,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Notarised"
+  /transaction/getByTxId/{txId}:
+    get:
+      summary: Get notary object from db
+      operationId: getFromHash #what is the operationId: for???
+      tags:
+        - notary
+      parameters:
+        - name: txId
+          in: path
+          required: true
+          description: The hash of the tranaction receipt to retrieve
+          schema:
+            type: string
+            example: '0x1111111111111111111111111111111111'
+      responses:
+        '200':
+          description: an ethereum transaction receipt
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Receipt"
       #        default:
       #          description: unexpected error
       #          content:
@@ -187,6 +225,23 @@ paths:
       #           $ref: "#/components/schemas/Error"
 components:
   schemas:
+    Verified:
+      type: object
+      properties:
+        matches:
+          type: boolean #ref to verifiable object + return what was posted
+    Verfiable:
+      type: object
+      properties:
+        fileHash:
+          type: string
+        hashType:
+          type: string
+          enum: [sha256, keccak] #this should probably be its own object
+        fileType:
+          type: string
+        file:
+          type: string
     Notarised:
       type: object
       properties:
@@ -196,7 +251,7 @@ components:
           type: string
         hashType:
           type: string
-          enum: [keccak, sha256] #this should probably be its own object
+          enum: [sha256, keccak] #this should probably be its own object
         docType:
           type: string
         txId:
@@ -206,14 +261,19 @@ components:
           enum: [1]
         timestamp:
           type: string
+        id:
+          type: string
+        explorer:
+          type: string
     FileHash:
       type: object
       properties:
         hash:
           type: string
+          example: '0x7c43a38c80ff272aa82209066a2fce0fcd9e15c60eb587f3692f43d9cd2c467a'
         hashType:
           type: string
-          enum: [keccak, sha256]
+          enum: [sha256, keccak]
     Document:
       type: object
       required:
@@ -231,6 +291,8 @@ components:
     #   type: string
     txId:
       type: string
+    Receipt:
+      type: object
     Error:
       type: object
       required:

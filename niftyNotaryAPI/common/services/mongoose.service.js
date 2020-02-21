@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 let count = 0;
 
 const options = {
-    autoIndex: false, // Don't build indexes
+    autoIndex: true, // Rebuild indexes every time -- @todo disable for live
+    useCreateIndex: true,
     // reconnectTries: 30, // Retry up to 30 times
     // reconnectInterval: 500, // Reconnect every 500ms
     poolSize: 10, // Maintain up to 10 socket connections
@@ -17,7 +18,7 @@ const connectWithRetry = () => {
     console.log('MongoDB connection with retry')
     // changed to 'localhost' from 'mongo'
     //@todo adding a localhosts entry for mongo would also fix and may be preferable
-    mongoose.connect("mongodb://localhost:27017/test", options).then(()=>{
+    mongoose.connect("mongodb://localhost:27017/test2", options).then(()=>{
         console.log('MongoDB is connected')
     }).catch(err=>{
         console.log('MongoDB connection unsuccessful, retry after 5 seconds. ', ++count);
