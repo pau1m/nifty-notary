@@ -156,6 +156,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Notarised"
+  /transaction/getByTxId/{txId}:
+    get:
+      summary: Get notary object from db
+      operationId: getFromHash #what is the operationId: for???
+      tags:
+        - notary
+      parameters:
+        - name: txId
+          in: path
+          required: true
+          description: The hash of the tranaction receipt to retrieve
+          schema:
+            type: string
+            example: '0x1111111111111111111111111111111111'
+      responses:
+        '200':
+          description: an ethereum transaction receipt
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Receipt"
       #        default:
       #          description: unexpected error
       #          content:
@@ -270,6 +291,8 @@ components:
     #   type: string
     txId:
       type: string
+    Receipt:
+      type: object
     Error:
       type: object
       required:
