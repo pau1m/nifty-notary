@@ -9,15 +9,12 @@ How It Works
 
 Uses Gas Station Network to forward transactions. Thus, users account holders may participate with out owning any eth.
  
+ 
+ @see
+```
 https://eips.ethereum.org/EIPS/eip-1613
-
-
-
-
-
-
-
-
+https://github.com/OpenZeppelin/gsn-site
+```
 
 Testing API
 ===========
@@ -28,6 +25,15 @@ In contracts folder ```yarn start``` launches a local instance of ganache-cli in
 
 In niftyNotaryAPI folder ```yarn start``` API available at localhost:8080. Run tests with ```mocha [testfilename]```
 
+To start web app for testing. In niftyNotaryWebApp folder ('yarn start' is not setup for CORS).
+
+```
+yarn build
+cd build
+http-server --cors='*'
+```
+
+Broken in Brave browser. Drag and drop a file on to browser to upload to blockchain.
 
 Click testing with Swagger. @too maybe an additional step to fetch the docker image. Oh and you need to have docker installed.
 If you install Docker through brew, be aware that have to click run it from Applications folder (mac
