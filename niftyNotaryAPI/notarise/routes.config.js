@@ -33,8 +33,8 @@ exports.routesConfig = async function (app) {
         // UsersController.list
     ]);
 
-    app.get('/notarised/getTxByTxId/:txId', [
-        NotariseController.fetchTxByTxId
+    app.get('/notarised/getByTxId/:txId', [
+        NotariseController.getByTxId
         // ValidationMiddleware.validJWTNeeded,
         // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         // UsersController.list

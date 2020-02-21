@@ -4,6 +4,19 @@ README
 @todo v2
 *  now that all the pieces are put together reworking api to match what is given in swagger
 
+How It Works
+============
+
+Uses Gas Station Network to forward transactions. Thus, users account holders may participate with out owning any eth.
+ 
+https://eips.ethereum.org/EIPS/eip-1613
+
+
+
+
+
+
+
 
 
 Testing API
@@ -26,6 +39,10 @@ Access swagger at localhost:80
 cd  niftyNotaryAPI/tests
 sh startSwagger.sh
 ```
+
+
+Manually fund RelayerHub at
+```https://gasstation.network/recipients/[contractAddress]```
 
 To start blockchain stuff manually
 ==================================

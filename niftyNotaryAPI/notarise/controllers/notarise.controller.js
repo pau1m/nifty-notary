@@ -34,9 +34,16 @@ exports.insertFile = async (req, res) => {
   //@todo  get hash method sha256 and keccak
   const fileHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
 
+  //  const roo = await web3.eth.getTransactionCount(signerAccount.address, 'pending');
   let notaryReceipt = {};
   try {
-    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(fileHash).send({from: signerAccount.address, gas: 4000000});
+    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(fileHash).send({
+      from: signerAccount.address,
+      gas: 50000,
+     // gasPrice: web3.utils.toWei('40', 'gwei'),
+    //  nonce: 1 + await web3.eth.getTransactionCount(signerAccount.address, "pending")
+    });
+    let $pi = 3;
   }
   catch(e) {
     if (e.message.indexOf('Hash already recorded') !== -1) {
@@ -180,7 +187,18 @@ exports.getByFileHash = (req, res) => {
     })
 };
 
-exports.fetchTxByTxId = async (req, res) => {
+exports.getByTxId = (req, res) => {
+
+  NotaryItemModel.findByTxId(req.params.txId)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((e) => {
+      res.send(e)
+    })
+};
+
+  exports.fetchTxByTxId = async (req, res) => {
     const ethAbi = require('ethereumjs-abi');
     const notaryAbi = notaryArtifacts.abi;
     const { parseLog } = require('ethereum-event-logs');

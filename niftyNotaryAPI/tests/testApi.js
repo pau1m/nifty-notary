@@ -39,6 +39,8 @@ const content = {
 // does a user really want to attach it to their name
 // can start to consider refactoring of contracta
 // erc721 no reason not to use that above all else...
+
+//@todo we might have a nonce race condition here
 // @todo update end points
  describe('API Happy Path', () => {
    it('Should post and get data by file hash', (done) => {
@@ -47,8 +49,7 @@ const content = {
        .set('Content-Type', 'application/json')
        .send(content)
        .then((res) => {
-         // console.log(res);
-         // assert stuff
+        //@todo assert object exists
          superagent
            .get('http://localhost:3600/notarised/getByHash/  ' + res.body.fileHash)
            .set('Content-Type', 'application/json')
@@ -65,7 +66,7 @@ const content = {
        })
        .catch((e) => {
          console.log('exception: ', e);
-         done()
+         done();
        })
    });
 
@@ -75,8 +76,7 @@ const content = {
        .set('Content-Type', 'application/json')
        .send(content)
        .then((res) => {
-         // console.log(res);
-         // assert stuff
+        //@todo assert object exists
          superagent
            .get('http://localhost:3600/notarised/getById/  ' + res.body.id)
            .set('Content-Type', 'application/json')
@@ -84,14 +84,13 @@ const content = {
              assert(idRes.id === res.id);
              assert(idRes.fileHash === res.fileHash);
              assert(idRes.txId === res.txId);
-             console.log('asserted');
              done();
            })
            .catch(done)
        })
        .catch((e) => {
          done()
-         // console.log('exception: ', e)
+         console.log('exception: ', e)
        })
    });
 
@@ -101,8 +100,7 @@ const content = {
        .set('Content-Type', 'application/json')
        .send(content)
        .then((res) => {
-         // console.log(res);
-         // assert stuff
+         //@todo assert object exists
          superagent
            .get('http://localhost:3600/notarised/getByTxId/  ' + res.body.txId)
            .set('Content-Type', 'application/json')
@@ -110,7 +108,6 @@ const content = {
              assert(txIdRes.id === res.id);
              assert(txIdRes.fileHash === res.fileHash);
              assert(txIdRes.txId === res.txId);
-             console.log('asserted');
              done();
            })
            .catch((e) => {
