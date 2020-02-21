@@ -1,6 +1,8 @@
 // const frisby = require('frisby');
 const superagent = require('superagent');
 const { assert, expect } = require('chai')
+
+// mocha.timeout(5000);
 // create object -- do we also need mocha for this and chai
 // const config = {
 //   url: 'http://localhost
@@ -41,21 +43,23 @@ const content = {
 // erc721 no reason not to use that above all else...
 // @todo update end points
 // describe('API', () => {
-    it('Should post and get data', () => {
-        superagent
+    it('Should post and get data', (done) => {
+      superagent
             .post('http://localhost:3600/notarise/file')
             .set('Content-Type', 'application/json')
             .send(content)
             .then(async (res) => {
-                console.log(res)
+                console.log(res);
                 // assert stuff
                 await superagent
-                  .get('http://localhost:3600/notarised/getByDocHash/' + res.body.txId)
+                  .get('http://localhost:3600/notarised/getByHash/' + res.body.fileHash)
                   .set('Content-Type', 'application/json')
                   .then((res4) => {
                       // assert stuff here
                       console.log('res4: ', res4.body);
-                  });
+                      done();
+                  })
+                  .catch(done)
 
                 // superagent
                 //     .get('http://localhost:3600/notarise/getById/' + res.body.dbId)

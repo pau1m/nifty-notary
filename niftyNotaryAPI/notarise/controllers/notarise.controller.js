@@ -34,7 +34,7 @@ exports.insertFile = async (req, res) => {
   //@todo  get hash method sha256 and keccak
   const fileHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
 
-  let notaryReceipt = {}
+  let notaryReceipt = {};
   try {
     notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(fileHash).send({from: signerAccount.address, gas: 4000000});
   }
@@ -122,7 +122,7 @@ exports.insertHash = async (req, res) => {
   // Prepare response
   const response = {
     txStatus: txState.success,
-    fileHash: docHash,
+    fileHash: req.body.hash,
     hashType: 'sha256',
     docType: 'text/plain', // @todo rename to fileType
     txId: notaryReceipt.transactionHash || null,
