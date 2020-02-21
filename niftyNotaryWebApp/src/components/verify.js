@@ -70,7 +70,7 @@ function Home() {
       reader.onabort = () => console.log('file reading was aborted')
       reader.onerror = () => console.log('file reading has failed')
       reader.onload = () => {
-        setHash('0x' + sha256(reader.result).toString(Hex))
+        setHash(sha256(reader.result).toString(Hex))
       };
 
       reader.readAsDataURL(file)
