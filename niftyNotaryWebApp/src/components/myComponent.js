@@ -11,6 +11,7 @@ export default function(props) {
   const [res, setRes] = useState({})
   const [txId, setTxId] = useState('0x0')
   const [message, setMessage] = useState('No message yet')
+  const [fileExists, setFileExists] = useState(false)
   // const [txLink, setTxLink] = useState(null)
   // const [tx, setTxLink] = useState(null)
   // check what we get back from our hash
@@ -27,30 +28,65 @@ export default function(props) {
   useEffect(() => {
     if (props.hash !== '0x0' && lastHash !== props.hash) {
       setMessage('Making request to blockchain, this might take some time')
+
       setLastHash(props.hash)
       console.log('launching request')
       //this.setState({lasthash: this.props.hash});
       // first make a request to see if the hash already exists...
       // we can grab it from the database
-
-      request.post('http://localhost:3600/notarise/hash')
+      request.get('http://localhost:3600/notarised/getByHash/' + props.hash) // really should rename this digest
         .set('accept', 'json')
-        .send({
-          "hash": '0x' + props.hash,
-          "hashType": "text/plain" // need to document this better to describe exactly... should also be able to do this onchain?
-        })
-        .end((err, res) => {
-          if (!err) {
-            setTxId(res.body.txId)
-            setMessage('Transaction Id: ' + res.body.txId)
+        .then((res) => {
+          if (Object.keys(res.body).length !== 0) {
+            setFileExists(true)
+            setMessage('File already exists: ' + res.body.txId)
             console.log(res)
-          }
-          else {
-            console.log(err)
+          } else {
+            request.post('http://localhost:3600/notarise/hash')
+              .set('accept', 'json')
+              .send({
+                "hash": props.hash, // maybe not bother about the type
+                "hashType": "text/plain" // need to document this better to describe exactly... should also be able to do this onchain?
+              })
+              .end((err, res) => {
+                if (!err) {
+                  setTxId(res.body.txId)
+                  setMessage('Transaction Id: ' + res.body.txId)
+                  console.log(res)
+                } else {
+                  console.log(err)
+                }
+              })
           }
         })
     }
-  });
+  })
+
+              // }
+
+
+
+
+
+
+  //     request.post('http://localhost:3600/notarise/hash')
+  //       .set('accept', 'json')
+  //       .send({
+  //         "hash": '0x' + props.hash,
+  //         "hashType": "text/plain" // need to document this better to describe exactly... should also be able to do this onchain?
+  //       })
+  //       .end((err, res) => {
+  //         if (!err) {
+  //           setTxId(res.body.txId)
+  //           setMessage('Transaction Id: ' + res.body.txId)
+  //           console.log(res)
+  //         }
+  //         else {
+  //           console.log(err)
+  //         }
+  //       })
+  //   }
+  // });
 
   // body:
   //   txStatus: "success"

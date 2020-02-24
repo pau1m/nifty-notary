@@ -1,99 +1,87 @@
-// import React from 'react';
-// import logo from './logo.svg';
-import './App.css';
-import SubmitHash from './components/myComponent'
+//rgb(33, 150, 243)
+// change colour as going through
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Home from './components/home'
+
+// This site has 3 pages, all of which are rendered
+// dynamically in the browser (not server rendered).
 //
-// // @todo pull in material
-// // make it a nice but dumb front end that more or less copies existing options
-// // dl file with details
-// // mebs a zip package
-// // drag and drop
-//
-// function App() {
+// Although the page does not ever refresh, notice how
+// React Router keeps the URL up to date as you navigate
+// through the site. This preserves the browser history,
+// making sure things like the back button and bookmarks
+// work properly.
+
+export default function BasicExample() {
+  return (
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Notarise</Link>
+          </li>
+          <li>
+            <Link to="/verify">Verify</Link>
+          </li>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+        </ul>
+
+        <hr />
+
+        {/*
+          A <Switch> looks through all its children <Route>
+          elements and renders the first one whose path
+          matches the current URL. Use a <Switch> any time
+          you have multiple routes, but you want only one
+          of them to render at a time
+        */}
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/verify">
+            <About />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+
+// You can think of these components as "pages"
+// in your app.
+
+// function Home() {
 //   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
+//     <div>
+//       <h2>Home</h2>
 //     </div>
 //   );
 // }
 
-import React, {useCallback, useState, useEffect} from 'react'
-import {useDropzone} from 'react-dropzone'
-import sha256 from 'crypto-js/sha256'
-import Base64 from 'crypto-js/enc-base64';
-import Hex from 'crypto-js/enc-hex'
-// import crypto from 'crypto'
-
-// how do we set state inside
-// need to get a react refresher
-// how do we get somehting to appear?
-// after we have uploaded
-// render the file somehow with a set of options
-// mebs require clickt to post
-function App() {
-
-
-  // once droppped we don't need to be able to drop more
-  // should replace or destroy
-
-
-  const [hash, setHash] = useState('0x0')
-
-  useEffect(() => {
-
-
-
-      console.log('hash: ', hash)
-  });
-
-  // useEffect(() => {
-  //   document.title = `You clicked ${count} times`;
-  // }, [count]); // Only re-run the effect if count changes
-
-  // so how do we manage wanting to make a request...
-  // what could we do with Ethereum
-
-  const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader()
-
-      reader.onabort = () => console.log('file reading was aborted')
-      reader.onerror = () => console.log('file reading has failed')
-      reader.onload = () => {
-        setHash(sha256(reader.result).toString(Hex))
-      };
-
-      reader.readAsDataURL(file)
-
-    })
-
-  }, [])
-
-  const {getRootProps, getInputProps} = useDropzone({onDrop})
-
+function About() {
   return (
-
-    <div className={"fullscreen"} {...getRootProps()}>
-      <h1>Notarise files on Ethereum</h1>
-      <input {...getInputProps()} />
-      <p>Drag 'n' drop some files here, or click to select files</p>
-      {/*<div>{hash}</div>*/}
-      <SubmitHash hash={hash}></SubmitHash>
+    <div>
+      <h2>Verify</h2>
     </div>
-  )
+  );
 }
 
-export default App;
+function Dashboard() {
+  return (
+    <div>
+      <h2>Dashboard</h2>
+    </div>
+  );
+}
