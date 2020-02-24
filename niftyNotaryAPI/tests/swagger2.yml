@@ -1,3 +1,5 @@
+#@todo add a new section for auth
+#@todo add operationIds that match the stuff thats called on the api
 openapi: "3.0.0"
 info:
   version: 0.0.1
@@ -7,6 +9,43 @@ info:
 servers:
   - url: http://localhost:3600
 paths:
+  /auth:
+    post:
+      summary: Fetch token from credentials
+      tags:
+        - auth
+      requestBody:
+        description: user stuff
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        201:
+          description: auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewUserResponse'
+        500:
+          description: cannae do it
+  /users:
+    post:
+      summary: blah blah
+      tags:
+        - user
+      requestBody:
+        description: some description
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+      responses:
+        201:
+          description: Created new user
+        400:
+          description: foo #todo
   /notarise/file:
     post:
       summary: Post a new file to hash and store on Ethereum
@@ -67,7 +106,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Verfiable'
+              $ref: '#/components/schemas/Verifiable'
       #    opeationId: notariseFile
       tags:
         - notary
@@ -230,7 +269,30 @@ components:
       properties:
         matches:
           type: boolean #ref to verifiable object + return what was posted
-    Verfiable:
+    NewUser:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: foo
+        lastName:
+          type: string
+          example: boo
+        email:
+          type: string,
+          example: test@niftynotary.io
+        password:
+          type: string
+          example: sometestpassword
+#        permissionLevel: #at what point should weset the perms for a user
+#          type: integer
+#          example: 1
+    NewUserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+    Verifiable:
       type: object
       properties:
         fileHash:
@@ -287,8 +349,27 @@ components:
       example:
         file: 'SGVsbG8gV29ybGQ=' #Hello World
         fileType: 'text/plain' #maybe not best to send as json could be described otherwise
+    Login:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: test@niftynotary.io
+        password:
+          type: string
+          example: sometestpassword
+#      example:
+#        - test@niftynotary.io
+#        - sometestpassword
     # fileHash:
     #   type: string
+#    email:
+#      type: string
+#    password:
+#      type: string
     txId:
       type: string
     Receipt:

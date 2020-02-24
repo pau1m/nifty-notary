@@ -66,18 +66,19 @@ const content = {
 
    const user = createUser();
 
-   const authRequest = {
-      userId: user._id,
 
+   const authRequest = {
+     body: {
+       userId: user._id,
+     }
    };
 
-
-   before('login and fetch token', () => {
-     superagent
+   before('login and fetch token', async () => {
+     const result = await superagent
        .post('http://localhost:3600/auth')
        .send(authRequest)
-       .then(console.log)
-
+       //.then(console.log)
+        console.log('fooboomoo');
    });
 
 

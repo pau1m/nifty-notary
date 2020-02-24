@@ -1,7 +1,14 @@
 const UserModel = require('../models/users.model');
 const crypto = require('crypto');
 
+
+
+//@todo ensure values exist before processing and also prevent duplication of existing users
+//@todo consider adding one or more crypto account keys
 exports.insert = (req, res) => {
+    // @todo make sure user credentials exist befoe posting to db or doing anything else
+    // @todo ensure no duplicates
+    // @todo also check formatting of email
     let salt = crypto.randomBytes(16).toString('base64');
     let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
     req.body.password = salt + "$" + hash;
@@ -40,6 +47,9 @@ exports.patchById = (req, res) => {
         req.body.password = salt + "$" + hash;
     }
 
+    // so a user is able to patch their own id...
+    // hum... thats not right...
+    // whats the best way to handle this for admin!!!???
     UserModel.patchUser(req.params.userId, req.body)
         .then((result) => {
             res.status(204).send({});

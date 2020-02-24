@@ -60,7 +60,12 @@ exports.list = (perPage, page) => {
     });
 };
 
+// we can't have this... user patches their own data
+// need to bootstrap database.... we only need one user
 exports.patchUser = (id, userData) => {
+    // check user id of posting user
+    // if it is admin do this otherwise only allow updating email and maybe pass
+
     return new Promise((resolve, reject) => {
         User.findById(id, function (err, user) {
             if (err) reject(err);
