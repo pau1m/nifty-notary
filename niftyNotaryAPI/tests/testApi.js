@@ -1,6 +1,8 @@
 // const frisby = require('frisby');
 const superagent = require('superagent');
-const { assert, expect } = require('chai')
+const { assert, expect } = require('chai');
+const createUser = require('./createUser');
+
 
 
 // how do we add out default admin user
@@ -38,6 +40,11 @@ const content = {
 // });
 
 
+// before each
+// do a login
+
+
+
 // @todo --- we should add accept to this
 // should be wrapped in describe
 // @todo --- now to assertions...
@@ -48,7 +55,34 @@ const content = {
 
 //@todo we might have a nonce race condition here
 // @todo update end points
+// pull in details from config
+
+// could actually move that whole test thing in here!!!!
+
+// uhm.... why does it get locked up here when adding
+
  describe('API Happy Path', () => {
+   //console.log(createUser)
+
+   const user = createUser();
+
+   const authRequest = {
+      userId: user._id,
+
+   };
+
+
+   before('login and fetch token', () => {
+     superagent
+       .post('http://localhost:3600/auth')
+       .send(authRequest)
+       .then(console.log)
+
+   });
+
+
+/*
+
    it('Should post and get data by file hash', (done) => {
      superagent
        .post('http://localhost:3600/notarise/file')
@@ -128,6 +162,8 @@ const content = {
    it("Should post a hash", (done) => {
      done();
    });
+
+ */
 
  });
 

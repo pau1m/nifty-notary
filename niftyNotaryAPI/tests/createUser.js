@@ -13,17 +13,51 @@ const testUser = {
 //uhm.... but we still need to request a token
 //should either fetch or generate that here!
 // create and fetch a token or this user
-
-(async function createUser()   {
+module.exports = async function ()   {
   console.log('Creating user');
   const createdUser = await userModel.createUser(testUser);
-  console.log("Created: ", createdUser);
+  console.log('Created: ', createdUser)
+  // oh, actuall we already have the id
+  // fetch userId
+  // const fetchedhUser = await userModel.findByEmail(testUser.email);
+  // createdUser.id = fetchedUser.
+  //
+  // console.log("Created: ", createdUser);
+  // we also need to grab the user id...
+
   return createdUser;
+
 
   // also have to get a token for this user!!!
   // import the auth stuff too....
   // break;
-})();
+};
+
+//exports.createUser = createUser;
+
+
+
+
+
+
+// (async function createUser()   {
+//   console.log('Creating user');
+//   const createdUser = await userModel.createUser(testUser);
+//   // oh, actuall we already have the id
+//   // fetch userId
+//   // const fetchedhUser = await userModel.findByEmail(testUser.email);
+//   // createdUser.id = fetchedUser.
+//   //
+//   // console.log("Created: ", createdUser);
+//   // we also need to grab the user id...
+//
+//   return createdUser;
+//
+//
+//   // also have to get a token for this user!!!
+//   // import the auth stuff too....
+//   // break;
+// })();
 
 
 
