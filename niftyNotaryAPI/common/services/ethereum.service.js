@@ -23,6 +23,8 @@ const getSignerAccount = () => {
   return signerAccount;
 };
 
+
+//@todo refactor calls to use this...
 // @todo abstract this so not tied to one contract
 const getWeb3NotaryContract = () => {
   const notaryArtifacts = require('../../../contracts/build/contracts/Notary');

@@ -2,6 +2,10 @@
 const superagent = require('superagent');
 const { assert, expect } = require('chai')
 
+
+// how do we add out default admin user
+
+
 // mocha.timeout(5000);
 // create object -- do we also need mocha for this and chai
 // const config = {
@@ -20,6 +24,8 @@ const content = {
     //  hashType: 'sha256',
     // token: 'somesecrettobedone',
 };
+
+// create a hash to put in
 
 // !!! @todo pull in the actual types used on the db
 //@todo also have to deal with auth

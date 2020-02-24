@@ -3,8 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="aac7a7b8-b161-40f5-98f8-9b28d6b70fb1" name="Default Changelist" comment="adding values to example.env">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/controllers/notarise.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/niftyNotaryWebApp/src/components/myComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryWebApp/src/components/myComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example.env" beforeDir="false" afterPath="$PROJECT_DIR$/example.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/common/config/env.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/common/config/env.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/common/middlewares/ethereum.intergation.middleware.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/common/services/ethereum.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/common/services/ethereum.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/notarise/routes.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/notarise/routes.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/niftyNotaryAPI/users/models/users.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/niftyNotaryAPI/users/models/users.model.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,14 +75,14 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/contracts" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/niftyNotaryWebApp/src/components" />
       <recent name="$PROJECT_DIR$/swagger" />
       <recent name="$PROJECT_DIR$/niftyNotaryAPI/tests" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/contracts" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/contracts" />
     </key>
   </component>
@@ -401,10 +406,11 @@
     </state>
     <state x="2549" y="-946" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1581415319286" />
     <state x="2549" y="-946" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1680.1027/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1582024938058" />
-    <state x="2492" y="-677" width="799" height="486" key="find.popup" timestamp="1582208645262">
-      <screen x="1680" y="-2790" width="2160" height="3840" />
+    <state x="632" y="564" width="674" height="486" key="find.popup" timestamp="1582542652413">
+      <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="2492" y="-677" width="799" height="486" key="find.popup/0.0.1680.1050/1680.-2790.2160.3840@1680.-2790.2160.3840" timestamp="1582208645262" />
+    <state x="632" y="564" width="674" height="486" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1582542652413" />
     <state x="2345" y="-2046" key="jetbrains.nodejs.interpreters-dialog" timestamp="1581080512929">
       <screen x="1680" y="-2790" width="2160" height="3840" />
     </state>
@@ -484,7 +490,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/niftyNotaryAPI/tests/testApi.js</url>
-          <line>69</line>
+          <line>75</line>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">

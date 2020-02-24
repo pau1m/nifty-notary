@@ -1,6 +1,8 @@
 const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
+
+//@todo we dont really need usename
 const userSchema = new Schema({
     firstName: String,
     lastName: String,

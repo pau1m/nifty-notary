@@ -4,6 +4,7 @@ require('dotenv').config({path:__dirname+'/./../../../.env' });
 // CANT DEBUG THE CONTRACT ID
 
 module.exports = {
+
     "signKey": process.env.SIGN_KEY,
     "seedPhrase": process.env.SEED_PHRASE,
     "nodeEndPoint": process.env.NODE_HTTP_ENDPOINT,
@@ -19,5 +20,9 @@ module.exports = {
         "NORMAL_USER": 1,
         "PAID_USER": 4,
         "ADMIN": 2048
-    }
+    },
+    testPassword: process.env.TEST_PASSWORD,
+    testEmail: process.env.TEST_EMAIL,
+    testFirstName: process.env.TEST_FIRST_NAME,
+    testLastName: process.env.TEST_LAST_NAME
 };
