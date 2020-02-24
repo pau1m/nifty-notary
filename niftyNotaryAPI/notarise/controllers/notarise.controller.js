@@ -142,12 +142,10 @@ exports.insertHash = async (req, res) => {
   NotaryItemModel.createItem(req.body)
     .then((result) => {
       req.body.dbId = result._id.toHexString();
-
       res.status(200).send(response); // @todo 20x?
-      // return;
     })
     .catch((e) => {
-      res.send(e.message)
+      res.status(400).send(e.message)
       // console.log('exception: ', e);
     });
 };

@@ -45,7 +45,7 @@ export default function(props) {
             request.post('http://localhost:3600/notarise/hash')
               .set('accept', 'json')
               .send({
-                "hash": props.hash,
+                "hash": props.hash, // maybe not bother about the type
                 "hashType": "text/plain" // need to document this better to describe exactly... should also be able to do this onchain?
               })
               .end((err, res) => {
