@@ -10,8 +10,11 @@ const PAID = config.permissionLevels.PAID_USER;
 const FREE = config.permissionLevels.NORMAL_USER;
 // should this be user or users ... i feel it should be user
 exports.routesConfig = function (app) {
+    // @todo restrict access to an admin account
     app.post('/users', [
+        // PermissionMiddleware.onlySameUserOrAdminCanDoThisAction, <-- refactor and recycle this
         VerifyUserMiddleware.hasAuthValidFields, // ensure user and password set
+        VerifyUserMiddleware.userWithEmailAlreadyExists,
         UsersController.insert
     ]);
     app.get('/users', [

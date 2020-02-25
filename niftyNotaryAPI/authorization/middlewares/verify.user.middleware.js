@@ -1,5 +1,6 @@
 const UserModel = require('../../users/models/users.model');
 const crypto = require('crypto');
+const validator = require('validator');
 
 exports.hasAuthValidFields = (req, res, next) => {
   let errors = [];
@@ -11,6 +12,9 @@ exports.hasAuthValidFields = (req, res, next) => {
     if (!req.body.password) {
       errors.push('Missing password field');
     }
+    if (!validator.isEmail(req.body.email)) {
+      errors.push('Malformed email');
+    }
 
     if (errors.length) {
       return res.status(400).send({errors: errors.join(',')});
@@ -21,6 +25,18 @@ exports.hasAuthValidFields = (req, res, next) => {
     return res.status(400).send({errors: 'Missing email and password fields'});
   }
 };
+
+exports.userWithEmailAlreadyExists = (req, res, next) => {
+  UserModel.findByEmail(req.body.email)
+    .then((user) => {
+      if(user[0]) {
+        res.status(409).send('email already in use'); // is this a security anti pattern <- revealing that user already exists
+      } else {
+        return next();
+      }
+    });
+};
+
 //@todo make email field in database unique!!!!
 exports.isPasswordAndUserMatch = (req, res, next) => {
   UserModel.findByEmail(req.body.email)
@@ -47,4 +63,14 @@ exports.isPasswordAndUserMatch = (req, res, next) => {
         }
       }
     });
+};
+
+
+exports.validEmail = (req, res, next) => {
+  // @todo consider adding field level in db @see https://www.npmjs.com/package/mongoose-type-email
+  if (validator.isEmail(req.body.email)) {
+    return next();
+  } else {
+    return res.status(422).send('Invalid email');
+  }
 };
