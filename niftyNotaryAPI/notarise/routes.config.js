@@ -1,6 +1,6 @@
 const NotariseController = require('./controllers/notarise.controller');
 const PermissionMiddleware = require('../common/middlewares/auth.permission.middleware');
-// const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
+const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
 const config = require('../common/config/env.config');
 
 const ADMIN = config.permissionLevels.ADMIN;
@@ -23,8 +23,8 @@ const PAID = config.permissionLevels.PAID_USER;
 
 exports.routesConfig = async function (app) {
     app.post('/notarise/file', [
-        // ValidationMiddleware.validJWTNeeded,
-       // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         NotariseController.insertFile
     ]);
 
