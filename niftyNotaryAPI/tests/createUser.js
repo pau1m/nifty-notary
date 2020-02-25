@@ -17,7 +17,7 @@ const testUser = {
 module.exports = async function ()   {
   console.log('Creating user');
   const createdUser = await userModel.createUser(testUser);
-  console.log('Created: ', createdUser)
+  console.log('Created: ', createdUser);lll
   // oh, actuall we already have the id
   // fetch userId
   // const fetchedhUser = await userModel.findByEmail(testUser.email);

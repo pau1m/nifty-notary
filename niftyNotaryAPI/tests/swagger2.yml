@@ -31,7 +31,7 @@ paths:
           description: cannae do it
   /users:
     post:
-      summary: blah blah
+      summary: Add a new user to the system
       tags:
         - user
       requestBody:

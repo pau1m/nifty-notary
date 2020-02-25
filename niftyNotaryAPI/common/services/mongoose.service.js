@@ -1,3 +1,4 @@
+// @otodo take mongo db from env
 const mongoose = require('mongoose');
 let count = 0;
 
