@@ -46,6 +46,8 @@ paths:
           description: Created new user
         400:
           description: foo #todo
+        409:
+          description: email already in use
   /notarise/file:
     post:
       summary: Post a new file to hash and store on Ethereum
