@@ -1,8 +1,5 @@
 require('dotenv').config({path:__dirname+'/./../../../.env' });
 
-// CHECK TO SEE IF WE ARE ON A TEST INSTANCE
-// CANT DEBUG THE CONTRACT ID
-
 module.exports = {
 
     "signKey": process.env.SIGN_KEY,
@@ -21,6 +18,8 @@ module.exports = {
         "PAID_USER": 4,
         "ADMIN": 2048
     },
+    mongoUrl: process.env.MONGO_URL,
+    //do we really need to define this in .env -- should this refer to primary user for opens sign instead!!!
     testPassword: process.env.TEST_PASSWORD,
     testEmail: process.env.TEST_EMAIL,
     testFirstName: process.env.TEST_FIRST_NAME,

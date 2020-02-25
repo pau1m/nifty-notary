@@ -3,8 +3,8 @@ const config = require('../common/config/env.config');
 // const authCoontroller
 
 const testUser = {
-  firstName: 'test',
-  lastName: 'test',
+  firstName: 'admin',
+  lastName: '',
   email: config.testEmail,
   password: config.testPassword,
   permissionLevel: config.permissionLevels.PAID_USER,
@@ -17,7 +17,7 @@ const testUser = {
 module.exports = async function ()   {
   console.log('Creating user');
   const createdUser = await userModel.createUser(testUser);
-  console.log('Created: ', createdUser);lll
+  console.log('Created: ', createdUser);
   // oh, actuall we already have the id
   // fetch userId
   // const fetchedhUser = await userModel.findByEmail(testUser.email);

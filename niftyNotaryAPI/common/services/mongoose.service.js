@@ -1,5 +1,5 @@
-// @otodo take mongo db from env
 const mongoose = require('mongoose');
+const config = require('../config/env.config');
 let count = 0;
 
 const options = {
@@ -15,13 +15,15 @@ const options = {
     useUnifiedTopology: true
     
 };
+
 const connectWithRetry = () => {
-    console.log('MongoDB connection with retry')
+    console.log('MongoDB connection with retry');
     // changed to 'localhost' from 'mongo'
     //@todo adding a localhosts entry for mongo would also fix and may be preferable
-    mongoose.connect("mongodb://localhost:27017/test2", options).then(()=>{
+    // need to amend this for also to work in docker container if thats how we choose to deploy...
+    mongoose.connect(config.mongoUrl/*"mongodb://localhost:27017/test2"*/, options).then(() => {
         console.log('MongoDB is connected')
-    }).catch(err=>{
+    }).catch( err => {
         console.log('MongoDB connection unsuccessful, retry after 5 seconds. ', ++count);
         setTimeout(connectWithRetry, 5000)
     })
