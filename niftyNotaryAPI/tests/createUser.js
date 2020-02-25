@@ -1,64 +1,44 @@
 const userModel = require('../users/models/users.model');
 const config = require('../common/config/env.config');
-// const authCoontroller
+const crypto = require('crypto');
+
+let salt = crypto.randomBytes(16).toString('base64');
+let hash = crypto.createHmac('sha512', salt).update(config.testPassword).digest("base64");
+const password = salt + "$" + hash;
 
 const testUser = {
-  firstName: 'admin',
-  lastName: '',
+  firstName: 'test',
+  lastName: 'test',
   email: config.testEmail,
-  password: config.testPassword,
+  password: password,
   permissionLevel: config.permissionLevels.PAID_USER,
 };
 
 
-//uhm.... but we still need to request a token
-//should either fetch or generate that here!
-// create and fetch a token or this user
-module.exports = async function ()   {
-  console.log('Creating user');
-  const createdUser = await userModel.createUser(testUser);
-  console.log('Created: ', createdUser);
-  // oh, actuall we already have the id
-  // fetch userId
-  // const fetchedhUser = await userModel.findByEmail(testUser.email);
-  // createdUser.id = fetchedUser.
-  //
-  // console.log("Created: ", createdUser);
-  // we also need to grab the user id...
-
-  return createdUser;
 
 
-  // also have to get a token for this user!!!
-  // import the auth stuff too....
-  // break;
-};
+
+// module.exports = async function ()   {
+// //   console.log('Creating user');
+// //   const createdUser = await userModel.createUser(testUser);
+// //   console.log('Created: ', createdUser);
+// //
+// //   return createdUser;
+// // };
+
+
+
+
 
 //exports.createUser = createUser;
 
-
-
-
-
-
-// (async function createUser()   {
-//   console.log('Creating user');
-//   const createdUser = await userModel.createUser(testUser);
-//   // oh, actuall we already have the id
-//   // fetch userId
-//   // const fetchedhUser = await userModel.findByEmail(testUser.email);
-//   // createdUser.id = fetchedUser.
-//   //
-//   // console.log("Created: ", createdUser);
-//   // we also need to grab the user id...
-//
-//   return createdUser;
-//
-//
-//   // also have to get a token for this user!!!
-//   // import the auth stuff too....
-//   // break;
-// })();
+(async function createUser()   {
+  console.log('Creating user');
+  const createdUser = await userModel.createUser(testUser);
+  console.log('Created: ', createdUser);
+  // const fetchedhUser = await userModel.findByEmail(testUser.email);
+  // createdUser.id = fetchedUser.
+})();
 
 
 
