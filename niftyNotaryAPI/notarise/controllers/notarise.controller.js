@@ -170,7 +170,10 @@ exports.getById = (req, res) => {
     NotaryItemModel.findById(req.params.id)
         .then((result) => {
             res.status(200).send(result);
-        });
+        })
+      .catch(() => {
+          res.sendStatus(404);
+      })
 };
 
 exports.getByFileHash = (req, res) => {
@@ -181,7 +184,7 @@ exports.getByFileHash = (req, res) => {
       res.status(200).send(result);
     })
     .catch((e) => {
-     res.send(e)
+      res.sendStatus(404)
     })
 };
 
@@ -192,7 +195,7 @@ exports.getByTxId = (req, res) => {
       res.status(200).send(result);
     })
     .catch((e) => {
-      res.send(e)
+      res.sendStatus(404)
     })
 };
 
@@ -208,19 +211,16 @@ exports.getByTxId = (req, res) => {
     // });
     const abiEventList = notaryAbi.filter(item => item.type === 'event');
 
-
     web3.eth.getTransactionReceipt(req.params.txId)
         .then((receipt) => {
-
-            // grab what we can in human readable form...
-            // how should we handle this!????
+            // @todo should do something useful with parsed logs.
             const parsedEvents = parseLog(receipt.logs, abiEventList);
             receipt.parsedEvents = parsedEvents;
-
             res.status(200).send(receipt);
         })
         .catch((e) => {
             console.error('Could not retrieve receipt ', e);
+            res.status(400).send(e);
         });
 
     // res.status(200).send(await web3.eth.getTransactionReceipt(req.params.txId));
@@ -244,7 +244,7 @@ exports.verifyHash = (req, res) => {
     // should it be base64 with type?
     res.sendStatus(200).send({matches: true});
   } else {
-    res.sendStatus(200).send({matches: false});
+    res.sendStatus(404).send({matches: false});
   }
 };
 
