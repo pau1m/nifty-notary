@@ -76,3 +76,9 @@ Node end points
 
 #Test and Usage
 
+
+
+# Setting up for live
+
+The Api will need to have an administrative user added. After setting up the database.
+Manually update values in script at ```niftyNotaryAPI/tests/createUser.js``` and run it with ```node createUser.js```
