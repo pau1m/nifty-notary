@@ -29,9 +29,22 @@ exports.routesConfig = async function (app) {
     ]);
 
     app.post('/notarise/hash', [
+        ValidationMiddleware.validJWTNeeded,
         NotariseController.insertHash
     ]);
 
+    // @todo
+    // app.post('/notarise/hashWithSecret', [
+    //     ValidationMiddleware.validJWTNeeded,
+    //     NotariseController.insertHash
+    // ]);
+    //
+    // app.post('/verify/hashWithSecret', [
+    //     ValidationMiddleware.validJWTNeeded,
+    //     NotariseController.insertHash
+    // ]);
+
+    // @todo not sure whether should also use api token on gets
     app.get('/notarised/getById/:id', [
         PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         NotariseController.getById,

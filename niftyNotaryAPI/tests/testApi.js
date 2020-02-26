@@ -3,10 +3,9 @@ const superagent = require('superagent');
 const { assert, expect } = require('chai');
 const createUser = require('./createUser');
 
-
+//
 
 // how do we add out default admin user
-
 
 // mocha.timeout(5000);
 // create object -- do we also need mocha for this and chai
@@ -66,6 +65,8 @@ const content = {
 
    const user = createUser();
 
+   // @todo get auth id
+   // @todo write full suite of tests
 
    const authRequest = {
      body: {

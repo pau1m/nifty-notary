@@ -26,7 +26,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NewUserResponse'
+                $ref: '#/components/schemas/AuthToken'
         500:
           description: cannae do it
   /users:
@@ -264,6 +264,7 @@ paths:
       #       application/json:
       #         schema:
       #           $ref: "#/components/schemas/Error"
+# this is ok for testing, but for when live, this should be per endpoint except fpr the hone that gets adn refreshes token
 security:
   - bearerAuth: []
 components:
@@ -379,6 +380,13 @@ components:
 #      type: string
 #    password:
 #      type: string
+    AuthToken:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
     txId:
       type: string
     Receipt:
