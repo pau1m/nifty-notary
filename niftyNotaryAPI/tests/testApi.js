@@ -106,21 +106,21 @@ const content = {
        .send(authRequest)
        .then((res) => {
          jwt = res.body;
-         console.log(res.body)
          done()
        })
        .catch((err) => {
-         console.log(err)
          done()
        });
    });
 
-   it('should do nothing', (done) => {
-     done();
-   })
+   // it('should do nothing', (done) => {
+   //   done();
+   // })
+
+   // what the the fuck is going on ... maybe just can't see something that is really obvious
 
    // it('Should post and get data by file hash', (done) => {
-   //   console.log('jwt: ', jwt)
+   //   //console.log('jwt: ', jwt)
    //   superagent
    //     .post('http://localhost:3600/notarise/file')
    //     .set({ Authorization: 'Bearer ' + jwt.accessToken })
@@ -169,6 +169,7 @@ const content = {
              assert(idRes.id === res.id);
              assert(idRes.fileHash === res.fileHash);
              assert(idRes.txId === res.txId);
+             console.log('grarrr')
              done();
            })
            .catch((e) => {
@@ -179,7 +180,9 @@ const content = {
          done()
          // console.log('exception: ', e)
        })
-       //.end();
+       // .end(() => {
+       //   done();
+       // });
    });
 
    it('Should post and get data by txId', (done) => {
@@ -201,6 +204,7 @@ const content = {
              done();
            })
            .catch((e) => {
+             assert(false)
              done()
            })
        })
