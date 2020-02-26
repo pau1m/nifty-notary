@@ -24,7 +24,7 @@ const config = require('./config');
 const Web3 = require('web3');
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 //@todo from env
-const mnemonic = "timber initial unhappy transfer genre divorce noodle liberty hen steel trumpet clever";
+const mnemonic = config.seedPhrase; //"timber initial unhappy transfer genre divorce noodle liberty hen steel trumpet clever";
 
 // read the mnemonid from config...
 

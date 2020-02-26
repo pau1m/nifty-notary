@@ -5,6 +5,8 @@ const uuid = require('uuid'); // unused
 
 // this assumes all of the other stuff has happened...
 // how do I call in to this :/
+// wtf!!!! send user name and pw but only gets id
+// we need to fetch before we know that!!!??? wtf
 exports.login = (req, res) => {
     try {
         let refreshId = req.body.userId + jwtSecret;

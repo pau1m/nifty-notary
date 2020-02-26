@@ -1,5 +1,7 @@
 const UserModel = require('../../users/models/users.model');
 const crypto = require('crypto');
+//import isEmail from 'validator/lib/isEmail';
+
 const validator = require('validator');
 
 exports.hasAuthValidFields = (req, res, next) => {
