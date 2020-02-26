@@ -108,3 +108,6 @@ dist
 
 #env vars
 .env
+
+#IntelliJ
+.idea/dataSources.xml
