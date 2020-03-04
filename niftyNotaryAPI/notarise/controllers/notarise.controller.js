@@ -45,14 +45,14 @@ exports.insertFile = async (req, res) => {
     });
     let $pi = 3;
   }
-  catch(e) {
+  catch(e) { //@todo test this... line and make sure it works
     if (e.message.indexOf('Hash already recorded') !== -1) {
-      res.status('422').send(e.message);
-      return;
+      return res.status('422').send(e.message);
+
     }
     // @todo add proper default clause
-    res.status('422').send(e.message);
-    return;
+    return res.status('422').send(e.message);
+
   }
 
   // Insert stuff to db

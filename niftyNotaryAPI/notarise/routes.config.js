@@ -1,11 +1,13 @@
 const NotariseController = require('./controllers/notarise.controller');
-// const PermissionMiddleware = require('../common/middlewares/auth.permission.middleware');
-// const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
+const PermissionMiddleware = require('../common/middlewares/auth.permission.middleware');
+const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
 const config = require('../common/config/env.config');
 
-// const ADMIN = config.permissionLevels.ADMIN;
-// const PAID = config.permissionLevels.PAID_USER;
+const ADMIN = config.permissionLevels.ADMIN;
+const PAID = config.permissionLevels.PAID_USER;
 // const FREE = config.permissionLevels.NORMAL_USER;
+
+//@todo how to do we implement requests and request limit?
 
     // so we should have an ethereum bridge...
 
@@ -16,18 +18,36 @@ const config = require('../common/config/env.config');
 
 // So we basically just have to make all of these end points work
 // mebs should be doing postman instead of
+// can potentially just add admin and ignore piad just now
+// verification should be able to happen without a user having to auth mebs...
 
 exports.routesConfig = async function (app) {
     app.post('/notarise/file', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         NotariseController.insertFile
     ]);
 
     app.post('/notarise/hash', [
+        ValidationMiddleware.validJWTNeeded,
         NotariseController.insertHash
     ]);
 
+    // @todo
+    // app.post('/notarise/hashWithSecret', [
+    //     ValidationMiddleware.validJWTNeeded,
+    //     NotariseController.insertHash
+    // ]);
+    //
+    // app.post('/verify/hashWithSecret', [
+    //     ValidationMiddleware.validJWTNeeded,
+    //     NotariseController.insertHash
+    // ]);
+
+    // @todo not sure whether should also use api token on gets
     app.get('/notarised/getById/:id', [
-        NotariseController.getById
+        PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        NotariseController.getById,
         // ValidationMiddleware.validJWTNeeded,
         // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         // UsersController.list

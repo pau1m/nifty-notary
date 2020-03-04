@@ -17,8 +17,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
-// const AuthorizationRouter = require('./authorization/routes.config');
-// const UsersRouter = require('./users/routes.config');
+const AuthorizationRouter = require('./authorization/routes.config');
+const UsersRouter = require('./users/routes.config');
 const NotariseRouter = require('./notarise/routes.config.js')
 
 app.use(function (req, res, next) {
@@ -35,9 +35,9 @@ app.use(function (req, res, next) {
 });
 
 app.use(bodyParser.json());
-// AuthorizationRouter.routesConfig(app);
-// UsersRouter.routesConfig(app);
-NotariseRouter.routesConfig(app);
+AuthorizationRouter.routesConfig(app);
+UsersRouter.routesConfig(app);
+NotariseRouter.routesConfig(app); //@todo deal with not returned promise issue
 // have a look at how middleware should be implemented
 
 

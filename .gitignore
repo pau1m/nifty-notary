@@ -106,8 +106,13 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-#env vars @todo remove from git git rm --cached
-.env
-
 #IntelliJ IDE
 .idea/workspace.xml
+.idea/dataSources.xml
+
+#env vars
+.env
+
+
+
+
