@@ -4,7 +4,7 @@ console.log('c: ', config);
 const NotaryItemModel = require('../models/notaryItem.model.js');
 const crypto = require('crypto');
 // const { generate } = require('ethereumjs-wallet');
-const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
+const notaryArtifacts = require('../../../contracts/build/contracts/ItemNotary');
 
 const Web3 = require('web3');
 const web3 = new Web3(config.nodeEndPoint);
@@ -32,12 +32,12 @@ exports.insertFile = async (req, res) => {
   web3.setProvider(gsnProvider);
 
   //@todo  get hash method sha256 and keccak
-  const fileHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
+  const fileHash = '0x' + crypto.createHash('sha3-256').update(req.body.file).digest('hex');
 
   //  const roo = await web3.eth.getTransactionCount(signerAccount.address, 'pending');
   let notaryReceipt = {};
   try {
-    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(fileHash).send({
+    notaryReceipt = await notaryContract.methods.storeItem(fileHash, 1, '').send({
       from: signerAccount.address,
       gas: 50000,
      // gasPrice: web3.utils.toWei('40', 'gwei'),
@@ -61,12 +61,14 @@ exports.insertFile = async (req, res) => {
   req.body.fileHash = fileHash;
   req.body.txId = notaryReceipt.transactionHash || '0x0';
 
+  // get type from contract response
+
   // Prepare response
   const response = {
     txStatus: txState.success,
     fileHash: fileHash,
-    hashType: 'sha256',
-    docType: 'text/plain',
+    hashType: 'sha3-256',
+    docType: 'text/plain', //@todo remove this
     txId: notaryReceipt.transactionHash || null,
     chainId: 1, // as below
     timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
@@ -101,7 +103,7 @@ exports.insertHash = async (req, res) => {
 
   let notaryReceipt = {};
   try {
-    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(req.body.hash).send({from: signerAccount.address, gas: 4000000});
+    notaryReceipt = await notaryContract.methods.storeItem(req.body.hash, 1, '').send({from: signerAccount.address, gas: 4000000});
     const p = 3.1;
     if (notaryReceipt.status === false) {
       res.sendStatus(400);
@@ -130,7 +132,7 @@ exports.insertHash = async (req, res) => {
   const response = {
     txStatus: txState.success,
     fileHash: req.body.hash,
-    hashType: 'sha256',
+    hashType: 'sha3-256',
     docType: 'text/plain', // @todo rename to fileType
     txId: notaryReceipt.transactionHash || null,
     chainId: 1, // as below
@@ -237,8 +239,9 @@ exports.verifyTransactionByTxId = (req, res) => {
         });
 };
 
+//@todo confirm based on type!!!
 exports.verifyHash = (req, res) => {
-  const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
+  const docHash = '0x' + crypto.createHash('sha3-256').update(req.body.file).digest('hex');
   if (docHash === req.body.fileHash) {
     // @todo strip stuff from body if necessary
     // should it be base64 with type?
@@ -251,7 +254,6 @@ exports.verifyHash = (req, res) => {
 
 
 //@todo allow creation of tx to be signed or could add a wrapper around something for client to do ny self
-
 
 // exports.patchById = (req, res) => {
 //     if (req.body.password) {
