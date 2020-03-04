@@ -21,7 +21,7 @@ contract Registry is Ownable, GSNRecipient {
     }
 }
 
-contract Notary is Registry {
+contract ItemNotary is Registry {
 
     enum itemTypes {Invalid, Exists, EthereumSig, BitcoinSig, Password, Other}
 
@@ -96,11 +96,11 @@ contract Notary is Registry {
 
     /**
      * Only applicable if use is the owner...
-     *
      */
     function tradeThisItem(/*erc721 contract address*/)
     public
     {
+        // @todo
         // make tradable... add to erc721 contract
         // either item could be....
         // think about independent rolling this out
