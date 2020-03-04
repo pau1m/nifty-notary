@@ -14,7 +14,7 @@ module.exports = (deployer) => {
 
     await deployer.deploy(ItemNotary);
 
-    const itemNotary = await itemNotary.deployed();
+    const itemNotary = await ItemNotary.deployed();
     console.log('Contract deployed at: ', itemNotary.address);
 
     const relayHub = new web3.eth.Contract(RelayHub.abi, '0xD216153c06E857cD7f72665E0aF1d7D82172F494'/*config.relayHub*/);
