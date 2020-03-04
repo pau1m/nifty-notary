@@ -11,7 +11,7 @@ const notaryItemSchema = new Schema({
       unique: true
     },
     hashType: String,
-    docType: String,
+    docType: String, // we don't really care about that anymore @todo chuck it
     txId: {
       type: String,
       index: true,

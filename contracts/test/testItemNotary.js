@@ -8,9 +8,44 @@
 // maybe should just use the stuff from openzeppelin in here
 // might make things easier.. retrofit for now.. get one tx working
 //const { accounts, contract } = require('@openzeppelin/test-environment');
+// const content = {
+//   file: makeId(200), // mod this to use an actual file, cos we will have to deal with
+//   fileType: 'text/plain',    // should probs be utf 8 or something like that
+//   //  hashType: 'sha256',
+//   // token: 'somesecrettobedone',
+// };
+
+const crypto = require('crypto');
+const keccak = crypto.createHash('sha3-256');
+
+const makeId = length => {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
+
+const generateHash = (data = null) => {
+  // if nothing provided, generate random value
+  data = (data === null) ? makeId(1000) : data;
+  return '0x' + crypto.createHash('sha3-256').update(data).digest('hex');
+};
+
+console.log(generateHash());
+// const generateSha256Hash = () => {
+//
+// }
 
 
 
+// crypto.sha3-256
+//
+// // encode
+//
+// console.log(crypto.getHashes());
 
 const {
   deployRelayHub,
@@ -60,7 +95,6 @@ contract("Notary", accounts => {
   // });
 
 
-
   // we can't do this before each!!!!!!!!
   before(async () => {
     // await deployRelayHub(web3);
@@ -76,7 +110,7 @@ contract("Notary", accounts => {
     const relayHub = await new web3.eth.Contract(RelayHub.abi, config.relayHub);
     const funded = await relayHub.methods.depositFor(itemNotary.address).send({from: accounts[0], value: web3.utils.toWei('0.2', 'ether')});
 
-    console.log('NOTARY: ', notaryGSM.address);
+    //console.log('NOTARY: ', notaryGSM.address);
     // console.log(notaryGSM.abi)
     // await web3.eth.sendTransaction({from: admin, to: notary.address, value: web3.utils.toWei('1', 'ether')})
 
@@ -99,6 +133,30 @@ contract("Notary", accounts => {
     expect(await itemNotary.isRegistered(alice)).to.equal(true);
     expect(await itemNotary.isRegistered(bob)).to.equal(false);
   });
+
+
+  //@todo handle malformed data
+  it("Should add item-hash to contract", async () => {
+    await itemNotary.updateRegistry(alice, true);
+    const itemHash = generateHash();
+    //@todo sshould place a max size on string
+
+    const storedItem = await itemNotary.storeItem(itemHash, 1, '', {from: alice})
+
+    expect(storedItem.logs[0].args.itemHash).to.equal(itemHash);
+    expect(await itemNotary.isItem(itemHash)).to.equal(true);
+    expect(await itemNotary.isItem(generateHash())).to.equal(false);
+  });
+
+  // so, in updating the api, we just want to make this work... don't have to change too much
+  // then we can add more im
+
+
+
+  // we should be able to use gas staton or call directly
+
+  // make a call via gas station
+  // test the rest of the contract independently
 
   // can jjs
 
