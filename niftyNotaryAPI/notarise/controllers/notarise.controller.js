@@ -39,10 +39,11 @@ exports.insertFile = async (req, res) => {
   try {
     notaryReceipt = await notaryContract.methods.storeItem(fileHash, 1, '').send({
       from: signerAccount.address,
-      gas: 50000,
+      gas: 500000,
      // gasPrice: web3.utils.toWei('40', 'gwei'),
     //  nonce: 1 + await web3.eth.getTransactionCount(signerAccount.address, "pending")
     });
+    console.log(notaryReceipt);
     let $pi = 3;
   }
   catch(e) { //@todo test this... line and make sure it works
@@ -50,11 +51,10 @@ exports.insertFile = async (req, res) => {
       return res.status('422').send(e.message);
 
     }
+
     // @todo add proper default clause
     return res.status('422').send(e.message);
-
   }
-
   // Insert stuff to db
   req.body.txStatus = txState.success;
   req.body.confirmations = 1; //@todo actual

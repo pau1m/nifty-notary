@@ -48,7 +48,7 @@ contract ItemNotary is Registry {
         require(isRegistered(_msgSender()), "Account not registered");
         require(_itemType > 0, "Item type must be a positive number");
         require(!isItem(_itemHash), "Item already exists");
-
+        // @todo make sure _link is stored as default 0 if not exist
         Item memory item = Item(_itemType, _link);
         items[_itemHash] = item;
         emit addedItem(_itemHash);
