@@ -1,8 +1,12 @@
 const jwtSecret = require('../../common/config/env.config.js').jwt_secret,
-    jwt = require('jsonwebtoken');
+    jwt = require('jsonwebtoken'); //@todo is this supposed to be global scope?
 const crypto = require('crypto');
-const uuid = require('uuid');
+const uuid = require('uuid'); // unused
 
+// this assumes all of the other stuff has happened...
+// how do I call in to this :/
+// wtf!!!! send user name and pw but only gets id
+// we need to fetch before we know that!!!??? wtf
 exports.login = (req, res) => {
     try {
         let refreshId = req.body.userId + jwtSecret;
