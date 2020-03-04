@@ -23,7 +23,8 @@ contract Registry is Ownable, GSNRecipient {
 
 contract ItemNotary is Registry {
 
-    enum itemTypes {Invalid, Exists, EthereumSig, BitcoinSig, Password, Other}
+    // @todo hmmmmmm, may need to change how this works
+    enum itemTypes {Invalid, Exists, Sha2, Sha3, EthereumSigned, BitcoinSigned, Passphrase, Other}
 
     struct Item {
         uint8 itemType;
@@ -43,26 +44,31 @@ contract ItemNotary is Registry {
     function storeItem(bytes32 _itemHash, uint8 _itemType, string memory _link)
     public
     {
+        //@todo consider making decorator.
         require(isRegistered(_msgSender()), "Account not registered");
-        require(_itemType > 0);
-        require((items[_itemHash].itemType > 0), "Item is already stored");
+        require(_itemType > 0, "Item type must be a positive number");
+        require(!isItem(_itemHash), "Item already exists");
 
         Item memory item = Item(_itemType, _link);
         items[_itemHash] = item;
         emit addedItem(_itemHash);
     }
 
-    function getItem(bytes32 hash)
+    function getItem(bytes32 _itemHash)
     public
+    view
     returns
     (bytes32 itemHash, uint8 itemType, string memory _link)
     {
-        return (0x0, 1, 'foo');
+        return (_itemHash, getItemType(_itemHash), getItemLink(_itemHash));
        // return ([])?? how do we return multiple types
     }
 
+    // consider private or internal ? is there much gas difference
+
     function isItem(bytes32 _itemHash)
     public
+    view
     returns
     (bool)
     {
@@ -71,6 +77,7 @@ contract ItemNotary is Registry {
 
     function getItemType(bytes32 _itemHash)
     public
+    view
     returns
     (uint8)
     {
@@ -79,6 +86,7 @@ contract ItemNotary is Registry {
 
     function getItemLink(bytes32 _itemHash)
     public
+    view
     returns
     (string memory link)
     {
