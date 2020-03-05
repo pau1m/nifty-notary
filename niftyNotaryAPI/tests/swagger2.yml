@@ -328,6 +328,8 @@ components:
           example: 'Sha3'
         link:
           type: string
+        signature:
+          type: string
 #        docType:
 #          type: string
         txId:
@@ -351,6 +353,10 @@ components:
           type: string
           enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other]
           example: 'Sha3'
+        signature:
+          type: string
+          example: ''
+          description: Optional value if a user wants to prove ownership
     Document:
       type: object
       required:
