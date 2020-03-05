@@ -1,4 +1,5 @@
 const config = require('../../common/config/env.config');
+const hashTypes = require('../../common/config/itemTypes');
 console.log('c: ', config);
 
 const NotaryItemModel = require('../models/notaryItem.model.js');
@@ -20,6 +21,9 @@ const txState = {
     fail: 'fail'
 };
 
+const nullBytes = '0x0';
+const emptyString = '';
+
 exports.insertFile = async (req, res) => {
 
   const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
@@ -33,11 +37,13 @@ exports.insertFile = async (req, res) => {
 
   //@todo  get hash method sha256 and keccak
   const fileHash = '0x' + crypto.createHash('sha3-256').update(req.body.file).digest('hex');
+  const hashType = hashTypes[req.body.hashType] || hashTypes.Exists;
+  const signature = req.body.signature || nullBytes;
 
   //  const roo = await web3.eth.getTransactionCount(signerAccount.address, 'pending');
   let notaryReceipt = {};
   try {
-    notaryReceipt = await notaryContract.methods.storeItem(fileHash, 1, '').send({
+    notaryReceipt = await notaryContract.methods.storeItem(fileHash, hashType, emptyString, nullBytes).send({
       from: signerAccount.address,
       gas: 500000,
      // gasPrice: web3.utils.toWei('40', 'gwei'),
@@ -49,7 +55,6 @@ exports.insertFile = async (req, res) => {
   catch(e) { //@todo test this... line and make sure it works
     if (e.message.indexOf('Hash already recorded') !== -1) {
       return res.status('422').send(e.message);
-
     }
 
     // @todo add proper default clause
@@ -59,17 +64,17 @@ exports.insertFile = async (req, res) => {
   req.body.txStatus = txState.success;
   req.body.confirmations = 1; //@todo actual
   req.body.fileHash = fileHash;
-  req.body.txId = notaryReceipt.transactionHash || '0x0';
+  req.body.txId = notaryReceipt.transactionHash || nullBytes;
 
   // get type from contract response
-
+  //
   // Prepare response
   const response = {
     txStatus: txState.success,
     fileHash: fileHash,
     hashType: 'sha3-256',
     docType: 'text/plain', //@todo remove this
-    txId: notaryReceipt.transactionHash || null,
+    txId: req.body.txId,//notaryReceipt.transactionHash || null,
     chainId: 1, // as below
     timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
   };
@@ -102,19 +107,22 @@ exports.insertHash = async (req, res) => {
   //const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
 
   let notaryReceipt = {};
+  const signature = req.body.signature || nullBytes;
+  const hashType = hashTypes[req.body.hashType] || hashTypes.Exists;
+  const link  = req.body.link || '';
+
   try {
-    notaryReceipt = await notaryContract.methods.storeItem(req.body.hash, 1, '').send({from: signerAccount.address, gas: 4000000});
+    notaryReceipt = await notaryContract.methods.storeItem(req.body.hash, hashType, '', nullBytes).send({from: signerAccount.address, gas: 4000000});
     const p = 3.1;
     if (notaryReceipt.status === false) {
-      res.sendStatus(400);
-      return;
+      return res.sendStatus(400);
     }
   }
   catch(e) {
     if (e.message.indexOf('Hash already recorded') !== -1) {
-      res.status('422').send(e.message);
+      return res.status('422').send(e.message);
     } else {
-      res.status('422').send(e.message);
+      return res.status('422').send(e.message);
     }
     //@todo: default clause
   }
@@ -132,22 +140,20 @@ exports.insertHash = async (req, res) => {
   const response = {
     txStatus: txState.success,
     fileHash: req.body.hash,
-    hashType: 'sha3-256',
-    docType: 'text/plain', // @todo rename to fileType
+    hashType: hashType,
+    // docType: 'text/plain', // consider keeping for use locally?
     txId: notaryReceipt.transactionHash || null,
     chainId: 1, // as below
     timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
   };
 
-  //@todo actually we really really need to know the chain id otherwise can not create a link
-
   NotaryItemModel.createItem(req.body)
     .then((result) => {
       req.body.dbId = result._id.toHexString();
-      res.status(200).send(response); // @todo 20x?
+      return res.status(200).send(response); // @todo 20x?
     })
     .catch((e) => {
-      res.status(400).send(e.message)
+      return res.status(400).send(e.message)
       // console.log('exception: ', e);
     });
 };

@@ -1,6 +1,7 @@
 //@todo additional setup?
 //@todo take values from config
 const ItemNotary = artifacts.require('ItemNotary');
+const ECDSA = artifacts.require('ECDSA')
 
 // const { fundRecipient } = require('@openzeppelin/gsn-helpers');
 const RelayHub = artifacts.require("IRelayHub");
@@ -9,9 +10,14 @@ const config = require(__dirname+'/./../config');
 
 // Format of async deploy JS adapted from https://github.com/trufflesuite/truffle/issues/501#issuecomment-373886205
 module.exports = (deployer) => {
+
+
+
   deployer.then(async () => {
     const accounts = await web3.eth.getAccounts();
 
+    await deployer.deploy(ECDSA);
+    await deployer.link(ECDSA, ItemNotary);
     await deployer.deploy(ItemNotary);
 
     const itemNotary = await ItemNotary.deployed();

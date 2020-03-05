@@ -74,7 +74,7 @@ paths:
           description: Hash already exists
   /notarise/hash:
     post:
-      summary: Post a hash on Etherum to prove existance.
+      summary: Post a hash on Ethereum to prove existance.
       requestBody:
         description: Hash to store onchain
         required: true
@@ -309,7 +309,8 @@ components:
           type: string
         hashType:
           type: string
-          enum: [sha256, keccak] #this should probably be its own object
+          enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other] #this should probably be its own object
+          example: 'Sha3'
         fileType:
           type: string
         file:
@@ -323,9 +324,12 @@ components:
           type: string
         hashType:
           type: string
-          enum: [sha256, keccak] #this should probably be its own object
-        docType:
+          enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other] #this should probably be its own object
+          example: 'Sha3'
+        link:
           type: string
+#        docType:
+#          type: string
         txId:
           type: string
         chainId:
@@ -345,7 +349,8 @@ components:
           example: '0x7c43a38c80ff272aa82209066a2fce0fcd9e15c60eb587f3692f43d9cd2c467a'
         hashType:
           type: string
-          enum: [sha256, keccak]
+          enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other]
+          example: 'Sha3'
     Document:
       type: object
       required:
@@ -356,6 +361,7 @@ components:
           type: string
         fileType:
           type: string
+          description: mime type @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
       example:
         file: 'SGVsbG8gV29ybGQ=' #Hello World
         fileType: 'text/plain' #maybe not best to send as json could be described otherwise

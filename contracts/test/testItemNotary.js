@@ -141,7 +141,7 @@ contract("Notary", accounts => {
     const itemHash = generateHash();
     //@todo sshould place a max size on string
 
-    const storedItem = await itemNotary.storeItem(itemHash, 1, '', {from: alice})
+    const storedItem = await itemNotary.storeItem(itemHash, 1, '', '0x0', {from: alice})
 
     expect(storedItem.logs[0].args.itemHash).to.equal(itemHash);
     expect(await itemNotary.isItem(itemHash)).to.equal(true);
