@@ -337,6 +337,8 @@ components:
         chainId:
           type: string
           enum: [1]
+        contractAddress:
+          type: string
         timestamp:
           type: string
         id:
