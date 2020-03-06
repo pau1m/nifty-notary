@@ -148,6 +148,8 @@ contract("Notary", accounts => {
     expect(await itemNotary.isItem(generateHash())).to.equal(false);
   });
 
+  //
+
   // so, in updating the api, we just want to make this work... don't have to change too much
   // then we can add more im
 

@@ -30,7 +30,7 @@ contract ItemNotary is Registry {
     //enum itemTypes {Invalid, Exists, Sha256, Sha3, EthSig, EthHashPlusSig, BTCSig, BTCHashPlusSig, Passphrase, Other}
 
     struct Item {
-        uint8 itemType;
+        uint8 itemType; //
         string url; // optional
         // Only if on-chain proof required
         bytes signature; // optional
@@ -112,6 +112,12 @@ contract ItemNotary is Registry {
     function tradeThisItem(bytes32 _itemHash)
     public
     {
+        require(isRegistered(_msgSender()));
+        // add add to erc721 contract
+        // Minimal contract and property
+
+
+
         // hmmmmmmmmm.
         // can we use introspection
         // do we even need a link here

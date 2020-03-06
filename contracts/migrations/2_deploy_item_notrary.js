@@ -11,9 +11,8 @@ const config = require(__dirname+'/./../config');
 // Format of async deploy JS adapted from https://github.com/trufflesuite/truffle/issues/501#issuecomment-373886205
 module.exports = (deployer) => {
 
-
-
   deployer.then(async () => {
+
     const accounts = await web3.eth.getAccounts();
 
     await deployer.deploy(ECDSA);
@@ -29,6 +28,7 @@ module.exports = (deployer) => {
       value: web3.utils.toWei('0.2', 'ether')
     });
 
+    //@todo remove in prod
     await itemNotary.updateRegistry(accounts[0], true);
     await itemNotary.updateRegistry(accounts[1], true);
     await itemNotary.updateRegistry(accounts[2], true);
