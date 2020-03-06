@@ -6,27 +6,14 @@ const crypto = require('crypto');
 //@todo
 //create new and user  db and then trash db
 //const createUser = require('./createUser');
+// @todo
+// other tests
+// test user access
+// test end points
+// make sure swagger matches api
+// @todo add contractId to response, make it a unqiue field...
 
 
-
-// @todo proper start up and tear down
-
-//
-
-// how do we add out default admin user
-
-// mocha.timeout(5000);
-// create object -- do we also need mocha for this and chai
-// const config = {
-//   url: 'http://localhost
-//port: 3600
-// };
-// this should already be in base64
-// cos its easier to send
-// where should the hash be created...
-// maybe that should be done further upstream...
-//base64encoded
-//@todo look at jest for better unit testing of express code - split app in launching of app so can pass it in
 const content = {
     file: makeId(200), // mod this to use an actual file, cos we will have to deal with
     fileType: 'text/plain',    // should probs be utf 8 or something like that
@@ -35,76 +22,15 @@ const content = {
 };
 const itemHash = content => '0x' + crypto.createHash('sha3-256').update(content.file).digest('hex');
 
-// @todo make a hash of content
-
-// create a hash to put in
-
-// !!! @todo pull in the actual types used on the db
-//@todo also have to deal with auth
-//@todo should we prepend path
-
-// it('should be a teapot', () => {
-//     // Return the Frisby.js Spec in the 'it()' (just like a promise)
-//     return frisby.get('http://httpbin.org/status/418')
-//         .expect('status', 418);
-// });
-
-
-// before each
-// do a login
-
-
-
-// @todo --- we should add accept to this
-// should be wrapped in describe
-// @todo --- now to assertions...
-//@todo end point for just user
-// does a user really want to attach it to their name
-// can start to consider refactoring of contracta
-// erc721 no reason not to use that above all else...
-
-//@todo we might have a nonce race condition here
-// @todo update end points
-// pull in details from config
-
-// could actually move that whole test thing in here!!!!
-
-// uhm.... why does it get locked up here when adding
-
  describe('API Happy Path', () => {
-   // assumes we have already created user --- using that as a script so ... hmmm how also to use here...
-   // on launching tests can add function to run in the backgrounf an dcreate user
-   // for the moment
-   // today all tests....
-   // consider using frisby
-   //
-   // const testUserId = config.testUserId
-   //
-
-
-   //console.log(createUser)
-
-   // const user = createUser();
-   // let authToken = {};
-   // // @todo get auth id
-   // // @todo write full suite of tests
-   //
-
-
+   // Assumes user already created
    const authRequest = {
        email: config.testEmail,
        password: config.testPassword
      //  userId: config.testUserI
    };
 
-   let jwt = {
-
-   }
-
-
-   // add asserts ... still consider using frisby
-
-
+   let jwt = {}
 
    before('login and fetch token', (done) => {
      const result = superagent
@@ -131,8 +57,7 @@ const itemHash = content => '0x' + crypto.createHash('sha3-256').update(content.
        .set('Content-Type', 'application/json')
        .send({hash: itemHash(content), hashType: 2})
        .then((res) => {
-          console.log(res.body)
-         //@todo assert object exists
+
          superagent
            .get('http://localhost:3600/notarised/getById/' + res.body.id)
            .set({ Authorization: 'Bearer ' + jwt.accessToken })
@@ -203,8 +128,7 @@ const itemHash = content => '0x' + crypto.createHash('sha3-256').update(content.
            })
        })
        .catch((e) => {
-         //assert(false, e)
-         done()
+         done(e)
        })
    });
  });
