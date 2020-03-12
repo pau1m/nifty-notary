@@ -26,9 +26,6 @@ const content = () => {
   }
 };
 
-console.log(content()['file']);
-
-
 let itemHash = () => '0x' + crypto.createHash('sha3-256').update(content()['file']).digest('hex');
 
  describe('API Happy Path', () => {
@@ -100,14 +97,13 @@ let itemHash = () => '0x' + crypto.createHash('sha3-256').update(content()['file
          })
      });
    });
-   //
-     // post by file
+
+   // post by file
    describe('Post a file', () => {
 
      before(done => setTimeout(done, 1000));
 
      it('Should post file and get data by db id and txid', (done) => {
-       console.log('starting')
        superagent
          .post('http://localhost:3600/notarise/file')
          .set({Authorization: 'Bearer ' + jwt.accessToken})
