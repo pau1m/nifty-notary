@@ -1,6 +1,7 @@
 const config = require('../../common/config/env.config');
 const hashTypes = require('../../common/config/itemTypes');
 console.log('c: ', config);
+const ethService = require('../../common/services/ethereum.service');
 
 const NotaryItemModel = require('../models/notaryItem.model.js');
 const crypto = require('crypto');
@@ -24,10 +25,29 @@ const txState = {
 const nullBytes = '0x0';
 const emptyString = '';
 
+
+// @todo should
+// @todo add typing
+const hashData = (data, hashType) => {
+  hashType.toLowerCase();
+  if (['sha3-256', 'sha256'].indexOf(hashType) === -1) {
+    throw "Unknown encryption format";
+  }
+
+  return  '0x' + crypto.createHash(hashType).update(data).digest('hex');
+};
+
 exports.insertFile = async (req, res) => {
 
-  const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
-  const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
+   const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
+   const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
+
+
+
+   // const notaryContract = await ethService.getWeb3NotaryContract();
+   // console.log(notaryContract);
+  // const notaryContract = ethService.getWeb3NotaryContract();
+  //const notaryContract = ethService.addGSNProviderToContract(ethService.getWeb3NotaryContract());
 
   const { GSNProvider } = require("@openzeppelin/gsn-provider");
   const gsnProvider = new GSNProvider(config.nodeEndPoint, {
@@ -36,7 +56,7 @@ exports.insertFile = async (req, res) => {
   web3.setProvider(gsnProvider);
 
   //@todo  get hash method sha256 and keccak
-  const fileHash = '0x' + crypto.createHash('sha3-256').update(req.body.file).digest('hex');
+  const fileHash = hashData(req.body.file, req.body.hashType); // '0x' + crypto.createHash('sha3-256').update(req.body.file).digest('hex');
   const hashType = hashTypes[req.body.hashType] || hashTypes.Exists;
   const signature = req.body.signature || nullBytes;
 
@@ -51,7 +71,6 @@ exports.insertFile = async (req, res) => {
      // nonce: await web3.eth.getTransactionCount(signerAccount.address, "pending")
     });
     console.log('file receipt: ', notaryReceipt)
-    //console.log(notaryReceipt);
     let $pi = 3;
   }
   catch(e) { //@todo test this... line and make sure it works
@@ -61,23 +80,22 @@ exports.insertFile = async (req, res) => {
     }
 
     // @todo add proper default clause
-    return res.status('422').send(e.message);
+    return res.status('400').send(e.message);
   }
+
+  // notaryReceipt
   // Insert stuff to db
-  req.body.txStatus = txState.success;
-  req.body.confirmations = 1; //@todo actual
+  req.body.txStatus = notaryReceipt.status;
   req.body.fileHash = fileHash;
   req.body.txId = notaryReceipt.transactionHash || nullBytes;
 
-  // get type from contract response
-  //
-  // Prepare response
   const response = {
-    txStatus: txState.success,
+    txStatus: req.body.txStatus,
     fileHash: fileHash,
-    hashType: 'sha3-256',
-    docType: 'text/plain', //@todo remove this
-    txId: req.body.txId,//notaryReceipt.transactionHash || null,
+    hashType: req.body.hashType,
+    docType: req.body.docType || emptyString,
+    contractAddress: config.notaryContract,
+    txId: req.body.txId || nullBytes,
     chainId: 1, // as below
     timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
   };
@@ -94,7 +112,6 @@ exports.insertFile = async (req, res) => {
     });
 };
 
-
 // this should be in the controller or the database
 exports.insertHash = async (req, res) => {
   const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
@@ -104,6 +121,7 @@ exports.insertHash = async (req, res) => {
   const gsnProvider = new GSNProvider(config.nodeEndPoint, {
     signKey:  config.signKey  // we also need the address of hub here, no?
   });
+
   web3.setProvider(gsnProvider);
 
   //@todo  get hash method sha256 and keccak
@@ -115,7 +133,7 @@ exports.insertHash = async (req, res) => {
   const link  = req.body.link || '';
 
   try {
-    console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
+    // console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
     notaryReceipt = await notaryContract.methods.storeItem(req.body.hash, hashType, '', nullBytes).send({from: signerAccount.address, gas: '200000'});
     console.log('hash receipt: ', notaryReceipt)
     if (notaryReceipt.status === false) {
@@ -123,11 +141,11 @@ exports.insertHash = async (req, res) => {
     }
   }
   catch(e) {
-    console.log('file fail: ', e)
+    console.error('file fail: ', e)
     if (e.message.indexOf('Hash already recorded') !== -1) {
       return res.status('422').send(e.message);
     } else {
-      return res.status('422').send(e.message);
+      return res.status('400').send(e.message);
     }
     //@todo: default clause
   }
@@ -136,7 +154,6 @@ exports.insertHash = async (req, res) => {
   // unable to create object
 
   req.body.txStatus = notaryReceipt.status;
-  req.body.confirmations = 1; //@todo actual or scrubb it
   req.body.fileHash = req.body.hash; //@todo undo dup
   req.body.txId = notaryReceipt.transactionHash || null;
   req.body.gasUsed = notaryReceipt.gasUsed || null;
@@ -146,7 +163,7 @@ exports.insertHash = async (req, res) => {
     txStatus: req.body.txStatus,
     fileHash: req.body.hash,
     hashType: hashType,
-    // docType: 'text/plain', // consider keeping for use locally?
+    docType: req.body.docType || 'application/octet-stream',
     txId: notaryReceipt.transactionHash || null,
     chainId: 1, // as below
     timestamp: Date.now(), // @todo derive from receipt -- mebs check block :/

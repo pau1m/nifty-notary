@@ -311,7 +311,7 @@ components:
           type: string
           enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other] #this should probably be its own object
           example: 'Sha3'
-        fileType:
+        docType:
           type: string
         file:
           type: string

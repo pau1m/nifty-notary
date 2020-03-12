@@ -4,6 +4,7 @@ const Web3 = require('web3');
 const web3 = new Web3(config.nodeEndPoint);
 const { GSNProvider } = require("@openzeppelin/gsn-provider");
 const signerAccount = web3.eth.accounts.wallet.add(config.signKey);
+const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
 
 const txState = {
   sending: 'sending', // just getting things going, not yet submitted
@@ -26,15 +27,15 @@ const getSignerAccount = () => {
 
 //@todo refactor calls to use this...
 // @todo abstract this so not tied to one contract
-const getWeb3NotaryContract = () => {
-  const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
+const getWeb3NotaryContract = async () => {
+
   const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
-  const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
+  const notaryContract = await new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
 
   return notaryContract;
 };
 
-const addGSNProcviderToContract = (web3Contract) => {
+const addGSNProviderToContract = (web3Contract) => {
   const gsnProvider = new GSNProvider(config.nodeEndPoint, {
     signKey: getSignerAccount()  // we also need the address of hub here, no?
   });
@@ -52,6 +53,12 @@ const fundRelayHub = async (from, recipient, amount = '0.1') => {
     from: from,
     value: web3.utils.toWei(amount, 'ether')
   });
+};
+
+module.exports = {
+  getWeb3NotaryContract: getWeb3NotaryContract,
+  addGSNProviderToContract: addGSNProviderToContract,
+  fundRelayHub: fundRelayHub
 };
 
 

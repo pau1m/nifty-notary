@@ -11,14 +11,16 @@ const notaryItemSchema = new Schema({
       unique: true
     },
     hashType: String,
-    docType: String, // we don't really care about that anymore @todo chuck it
+    docType: String,
     txId: {
       type: String,
       index: true,
       unique: true
     },
     chainId: String,
-    gasUsed: String
+    gasUsed: String,
+    fileType: String,
+    contractId: String
 });
 
 // maybe this is why the other bits arent working

@@ -1,9 +1,9 @@
-// const frisby = require('frisby');
 const superagent = require('superagent');
 const { assert, expect } = require('chai');
-const config = require('../common/config/env.config')
+const config = require('../common/config/env.config');
 const crypto = require('crypto');
-//@todo
+//@todo refactor: de-duplicate
+
 //create new and user  db and then trash db
 //const createUser = require('./createUser');
 // @todo
@@ -21,8 +21,7 @@ const content = () => {
   return {
     file: makeId(200), // mod this to use an actual file, cos we will have to deal with
     fileType: 'text/plain',    // should probs be utf 8 or something like that
-    //  hashType: 'sha256',
-    //     // token: 'somesecrettobedone',
+    hashType: 'sha3-256',
   }
 };
 
