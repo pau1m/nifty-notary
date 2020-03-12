@@ -11,7 +11,6 @@ Repo is composed of three parts.
 * WebApp: Very basic demo application for drag and drop proof of existence. 
 
 
-
 How It Works
 ============
 

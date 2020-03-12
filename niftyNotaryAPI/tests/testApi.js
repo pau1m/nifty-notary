@@ -15,13 +15,18 @@ const crypto = require('crypto');
 // @todo how to deal with....
 // @todo,,, wait, this could be a springboard to any nft contract
 
-const content = {
+// if we change content as a function this will work....
+
+const content = () => {
+  return {
     file: makeId(200), // mod this to use an actual file, cos we will have to deal with
     fileType: 'text/plain',    // should probs be utf 8 or something like that
     //  hashType: 'sha256',
-    // token: 'somesecrettobedone',
+    //     // token: 'somesecrettobedone',
+  }
 };
-let itemHash = content => '0x' + crypto.createHash('sha3-256').update(content.file).digest('hex');
+
+let itemHash = content => '0x' + crypto.createHash('sha3-256').update(content()['file']).digest('hex');
 
  describe('API Happy Path', () => {
    // Assumes user already created
@@ -31,7 +36,7 @@ let itemHash = content => '0x' + crypto.createHash('sha3-256').update(content.fi
      //  userId: config.testUserI
    };
 
-   let jwt = {}
+   let jwt = {};
 
    before('login and fetch token', (done) => {
      const result = superagent
@@ -57,7 +62,7 @@ let itemHash = content => '0x' + crypto.createHash('sha3-256').update(content.fi
          .post('http://localhost:3600/notarise/hash')
          .set({Authorization: 'Bearer ' + jwt.accessToken})
          .set('Content-Type', 'application/json')
-         .send({hash: itemHash(content), hashType: 2})
+         .send({hash: itemHash(content()['file']), hashType: 2})
          .then((res) => {
 
            superagent
