@@ -17,7 +17,8 @@ const notaryItemSchema = new Schema({
       index: true,
       unique: true
     },
-    chainId: String
+    chainId: String,
+    gasUsed: String
 });
 
 // maybe this is why the other bits arent working

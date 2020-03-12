@@ -52,7 +52,7 @@ contract ItemNotary is Registry {
     function storeItem(bytes32 _itemHash, uint8 _itemType, string memory _link, bytes memory _signature)
     public
     {
-        // require(isRegistered(_msgSender()), "Account not registered");
+        require(isRegistered(_msgSender()), "Account not registered");
         require(_itemType > 0, "Item type must be a positive number");
         require(!isItem(_itemHash), "Item already exists");
 
@@ -113,17 +113,8 @@ contract ItemNotary is Registry {
     public
     {
         require(isRegistered(_msgSender()));
-        // add add to erc721 contract
-        // Minimal contract and property
-
-
-
-        // hmmmmmmmmm.
-        // can we use introspection
-        // do we even need a link here
-        // maybe a link is what could be added to this!!!?????
-        // verify that user is msg.sender
-        // add item as erc721 token for given address
+        //require(proof of ownership)
+        // transfer
     }
 
     function acceptRelayedCall(
@@ -143,6 +134,9 @@ contract ItemNotary is Registry {
     (uint256, bytes memory)
     {
         require(isRegistered(_msgSender()));
+        // require gas
+        // transaction fee
+        // max possible charge
         return _approveRelayedCall();
     }
 

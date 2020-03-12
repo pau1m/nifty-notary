@@ -43,16 +43,19 @@ exports.insertFile = async (req, res) => {
   //  const roo = await web3.eth.getTransactionCount(signerAccount.address, 'pending');
   let notaryReceipt = {};
   try {
+    console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
     notaryReceipt = await notaryContract.methods.storeItem(fileHash, hashType, emptyString, nullBytes).send({
       from: signerAccount.address,
-      gas: 500000,
+      gas: '200000',
      // gasPrice: web3.utils.toWei('40', 'gwei'),
-    //  nonce: 1 + await web3.eth.getTransactionCount(signerAccount.address, "pending")
+     // nonce: await web3.eth.getTransactionCount(signerAccount.address, "pending")
     });
-    console.log(notaryReceipt);
+    console.log('file receipt: ', notaryReceipt)
+    //console.log(notaryReceipt);
     let $pi = 3;
   }
   catch(e) { //@todo test this... line and make sure it works
+
     if (e.message.indexOf('Hash already recorded') !== -1) {
       return res.status('422').send(e.message);
     }
@@ -112,13 +115,15 @@ exports.insertHash = async (req, res) => {
   const link  = req.body.link || '';
 
   try {
-    notaryReceipt = await notaryContract.methods.storeItem(req.body.hash, hashType, '', nullBytes).send({from: signerAccount.address, gas: 4000000});
-    const p = 3.1;
+    console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
+    notaryReceipt = await notaryContract.methods.storeItem(req.body.hash, hashType, '', nullBytes).send({from: signerAccount.address, gas: '200000'});
+    console.log('hash receipt: ', notaryReceipt)
     if (notaryReceipt.status === false) {
       return res.sendStatus(400);
     }
   }
   catch(e) {
+    console.log('file fail: ', e)
     if (e.message.indexOf('Hash already recorded') !== -1) {
       return res.status('422').send(e.message);
     } else {
@@ -138,19 +143,21 @@ exports.insertHash = async (req, res) => {
 
   // Prepare response
   const response = {
-    txStatus: txState.success,
+    txStatus: req.body.txStatus,
     fileHash: req.body.hash,
     hashType: hashType,
     // docType: 'text/plain', // consider keeping for use locally?
     txId: notaryReceipt.transactionHash || null,
     chainId: 1, // as below
-    timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
+    timestamp: Date.now(), // @todo derive from receipt -- mebs check block :/
+    gasUsed: req.body.gasUsed
   };
 
   NotaryItemModel.createItem(req.body)
     .then((result) => {
-      req.body.dbId = result._id.toHexString();
-      return res.status(200).send(response); // @todo 20x?
+      req.body.dbId = response.id = result._id.toHexString();
+      // response.id = re
+      return res.status(200).send(response);
     })
     .catch((e) => {
       return res.status(400).send(e.message)

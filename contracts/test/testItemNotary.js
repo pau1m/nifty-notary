@@ -139,14 +139,23 @@ contract("Notary", accounts => {
   it("Should add item-hash to contract", async () => {
     await itemNotary.updateRegistry(alice, true);
     const itemHash = generateHash();
-    //@todo sshould place a max size on string
+    //@todo should place a max size on string
 
-    const storedItem = await itemNotary.storeItem(itemHash, 1, '', '0x0', {from: alice})
+    const storedItem = await itemNotary.storeItem(itemHash, 1, '', '0x0', {from: alice});
 
     expect(storedItem.logs[0].args.itemHash).to.equal(itemHash);
     expect(await itemNotary.isItem(itemHash)).to.equal(true);
     expect(await itemNotary.isItem(generateHash())).to.equal(false);
   });
+
+
+
+  // @todo test all getters
+
+
+
+
+
 
   //
 
