@@ -9,8 +9,7 @@ Repo is composed of three parts.
 * contracts: Smart contracts, tests for contracts and deployment of contracts and setup of Gas Station Network (GSN).
 * API: API for posting files and hashes to Ethereum blockchain.
 * WebApp: Very basic demo application for drag and drop proof of existence. 
-
-
+    
 How It Works
 ============
 
