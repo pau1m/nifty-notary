@@ -27,8 +27,6 @@ contract ItemNotary is Registry {
 
     enum ItemTypes {Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other}
 
-    //enum itemTypes {Invalid, Exists, Sha256, Sha3, EthSig, EthHashPlusSig, BTCSig, BTCHashPlusSig, Passphrase, Other}
-
     struct Item {
         uint8 itemType; //
         string url; // optional
@@ -39,6 +37,7 @@ contract ItemNotary is Registry {
     mapping(bytes32 => Item) items;
 
     event addedItem(bytes32 itemHash);
+    event testSomething(address foo);
 
     constructor() public {}
 
@@ -56,6 +55,7 @@ contract ItemNotary is Registry {
         require(isRegistered(_msgSender()), "Account not registered");
         require(_itemType > 0, "Item type must be a positive number");
         require(!isItem(_itemHash), "Item already exists");
+        //@todo should also check signature
 
         Item memory item = Item(_itemType, _link, _signature);
         items[_itemHash] = item;
@@ -134,7 +134,9 @@ contract ItemNotary is Registry {
     returns
     (uint256, bytes memory)
     {
-        require(isRegistered(_msgSender()));
+        require(isRegistered(from));
+
+//        require(isRegistered(_msgSender()));
         // require gas
         // transaction fee
         // max possible charge
@@ -175,8 +177,8 @@ contract ItemNotary is Registry {
         require(ItemTypes(items[_itemHash].itemType) == ItemTypes.Sha3PlusEthSig, "Items is not of type EthHashPlusSig");
         require(items[_itemHash].signature.length > 0, "No signature provided"); // @note length returns true in 0.6
 
-         bytes32 prefixedHash = _itemHash.toEthSignedMessageHash();
-         return _address == prefixedHash.recover(items[_itemHash].signature);
+        bytes32 prefixedHash = _itemHash.toEthSignedMessageHash();
+        return _address == prefixedHash.recover(items[_itemHash].signature);
     }
 }
 
