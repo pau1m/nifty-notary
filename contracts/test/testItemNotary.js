@@ -14,9 +14,12 @@
 //   //  hashType: 'sha256',
 //   // token: 'somesecrettobedone',
 // };
-
+const ethSigUtil = require('eth-sig-util');
 const crypto = require('crypto');
 const keccak = crypto.createHash('sha3-256');
+
+
+
 
 const makeId = length => {
   var result = '';
@@ -82,6 +85,7 @@ const { GSNProvider } = require("@openzeppelin/gsn-provider");
 // Test all postive cases for the moment
 contract("Notary", accounts => {
   const [ admin, relayer, alice, bob, charlie ] = accounts;
+
   let itemNotary = {};
   let notaryGSM = {};
 
@@ -139,7 +143,6 @@ contract("Notary", accounts => {
   it("Should add item-hash to contract", async () => {
     await itemNotary.updateRegistry(alice, true);
     const itemHash = generateHash();
-    //@todo should place a max size on string
 
     const storedItem = await itemNotary.storeItem(itemHash, 1, '', '0x0', {from: alice});
 
@@ -147,6 +150,27 @@ contract("Notary", accounts => {
     expect(await itemNotary.isItem(itemHash)).to.equal(true);
     expect(await itemNotary.isItem(generateHash())).to.equal(false);
   });
+
+  it("Should store item with signature", async () => {
+    await itemNotary.updateRegistry(alice, true);
+    const itemHash = generateHash();
+
+    const sig = await web3.eth.sign(itemHash, alice);
+    const signer = await web3.eth.accounts.recover(itemHash, sig, false);
+
+    const storedItem = await itemNotary.storeItem(itemHash, '5', '', sig, {from: alice});
+
+    expect(await itemNotary.getItemSig(itemHash)).to.equal(sig);
+    expect(await itemNotary.addressIsOwner(alice, itemHash)).to.equal(true);
+    expect(await itemNotary.senderIsSigner(itemHash, {from: alice}), {from: alice}).to.equal(true);
+
+  });
+
+  it("Should store with a link", async () => {
+
+  })
+
+
 
 
 

@@ -3,7 +3,7 @@ pragma experimental ABIEncoderV2;
 
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 import "@openzeppelin/contracts/GSN/GSNRecipient.sol";
-import "@openzeppelin/contracts/cryptography/ECDSA.sol";
+import "./ECDSA.sol";
 
 contract Registry is Ownable, GSNRecipient {
 
@@ -52,6 +52,7 @@ contract ItemNotary is Registry {
     function storeItem(bytes32 _itemHash, uint8 _itemType, string memory _link, bytes memory _signature)
     public
     {
+        // @todo if has sig should be validate sig is correct
         require(isRegistered(_msgSender()), "Account not registered");
         require(_itemType > 0, "Item type must be a positive number");
         require(!isItem(_itemHash), "Item already exists");
@@ -164,15 +165,18 @@ contract ItemNotary is Registry {
         return (addressIsOwner(_msgSender(), _itemHash));
     }
 
+    // change this to addressIsSigner
     function addressIsOwner(address _address, bytes32 _itemHash)
     public
     view
     returns
-    (bool isSigner)
+    (bool)
     {
         require(ItemTypes(items[_itemHash].itemType) == ItemTypes.Sha3PlusEthSig, "Items is not of type EthHashPlusSig");
         require(items[_itemHash].signature.length > 0, "No signature provided"); // @note length returns true in 0.6
-        return _address == _itemHash.recover(items[_itemHash].signature);
+
+         bytes32 prefixedHash = _itemHash.toEthSignedMessageHash();
+         return _address == prefixedHash.recover(items[_itemHash].signature);
     }
 }
 
