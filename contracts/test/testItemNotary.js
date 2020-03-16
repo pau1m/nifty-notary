@@ -18,9 +18,6 @@ const ethSigUtil = require('eth-sig-util');
 const crypto = require('crypto');
 const keccak = crypto.createHash('sha3-256');
 
-
-
-
 const makeId = length => {
   var result = '';
   var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -41,14 +38,6 @@ console.log(generateHash());
 // const generateSha256Hash = () => {
 //
 // }
-
-
-
-// crypto.sha3-256
-//
-// // encode
-//
-// console.log(crypto.getHashes());
 
 const {
   deployRelayHub,
@@ -82,7 +71,7 @@ const { GSNProvider } = require("@openzeppelin/gsn-provider");
 // // Disable GSN for a specific transaction
 // await myContract.methods.myFunction().send({ from, useGSN: false });
 
-// Test all postive cases for the moment
+// Test only happy path in this revision
 contract("Notary", accounts => {
   const [ admin, relayer, alice, bob, charlie ] = accounts;
 
@@ -112,8 +101,9 @@ contract("Notary", accounts => {
     notaryGSM = new web3.eth.Contract(itemNotary.abi, itemNotary.address);
 
     const relayHub = await new web3.eth.Contract(RelayHub.abi, config.relayHub);
-    const funded = await relayHub.methods.depositFor(itemNotary.address).send({from: accounts[0], value: web3.utils.toWei('0.2', 'ether')});
-
+   // await runRelayer(web3, { quiet: true });
+    const funded = await relayHub.methods.depositFor(itemNotary.address).send({from: accounts[0], value: web3.utils.toWei('0.3', 'ether')});
+    // console.log(funded);
     //console.log('NOTARY: ', notaryGSM.address);
     // console.log(notaryGSM.abi)
     // await web3.eth.sendTransaction({from: admin, to: notary.address, value: web3.utils.toWei('1', 'ether')})
@@ -123,7 +113,7 @@ contract("Notary", accounts => {
     notaryGSM.setProvider(new GSNProvider('http://localhost:8545'));
     //  notaryGSM.setProvider(new GSNProvider('https://ropsten.infura.io/v3/72558b256e3148358d057eea53feb029'));
 
-    // await fundRecipient(web3, { recipient: notary.address, amount: web3.utils.toWei('0.5', 'ether') });
+   // await fundRecipient(web3, { recipient: itemNotary.address, amount: web3.utils.toWei('0.5', 'ether') });
 
     //web3.eth.sendTransaction({from: admin, to: notaryGSM.address, value: web3.utils.toWei('1', 'ether')})
 
@@ -136,6 +126,15 @@ contract("Notary", accounts => {
     const registeredUser = await itemNotary.updateRegistry(alice, true);
     expect(await itemNotary.isRegistered(alice)).to.equal(true);
     expect(await itemNotary.isRegistered(bob)).to.equal(false);
+    // check for firing of events
+  });
+
+  it("Should send item from registered user via GSN", async () => {
+    const registeredUser = await itemNotary.updateRegistry(alice, true);
+    const itemHash = generateHash();
+    const storedItem = await notaryGSM.methods.storeItem(itemHash, 1, '', '0x0').send({from: alice, gas: 200000});
+
+    expect(storedItem.events.addedItem.returnValues.itemHash).to.equal(itemHash);
   });
 
 
@@ -151,7 +150,7 @@ contract("Notary", accounts => {
     expect(await itemNotary.isItem(generateHash())).to.equal(false);
   });
 
-  it("Should store item with signature", async () => {
+  it("Should store and verify item with signature", async () => {
     await itemNotary.updateRegistry(alice, true);
     const itemHash = generateHash();
 
@@ -167,8 +166,16 @@ contract("Notary", accounts => {
   });
 
   it("Should store with a link", async () => {
+    await itemNotary.updateRegistry(alice, true);
+    const itemHash = generateHash();
+    const link = makeId(60);
+    const storedItem = await itemNotary.storeItem(itemHash, '2', link, '0x0', {from: alice});
 
+    expect(await itemNotary.getItemLink(itemHash)).to.equal(link);
   })
+
+  // it should not accept some functions without being in registry
+  // it should be as above but with GSN too
 
 
 
