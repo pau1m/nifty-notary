@@ -28,6 +28,8 @@ const emptyString = '';
 
 // @todo should
 // @todo add typing
+// uhmmm.... how are we going to verify or encrypt with other types????
+// what if we have passed a file
 const hashData = (data, hashType) => {
   hashType.toLowerCase();
   if (['sha3-256', 'sha256'].indexOf(hashType) === -1) {
@@ -79,7 +81,6 @@ exports.insertFile = async (req, res) => {
       return res.status('422').send(e.message);
     }
 
-    // @todo add proper default clause
     return res.status('400').send(e.message);
   }
 

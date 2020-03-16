@@ -7,7 +7,9 @@
     "@openzeppelin/test-helpers": "^0.5.4",
     "@truffle/hdwallet-provider": "^1.0.31",
     "chai": "^4.2.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "eth-sig-util": "^2.5.3",
+    "truffle-intellij-debug": "https://github.com/80Trill/truffle-intellij-debug"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

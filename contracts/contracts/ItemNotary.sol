@@ -51,11 +51,9 @@ contract ItemNotary is Registry {
     function storeItem(bytes32 _itemHash, uint8 _itemType, string memory _link, bytes memory _signature)
     public
     {
-        // @todo if has sig should be validate sig is correct
         require(isRegistered(_msgSender()), "Account not registered");
         require(_itemType > 0, "Item type must be a positive number");
         require(!isItem(_itemHash), "Item already exists");
-        //@todo should also check signature
 
         Item memory item = Item(_itemType, _link, _signature);
         items[_itemHash] = item;
@@ -110,13 +108,13 @@ contract ItemNotary is Registry {
     /**
      * Only applicable if use is the owner...
      */
-    function tradeThisItem(bytes32 _itemHash)
-    public
-    {
-        require(isRegistered(_msgSender()));
-        //require(proof of ownership)
-        // transfer
-    }
+//    function tradeThisItem(bytes32 _itemHash)
+//    public
+//    {
+//        require(isRegistered(_msgSender()));
+//        //require(proof of ownership)
+//        // transfer
+//    }
 
     function acceptRelayedCall(
         address relay,
@@ -155,7 +153,7 @@ contract ItemNotary is Registry {
     function _postRelayedCall(bytes memory context, bool, uint256 actualCharge, bytes32)
     internal
     {
-        // not implemented
+        // @todo actual charge
     }
 
     function senderIsSigner(bytes32 _itemHash)

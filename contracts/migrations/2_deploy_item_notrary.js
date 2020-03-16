@@ -9,6 +9,8 @@ const RelayHub = artifacts.require("IRelayHub");
 const config = require(__dirname+'/./../config');
 
 // Format of async deploy JS adapted from https://github.com/trufflesuite/truffle/issues/501#issuecomment-373886205
+//@todo live deployment take values from env
+// have to take private key and use to add register
 module.exports = (deployer) => {
 
   deployer.then(async () => {

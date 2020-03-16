@@ -99,7 +99,7 @@ paths:
     # /notarised/transaction/{txId}
     # get:
     #   summary: Fetch ethereum transaction
-  /notarised/verify:
+  /notarised/verifyFileHash:
     post:
       summary: Verify that a given file matches the given hash
       requestBody:
@@ -109,6 +109,28 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Verifiable'
+      #    opeationId: notariseFile
+      tags:
+        - notary
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notarised"
+        '203':
+          description: Transaction submitted but not mined
+  /notarised/verifySignature:
+    post:
+      summary: Verify that a given signature matches the given hash
+      requestBody:
+        description: Post hash and a signature to verify signer address
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifiableSig'
       #    opeationId: notariseFile
       tags:
         - notary
@@ -302,19 +324,29 @@ components:
       properties:
         id:
           type: string
+    VerifiableSig:
+      type: object
+      properties:
+        fileHash:
+          type: string
+        signature:
+          type: string
     Verifiable:
       type: object
       properties:
         fileHash:
           type: string
-        hashType:
-          type: string
-          enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other] #this should probably be its own object
-          example: 'Sha3'
-        docType:
-          type: string
+#        hashType:
+#          type: string
+#          enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other] #this should probably be its own object
+#          example: 'Sha3'
+#        docType:
+#          type: string
         file:
           type: string
+#    HashTypes:
+#      type: string
+#      enum:  [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other]
     Notarised:
       type: object
       properties:
@@ -324,7 +356,7 @@ components:
           type: string
         hashType:
           type: string
-          enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other] #this should probably be its own object
+          enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other]
           example: 'Sha3'
         link:
           type: string
