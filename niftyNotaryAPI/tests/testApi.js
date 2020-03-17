@@ -60,10 +60,6 @@ const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(i
        });
    });
 
-   // it('should do nothing', (done) => {
-   //   done();
-   // })
-
   describe('Post a hash', () => {
 
      it('Should post hash and get data by db id and txid', (done) => {
@@ -96,9 +92,9 @@ const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(i
                    assert(txIdRes.id === txIdRes.id);
                    assert(txIdRes.fileHash === txIdRes.fileHash);
                    assert(txIdRes.txId === txIdRes.txId);
-
+                   done();
                    // superagent
-                   //   .get('http://localhost:3600/notarised/getByTxId/' + idRes.body.txId)
+                   //   .get('http://localhost:3600/notarised/getByHash/' + fHashRes.body.txId)
                    //   .set({Authorization: 'Bearer ' + jwt.accessToken})
                    //   .set('Content-Type', 'application/json')
                    //   .end((err, txIdRes) => {
@@ -162,8 +158,8 @@ const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(i
              })
          })
          .catch((e) => {
-           console.error(e)
-           done(e)
+           console.error(e);
+           done()
          })
      });
    });
@@ -213,9 +209,21 @@ const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(i
          })
      });
    });
+ });
+
+
+ describe ('Post has with signature', () => {
+   before(done => setTimeout(done, 500));
 
 
  });
+
+
+  describe('Verify stuff', () => {
+
+  });
+
+
 
 
 function makeId(length) {

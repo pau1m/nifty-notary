@@ -195,7 +195,7 @@ paths:
   /notarised/getByTxId/{txId}:
     get:
       summary: Get notary object from db
-      operationId: fetchTxByTxId #what is the operationId: for???
+      #operationId: fetchTxByTxId
       tags:
         - notary
       parameters:
