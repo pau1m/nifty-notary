@@ -103,7 +103,7 @@ contract("Notary", accounts => {
     const storedItem = await itemNotary.storeItem(itemHash, '5', '', sig, {from: admin});
 
     expect(await itemNotary.getItemSig(itemHash)).to.equal(sig);
-    expect(await itemNotary.addressIsOwner(admin, itemHash)).to.equal(true);
+    expect(await itemNotary.addressIsSigner(admin, itemHash)).to.equal(true);
     expect(await itemNotary.senderIsSigner(itemHash, {from: admin})).to.equal(true);
 
   });
