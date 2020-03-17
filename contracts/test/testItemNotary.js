@@ -130,7 +130,7 @@ contract("Notary", accounts => {
   });
 
   it("Should send item from registered user via GSN", async () => {
-    const registeredUser = await itemNotary.updateRegistry(alice, true);
+    await itemNotary.updateRegistry(alice, true);
     const itemHash = generateHash();
     const storedItem = await notaryGSM.methods.storeItem(itemHash, 1, '', '0x0').send({from: alice, gas: 200000});
 
@@ -179,6 +179,7 @@ contract("Notary", accounts => {
 
   // it should not accept some functions without being in registry
   // it should be as above but with GSN too
+  // ? how should we handle getters
 
 
 
