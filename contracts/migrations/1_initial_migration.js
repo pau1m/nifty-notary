@@ -5,7 +5,9 @@ const Notary = artifacts.require("Notary");
 // const { fundRecipient } = require('@openzeppelin/gsn-helpers');
 const RelayHub = artifacts.require("IRelayHub");
 
-const config = require(__dirname+'/./../config');
+// This gets called from elsewhere so need to fix dir location
+const config = require(__dirname+'./../config');
+console.log('CONFIG', config);
 // context of execution loses config :/ not sure how to add it
 // console.log('why no config? ', config);
 
@@ -20,7 +22,7 @@ module.exports = (deployer) => {
     const notary = await Notary.deployed();
     console.log('Contract deployed at: ', notary.address);
 
-    const relayHub = new web3.eth.Contract(RelayHub.abi, '0xD216153c06E857cD7f72665E0aF1d7D82172F494'/*config.relayHub*/);
+    const relayHub = new web3.eth.Contract(RelayHub.abi, config.relayHub);
     await relayHub.methods.depositFor(notary.address).send({
       from: accounts[0],
       value: web3.utils.toWei('0.2', 'ether')

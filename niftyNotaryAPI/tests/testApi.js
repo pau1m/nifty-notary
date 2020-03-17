@@ -96,7 +96,22 @@ const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(i
                    assert(txIdRes.id === txIdRes.id);
                    assert(txIdRes.fileHash === txIdRes.fileHash);
                    assert(txIdRes.txId === txIdRes.txId);
-                   done()
+
+                   // superagent
+                   //   .get('http://localhost:3600/notarised/getByTxId/' + idRes.body.txId)
+                   //   .set({Authorization: 'Bearer ' + jwt.accessToken})
+                   //   .set('Content-Type', 'application/json')
+                   //   .end((err, txIdRes) => {
+                   //     assert(err === null, 'err');
+                   //     console.log('fetched by txId: ', txIdRes.body.txId);
+                   //     assert(txIdRes.id === txIdRes.id);
+                   //     assert(txIdRes.fileHash === txIdRes.fileHash);
+                   //     assert(txIdRes.txId === txIdRes.txId);
+                   //     done()
+                   //   })
+
+
+
                  })
              })
          })

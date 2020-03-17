@@ -44,10 +44,16 @@ paths:
       responses:
         201:
           description: Created new user
-        400:
-          description: foo #todo
+          content:
+            application/json:
+              schema:
+                object:
+                  string: id
+                example: {id: '5e70b6fa4176b7038aa3550b'}
+#        400:
+#          description: foo #todo
         409:
-          description: email already in use
+          description: Email already in use
   /notarise/file:
     post:
       summary: Post a new file to hash and store on Ethereum
@@ -121,7 +127,7 @@ paths:
                 $ref: "#/components/schemas/Notarised"
         '203':
           description: Transaction submitted but not mined
-  /notarised/recoverSigner/{fileHash}/{signature}:
+  /notarised/recoverSigner/{fileHash}/{signature}: #consider renaming utility/verifySigner/
     get:
       summary: Verify that a given signature matches the given hash. Does not check anything on-chain. Only applies to sha3-256 sigs. #@todo see btc bride for how to apply to sha-256
       parameters:
@@ -150,12 +156,12 @@ paths:
                 object:
                   string: signer
               example: {signer: '0xc64bED8034A556720290840C53047ae79a251087'}
-        '203':
+        '400': #@todo
           description: Transaction submitted but not mined
   /notarised/getById/{id}:
     get:
       summary: Get notary object from db
-      operationId: getNotarised #what is the operationId: for???
+    #  operationId: getNotarised @todo rename these to map to funcs on API
       tags:
         - notary
       parameters:
