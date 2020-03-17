@@ -9478,12 +9478,12 @@
         }
       },
       "links": {},
-      "address": "0xCCEd10a4a29b38472ca34C97748684A488411F36",
-      "transactionHash": "0x9fec30bbcb3e495f07d529c14a4961d90009dc06af26f797f97ac40a5d6aab66"
+      "address": "0x27779d7fd6BEB692D324c684a5285a2154cA61Ea",
+      "transactionHash": "0x16b3cd7ee5ed227f3e2a1148d91496856c7a1b78f5b03c7346a5cadf0ee8a392"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-17T11:56:05.199Z",
+  "updatedAt": "2020-03-17T18:39:20.265Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {

@@ -4,16 +4,16 @@
  * Only intended to test against local node. Not for upstream.
  */
 
-//const { GSNProvider } = require("@openzeppelin/gsn-provider");
-// maybe should just use the stuff from openzeppelin in here
-// might make things easier.. retrofit for now.. get one tx working
-//const { accounts, contract } = require('@openzeppelin/test-environment');
-// const content = {
-//   file: makeId(200), // mod this to use an actual file, cos we will have to deal with
-//   fileType: 'text/plain',    // should probs be utf 8 or something like that
-//   //  hashType: 'sha256',
-//   // token: 'somesecrettobedone',
-// };
+  //const { GSNProvider } = require("@openzeppelin/gsn-provider");
+  // maybe should just use the stuff from openzeppelin in here
+  // might make things easier.. retrofit for now.. get one tx working
+  //const { accounts, contract } = require('@openzeppelin/test-environment');
+  // const content = {
+  //   file: makeId(200), // mod this to use an actual file, cos we will have to deal with
+  //   fileType: 'text/plain',    // should probs be utf 8 or something like that
+  //   //  hashType: 'sha256',
+  //   // token: 'somesecrettobedone',
+  // };
 const ethSigUtil = require('eth-sig-util');
 const crypto = require('crypto');
 const keccak = crypto.createHash('sha3-256');
@@ -55,7 +55,7 @@ const { expect } = require('chai');
 const ItemNotary = artifacts.require('ItemNotary');
 const RelayHub = artifacts.require('IRelayHub');
 
-const config = require('../config')
+const config = require('../config');
 
 // const { GSNDevProvider } = require("@openzeppelin/gsn-provider");
 const { GSNProvider } = require("@openzeppelin/gsn-provider");
@@ -112,14 +112,6 @@ contract("Notary", accounts => {
     // because we cant use fund reciepet any more
     notaryGSM.setProvider(new GSNProvider('http://localhost:8545'));
     //  notaryGSM.setProvider(new GSNProvider('https://ropsten.infura.io/v3/72558b256e3148358d057eea53feb029'));
-
-   // await fundRecipient(web3, { recipient: itemNotary.address, amount: web3.utils.toWei('0.5', 'ether') });
-
-    //web3.eth.sendTransaction({from: admin, to: notaryGSM.address, value: web3.utils.toWei('1', 'ether')})
-
-    //
-    // console.log(registeredUser);
-   // const registeredUser = await notary.updateRegistry(alice, true);
   });
 
   it("Should have deployed and registered user", async () => {
