@@ -2638,12 +2638,12 @@
     "666": {
       "events": {},
       "links": {},
-      "address": "0x236c72C882Fb6f375Bd9144Df060493406f1aF06",
-      "transactionHash": "0x6e933bccb4f28466caa6af6e2cb6daaf7afe0572ff19f069803917bc9e9a1ac3"
+      "address": "0x734CdbCF0eC996ce80Ba7aE68c8528D49939226a",
+      "transactionHash": "0x902c4c96e86f3639a85b02f35e6f62007610ed02acec39a5f5cd660f3977c1b3"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-17T11:56:05.206Z",
+  "updatedAt": "2020-03-17T18:39:20.271Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "Elliptic Curve Digital Signature Algorithm (ECDSA) operations. * These functions can be used to verify that a message was signed by the holder of the private keys of a given address.",

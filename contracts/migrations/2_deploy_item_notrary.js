@@ -24,7 +24,7 @@ module.exports = (deployer) => {
     const itemNotary = await ItemNotary.deployed();
     console.log('Contract deployed at: ', itemNotary.address);
 
-    const relayHub = new web3.eth.Contract(RelayHub.abi, '0xD216153c06E857cD7f72665E0aF1d7D82172F494'/*config.relayHub*/);
+    const relayHub = new web3.eth.Contract(RelayHub.abi, '0xD216153c06E857cD7f72665E0aF1d7D82172F494'/*(config.relayHub*/);
     await relayHub.methods.depositFor(itemNotary.address).send({
       from: accounts[0], // @todo from config
       value: web3.utils.toWei('0.2', 'ether')

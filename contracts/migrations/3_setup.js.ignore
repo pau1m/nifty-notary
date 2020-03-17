@@ -1,3 +1,6 @@
+depending on the type of deployment this is... add setup
+
+
 //@todo additional setup?
 //@todo take values from config
 const ItemNotary = artifacts.require('ItemNotary');
