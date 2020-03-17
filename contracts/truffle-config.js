@@ -24,40 +24,8 @@ const config = require('./config');
 const Web3 = require('web3');
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const PrivateKeyProvider = require("truffle-privatekey-provider");
-//@todo from env
-const mnemonic = config.seedPhrase; //"timber initial unhappy transfer genre divorce noodle liberty hen steel trumpet clever";
 
-// read the mnemonid from config...
-
-
-// const {
-//     deployRelayHub,
-//     runRelayer,
-//     fundRecipient,
-// } = require('@openzeppelin/gsn-helpers');
-//
-// const web3 = new Web3('http://localhost:8545');
-//
-// await deployRelayHub(web3);
-//
-// await runRelayer(web3, { quiet: true });
-//
-// await fundRecipient(web3, { recipient: <address>, amount: 50000000 });
-
-
-// RelayHub found at 0xd216153c06e857cd7f72665e0af1d7d82172f494
-// 0xd216153c06e857cd7f72665e0af1d7d82172f494
-
-
-// const HDWalletProvider = require('truffle-hdwallet-provider');
-// const infuraKey = "fj4jll3k.....";
-//
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
-
-
-//@todo mnemonic from env pull this from
-//@todo proper migration handling
+const mnemonic = config.seedPhrase;
 
 module.exports = {
   /**
@@ -84,7 +52,7 @@ module.exports = {
     },
     ropsten: {
       provider: function() {
-          return new HDWalletProvider(mnemonic, 'https://ropsten.infura.io/v3/' + config.infuraKey)
+          return new HDWalletProvider(mnemonic, 'https://ropsten.infura.io/v3/' + config.infuraKey);
       },
       network_id: 3,
       gasPrice: Web3.utils.toWei('30', 'gwei'),
@@ -94,13 +62,7 @@ module.exports = {
           return new PrivateKeyProvider(config.deployKey, 'https://mainnet.infura.io/v3/' + config.infuraKey);
         },
         gasPrice: Web3.utils.toWei('5', 'gwei'), //@todo check before actually deploy
-      }
-      //@todo
-      // hmmmmmmmmm.... this should actually be a private key taken from the
     }
-
-    //https://mainnet.infura.io/v3/72558b256e3148358d057eea53feb029
-
     // Another network with more advanced options...
     // advanced: {
       // port: 8777,             // Custom port
@@ -149,4 +111,4 @@ module.exports = {
       // }
     }
   }
-}
+};
