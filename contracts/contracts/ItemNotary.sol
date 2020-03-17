@@ -162,7 +162,7 @@ contract ItemNotary is Registry {
     returns
     (bool)
     {
-        return (addressIsOwner(_msgSender(), _itemHash));
+        return (addressIsSigner(_msgSender(), _itemHash));
     }
 
     function addressIsSigner(address _address, bytes32 _itemHash)

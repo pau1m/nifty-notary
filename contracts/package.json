@@ -9,7 +9,8 @@
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "eth-sig-util": "^2.5.3",
-    "truffle-intellij-debug": "https://github.com/80Trill/truffle-intellij-debug"
+    "truffle-intellij-debug": "https://github.com/80Trill/truffle-intellij-debug",
+    "truffle-privatekey-provider": "^1.3.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

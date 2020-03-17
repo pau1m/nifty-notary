@@ -23,6 +23,7 @@
 const config = require('./config');
 const Web3 = require('web3');
 const HDWalletProvider = require("@truffle/hdwallet-provider");
+const PrivateKeyProvider = require("truffle-privatekey-provider");
 //@todo from env
 const mnemonic = config.seedPhrase; //"timber initial unhappy transfer genre divorce noodle liberty hen steel trumpet clever";
 
@@ -83,16 +84,22 @@ module.exports = {
     },
     ropsten: {
       provider: function() {
-          return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/72558b256e3148358d057eea53feb029")
+          return new HDWalletProvider(mnemonic, 'https://ropsten.infura.io/v3/' + config.infuraKey)
       },
       network_id: 3,
       gasPrice: Web3.utils.toWei('30', 'gwei'),
-        // @todo get gas estimate.... set gas amd set from address
     },
     live: {
+        provider: function() {
+          return new PrivateKeyProvider(config.deployKey, 'https://mainnet.infura.io/v3/' + config.infuraKey);
+        },
+        gasPrice: Web3.utils.toWei('5', 'gwei'), //@todo check before actually deploy
+      }
       //@todo
+      // hmmmmmmmmm.... this should actually be a private key taken from the
     }
 
+    //https://mainnet.infura.io/v3/72558b256e3148358d057eea53feb029
 
     // Another network with more advanced options...
     // advanced: {

@@ -962,7 +962,7 @@
                       "name": "ecrecover",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3325,
+                      "referencedDeclaration": 2938,
                       "src": "3144:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_ecrecover_pure$_t_bytes32_$_t_uint8_$_t_bytes32_$_t_bytes32_$returns$_t_address_$",
@@ -1158,7 +1158,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3320,
+                            "referencedDeclaration": 2933,
                             "src": "3638:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -1205,7 +1205,7 @@
                       "name": "keccak256",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3327,
+                      "referencedDeclaration": 2940,
                       "src": "3628:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -2273,7 +2273,7 @@
                       "name": "ecrecover",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3325,
+                      "referencedDeclaration": 2938,
                       "src": "3144:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_ecrecover_pure$_t_bytes32_$_t_uint8_$_t_bytes32_$_t_bytes32_$returns$_t_address_$",
@@ -2469,7 +2469,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3320,
+                            "referencedDeclaration": 2933,
                             "src": "3638:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -2516,7 +2516,7 @@
                       "name": "keccak256",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3327,
+                      "referencedDeclaration": 2940,
                       "src": "3628:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -2638,12 +2638,12 @@
     "666": {
       "events": {},
       "links": {},
-      "address": "0x734CdbCF0eC996ce80Ba7aE68c8528D49939226a",
-      "transactionHash": "0x902c4c96e86f3639a85b02f35e6f62007610ed02acec39a5f5cd660f3977c1b3"
+      "address": "0xf6C0A0ec3d1474DCc5ec08E145979CAB1D1bdcEE",
+      "transactionHash": "0xf89907bbaf75c486be31c41b2e730c6b4549297f306b9300c9d88591cbf77d60"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-17T18:39:20.271Z",
+  "updatedAt": "2020-03-17T22:28:39.418Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "Elliptic Curve Digital Signature Algorithm (ECDSA) operations. * These functions can be used to verify that a message was signed by the holder of the private keys of a given address.",
