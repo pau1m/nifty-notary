@@ -1,104 +1,51 @@
-// const frisby = require('frisby');
 const superagent = require('superagent');
 const { assert, expect } = require('chai');
-const config = require('../common/config/env.config')
-//@todo
+const config = require('../common/config/env.config');
+const crypto = require('crypto');
+//@todo refactor: de-duplicate
+
 //create new and user  db and then trash db
 //const createUser = require('./createUser');
+// @todo
+// other tests
+// test user access
+// test end points
+// make sure swagger matches api
+// @todo add contractId to response, make it a unqiue field...
+// @todo how to deal with....
+// @todo,,, wait, this could be a springboard to any nft contract
 
+// if we change content as a function this will work....
 
-
-// @todo proper start up and tear down
-
-//
-
-// how do we add out default admin user
-
-// mocha.timeout(5000);
-// create object -- do we also need mocha for this and chai
-// const config = {
-//   url: 'http://localhost
-//port: 3600
-// };
-// this should already be in base64
-// cos its easier to send
-// where should the hash be created...
-// maybe that should be done further upstream...
-//base64encoded
-//@todo look at jest for better unit testing of express code - split app in launching of app so can pass it in
-const content = {
+const content = () => {
+  return {
     file: makeId(200), // mod this to use an actual file, cos we will have to deal with
-    fileType: 'text/plain',    // should probs be utf 8 or something like that
-    //  hashType: 'sha256',
-    // token: 'somesecrettobedone',
+      fileType: 'text/plain',    // should probs be utf 8 or something like that
+    hashType: 'sha3-256',
+  }
 };
 
-// create a hash to put in
+const itemHash = () => '0x' + crypto.createHash('sha3-256').update(content()['file']).digest('hex');
 
-// !!! @todo pull in the actual types used on the db
-//@todo also have to deal with auth
-//@todo should we prepend path
+// need to make sure we add the
+const signHash = async (itemHash, pvtKey) => {
+  const prefix = '\x19Ethereum Signed Message:\n' + String.fromCharCode(message.length);
+  const prefixedItemHash = prefix + message;
 
-// it('should be a teapot', () => {
-//     // Return the Frisby.js Spec in the 'it()' (just like a promise)
-//     return frisby.get('http://httpbin.org/status/418')
-//         .expect('status', 418);
-// });
+  await web3.eth.accounts.sign(prefixedItemHash, config.signKey);
+};
 
-
-// before each
-// do a login
-
-
-
-// @todo --- we should add accept to this
-// should be wrapped in describe
-// @todo --- now to assertions...
-//@todo end point for just user
-// does a user really want to attach it to their name
-// can start to consider refactoring of contracta
-// erc721 no reason not to use that above all else...
-
-//@todo we might have a nonce race condition here
-// @todo update end points
-// pull in details from config
-
-// could actually move that whole test thing in here!!!!
-
-// uhm.... why does it get locked up here when adding
+const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(itemHash, sig, false);
 
  describe('API Happy Path', () => {
-   // assumes we have already created user --- using that as a script so ... hmmm how also to use here...
-   // on launching tests can add function to run in the backgrounf an dcreate user
-   // for the moment
-   // today all tests....
-   // consider using frisby
-   //
-   // const testUserId = config.testUserId
-   //
-
-
-   //console.log(createUser)
-
-   // const user = createUser();
-   // let authToken = {};
-   // // @todo get auth id
-   // // @todo write full suite of tests
-   //
-
-
+   // Assumes user already created
    const authRequest = {
-       email: config.testEmail,
-       password: config.testPassword
+     email: config.testEmail,
+     password: config.testPassword
      //  userId: config.testUserI
    };
 
-   let jwt = {}
-
-
-   // add asserts ... still consider using frisby
-
-
+   let jwt = {};
 
    before('login and fetch token', (done) => {
      const result = superagent
@@ -109,116 +56,175 @@ const content = {
          done()
        })
        .catch((err) => {
-         done()
+         done(err)
        });
    });
 
-   // it('should do nothing', (done) => {
-   //   done();
-   // })
+  describe('Post a hash', () => {
 
-   // what the the fuck is going on ... maybe just can't see something that is really obvious
+     it('Should post hash and get data by db id and txid', (done) => {
+       superagent
+         .post('http://localhost:3600/notarise/hash')
+         .set({Authorization: 'Bearer ' + jwt.accessToken})
+         .set('Content-Type', 'application/json')
+         .send({hash: itemHash(content()['file']), hashType: 2})
+         .then((res) => {
 
-   // it('Should post and get data by file hash', (done) => {
-   //   //console.log('jwt: ', jwt)
-   //   superagent
-   //     .post('http://localhost:3600/notarise/file')
-   //     .set({ Authorization: 'Bearer ' + jwt.accessToken })
-   //     .set('Content-Type', 'application/json')
-   //     .send(content)
-   //     .then((res) => {
-   //      //@todo assert object exists
-   //       superagent
-   //         .get('http://localhost:3600/notarised/getByHash/  ' + res.body.fileHash)
-   //         .set({ Authorization: 'Bearer ' + jwt.accessToken })
-   //         .set('Content-Type', 'application/json')
-   //         .then((fileHashRes) => {
-   //           assert(fileHashRes.id === res.id);
-   //           assert(fileHashRes.fileHash === res.fileHash);
-   //           assert(fileHashRes.txId === res.txId);
-   //           done();
-   //         })
-   //         .catch((e) => {
-   //           assert(false)
-   //           //console.log('Something went wrong: ', e)
-   //           done()
-   //         })
-   //     })
-   //     .catch((e) => {
-   //       assert(false)
-   //       //console.log('exception: ', e);
-   //       done();
-   //     })
-   // });
+           superagent
+             .get('http://localhost:3600/notarised/getById/' + res.body.id)
+             .set({Authorization: 'Bearer ' + jwt.accessToken})
+             .set('Content-Type', 'application/json')
+             .end((err, idRes) => {
+               // console.log(idRes)
+               assert(err === null, 'err');
+               console.log('fetched by id: ', idRes.body.fileHash);
+               assert(idRes.id === idRes.id);
+               assert(idRes.fileHash === idRes.fileHash);
+               assert(idRes.txId === idRes.txId);
 
-   // perhaps should factor out call and redo
-   // or do before each!?
-   it('Should post and get data by db id', (done) => {
-     superagent
-       .post('http://localhost:3600/notarise/file')
-       .set({ Authorization: 'Bearer ' + jwt.accessToken })
-       .set('Content-Type', 'application/json')
-       .send(content)
-       .then((res) => {
-        //@todo assert object exists
-         superagent
-           .get('http://localhost:3600/notarised/getById/  ' + res.body.id)
-           .set({ Authorization: 'Bearer ' + jwt.accessToken })
-           .set('Content-Type', 'application/json')
-           .then((idRes) => {
-             assert(idRes.id === res.id);
-             assert(idRes.fileHash === res.fileHash);
-             assert(idRes.txId === res.txId);
-             console.log('grarrr')
-             done();
-           })
-           .catch((e) => {
-             done();
-           })
-       })
-       .catch((e) => {
-         done()
-         // console.log('exception: ', e)
-       })
-       // .end(() => {
-       //   done();
-       // });
+               superagent
+                 .get('http://localhost:3600/notarised/getByTxId/' + idRes.body.txId)
+                 .set({Authorization: 'Bearer ' + jwt.accessToken})
+                 .set('Content-Type', 'application/json')
+                 .end((err, txIdRes) => {
+                   assert(err === null, 'err');
+                   console.log('fetched by txId: ', txIdRes.body.txId);
+                   assert(txIdRes.id === txIdRes.id);
+                   assert(txIdRes.fileHash === txIdRes.fileHash);
+                   assert(txIdRes.txId === txIdRes.txId);
+                   done();
+                   // superagent
+                   //   .get('http://localhost:3600/notarised/getByHash/' + fHashRes.body.txId)
+                   //   .set({Authorization: 'Bearer ' + jwt.accessToken})
+                   //   .set('Content-Type', 'application/json')
+                   //   .end((err, txIdRes) => {
+                   //     assert(err === null, 'err');
+                   //     console.log('fetched by txId: ', txIdRes.body.txId);
+                   //     assert(txIdRes.id === txIdRes.id);
+                   //     assert(txIdRes.fileHash === txIdRes.fileHash);
+                   //     assert(txIdRes.txId === txIdRes.txId);
+                   //     done()
+                   //   })
+
+
+
+                 })
+             })
+         })
+         .catch((e) => {
+           done(e);
+           assert(false, e)
+         })
+     });
    });
 
-   it('Should post and get data by txId', (done) => {
-     superagent
-       .post('http://localhost:3600/notarise/file')
-       .set({ Authorization: 'Bearer ' + jwt.accessToken })
-       .set('Content-Type', 'application/json')
-       .send(content)
-       .then((res) => {
-         //@todo assert object exists
-         superagent
-           .get('http://localhost:3600/notarised/getByTxId/  ' + res.body.txId)
-           .set({ Authorization: 'Bearer ' + jwt.accessToken })
-           .set('Content-Type', 'application/json')
-           .then((txIdRes) => {
-             assert(txIdRes.id === res.id);
-             assert(txIdRes.fileHash === res.fileHash);
-             assert(txIdRes.txId === res.txId);
-             done();
-           })
-           .catch((e) => {
-             assert(false)
-             done()
-           })
-       })
-       .catch((e) => {
-         done()
-       })
+   // post by file
+   describe('Post a file', () => {
+
+     before(done => setTimeout(done, 250));
+
+     it('Should post file and get data by db id and txid', (done) => {
+       superagent
+         .post('http://localhost:3600/notarise/file')
+         .set({Authorization: 'Bearer ' + jwt.accessToken})
+         .set('Content-Type', 'application/json')
+         .send(content())
+         .then((res) => {
+           console.log('second');
+           superagent
+             .get('http://localhost:3600/notarised/getById/' + res.body.id)
+             .set({Authorization: 'Bearer ' + jwt.accessToken})
+             .set('Content-Type', 'application/json')
+             .end((err, idRes) => {
+               assert(err === null, 'err')
+               console.log('fetched by id: ', idRes.body.fileHash)
+               assert(idRes.id === idRes.id);
+               assert(idRes.fileHash === idRes.fileHash);
+               assert(idRes.txId === idRes.txId);
+
+               superagent
+                 .get('http://localhost:3600/notarised/getByTxId/' + res.body.txId)
+                 .set({Authorization: 'Bearer ' + jwt.accessToken})
+                 .set('Content-Type', 'application/json')
+                 .end((err, txIdRes) => {
+
+                   assert(err === null, 'err');
+                   console.log('fetched by txId: ', txIdRes.body.fileHash);
+                   assert(txIdRes.id === res.id);
+                   assert(txIdRes.fileHash === txIdRes.fileHash);
+                   assert(txIdRes.txId === txIdRes.txId);
+                   done();
+                 })
+             })
+         })
+         .catch((e) => {
+           console.error(e);
+           done()
+         })
+     });
    });
-/*
-   it("Should post a hash", (done) => {
-     done();
+
+   // post by file
+   describe('Post a file', () => {
+
+     before(done => setTimeout(done, 250));
+
+     it('Should post file and get data by db id and txid', (done) => {
+       superagent
+         .post('http://localhost:3600/notarise/file')
+         .set({Authorization: 'Bearer ' + jwt.accessToken})
+         .set('Content-Type', 'application/json')
+         .send(content())
+         .then((res) => {
+           console.log('second');
+           superagent
+             .get('http://localhost:3600/notarised/getById/' + res.body.id)
+             .set({Authorization: 'Bearer ' + jwt.accessToken})
+             .set('Content-Type', 'application/json')
+             .end((err, idRes) => {
+               assert(err === null, 'err')
+               console.log('fetched by id: ', idRes.body.fileHash)
+               assert(idRes.id === idRes.id);
+               assert(idRes.fileHash === idRes.fileHash);
+               assert(idRes.txId === idRes.txId);
+
+               superagent
+                 .get('http://localhost:3600/notarised/getByTxId/' + res.body.txId)
+                 .set({Authorization: 'Bearer ' + jwt.accessToken})
+                 .set('Content-Type', 'application/json')
+                 .end((err, txIdRes) => {
+
+                   assert(err === null, 'err');
+                   console.log('fetched by txId: ', txIdRes.body.fileHash);
+                   assert(txIdRes.id === res.id);
+                   assert(txIdRes.fileHash === txIdRes.fileHash);
+                   assert(txIdRes.txId === txIdRes.txId);
+                   done();
+                 })
+             })
+         })
+         .catch((e) => {
+           console.error(e)
+           done(e)
+         })
+     });
    });
- */
+ });
+
+
+ describe ('Post has with signature', () => {
+   before(done => setTimeout(done, 500));
+
 
  });
+
+
+  describe('Verify stuff', () => {
+
+  });
+
+
+
 
 function makeId(length) {
     var result = '';
@@ -227,6 +233,7 @@ function makeId(length) {
     for (var i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
+    console.log('MAKEID', result);
     return result;
 }
 

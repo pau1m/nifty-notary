@@ -21,10 +21,10 @@ const PAID = config.permissionLevels.PAID_USER;
 // can potentially just add admin and ignore piad just now
 // verification should be able to happen without a user having to auth mebs...
 
-exports.routesConfig = async function (app) {
+    exports.routesConfig = async function (app) {
     app.post('/notarise/file', [
         ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+       //  PermissionMiddleware.minimumPermissionLevelRequired(PAID), // not yet implemented
         NotariseController.insertFile
     ]);
 
@@ -44,11 +44,23 @@ exports.routesConfig = async function (app) {
     //     NotariseController.insertHash
     // ]);
 
+        /*
+
+
+        exports.recoverSigner = async (req, res) => {
+
+         */
+
+    app.get('/notarised/recoverSigner/:fileHash/:signature', [
+        NotariseController.recoverSigner,
+    ]);
+
     // @todo not sure whether should also use api token on gets
     app.get('/notarised/getById/:id', [
-        PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+      //  PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        ValidationMiddleware.validJWTNeeded,
         NotariseController.getById,
-        // ValidationMiddleware.validJWTNeeded,
+
         // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         // UsersController.list
     ]);

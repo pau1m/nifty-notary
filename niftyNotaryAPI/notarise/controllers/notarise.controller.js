@@ -1,10 +1,12 @@
 const config = require('../../common/config/env.config');
+const hashTypes = require('../../common/config/itemTypes');
 console.log('c: ', config);
+const ethService = require('../../common/services/ethereum.service');
 
 const NotaryItemModel = require('../models/notaryItem.model.js');
 const crypto = require('crypto');
 // const { generate } = require('ethereumjs-wallet');
-const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
+const notaryArtifacts = require('../../../contracts/build/contracts/ItemNotary');
 
 const Web3 = require('web3');
 const web3 = new Web3(config.nodeEndPoint);
@@ -20,10 +22,39 @@ const txState = {
     fail: 'fail'
 };
 
+
+// mebs add an object that has a list of gas estimates...
+// can enforce it here!!!!!! what types do we expect
+
+const nullBytes = '0x0';
+const emptyString = '';
+
+// @todo should
+// @todo add typing
+// uhmmm.... how are we going to verify or encrypt with other types????
+// what if we have passed a file
+// @todo
+const hashData = (data, hashType) => {
+  hashType.toLowerCase();
+  // @todo also add password
+  if (['sha3-256', 'sha256'/*, 'passphrase'*/].indexOf(hashType) === -1) {
+    throw "Unknown encryption type";
+  }
+
+  // we add password as a salt effectively.... @todo
+
+  return  '0x' + crypto.createHash(hashType).update(data).digest('hex');
+};
+
 exports.insertFile = async (req, res) => {
 
-  const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
-  const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
+   const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
+   const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
+
+   // const notaryContract = await ethService.getWeb3NotaryContract();
+   // console.log(notaryContract);
+  // const notaryContract = ethService.getWeb3NotaryContract();
+  //const notaryContract = ethService.addGSNProviderToContract(ethService.getWeb3NotaryContract());
 
   const { GSNProvider } = require("@openzeppelin/gsn-provider");
   const gsnProvider = new GSNProvider(config.nodeEndPoint, {
@@ -31,43 +62,44 @@ exports.insertFile = async (req, res) => {
   });
   web3.setProvider(gsnProvider);
 
-  //@todo  get hash method sha256 and keccak
-  const fileHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
 
-  //  const roo = await web3.eth.getTransactionCount(signerAccount.address, 'pending');
+  const hashType = 'sha3-256';
+  const fileHash = hashData(req.body.file, hashType);
   let notaryReceipt = {};
-  try {
-    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(fileHash).send({
+  try { //@todo enum for hashtype
+    console.log('grarrr', await notaryContract.methods.storeItem(fileHash, 3, emptyString, nullBytes).estimateGas({from: signerAccount.address}));
+    // console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
+    notaryReceipt = await notaryContract.methods.storeItem(fileHash, 3, emptyString, nullBytes).send({
       from: signerAccount.address,
-      gas: 50000,
+      gas: '80000',
      // gasPrice: web3.utils.toWei('40', 'gwei'),
-    //  nonce: 1 + await web3.eth.getTransactionCount(signerAccount.address, "pending")
+     // nonce: await web3.eth.getTransactionCount(signerAccount.address, "pending")
     });
-    let $pi = 3;
+    console.log('file receipt: ', notaryReceipt);
+
   }
-  catch(e) { //@todo test this... line and make sure it works
+  catch(e) {
+
     if (e.message.indexOf('Hash already recorded') !== -1) {
       return res.status('422').send(e.message);
-
     }
-    // @todo add proper default clause
-    return res.status('422').send(e.message);
 
+    return res.status('400').send(e.message);
   }
 
+  // notaryReceipt
   // Insert stuff to db
-  req.body.txStatus = txState.success;
-  req.body.confirmations = 1; //@todo actual
+  req.body.txStatus = notaryReceipt.status;
   req.body.fileHash = fileHash;
-  req.body.txId = notaryReceipt.transactionHash || '0x0';
+  req.body.txId = notaryReceipt.transactionHash || nullBytes;
 
-  // Prepare response
   const response = {
-    txStatus: txState.success,
+    txStatus: req.body.txStatus,
     fileHash: fileHash,
-    hashType: 'sha256',
-    docType: 'text/plain',
-    txId: notaryReceipt.transactionHash || null,
+    hashType: req.body.hashType,
+    docType: req.body.docType || emptyString,
+    contractAddress: config.notaryContract,
+    txId: req.body.txId || nullBytes,
     chainId: 1, // as below
     timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
   };
@@ -84,7 +116,6 @@ exports.insertFile = async (req, res) => {
     });
 };
 
-
 // this should be in the controller or the database
 exports.insertHash = async (req, res) => {
   const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
@@ -94,25 +125,31 @@ exports.insertHash = async (req, res) => {
   const gsnProvider = new GSNProvider(config.nodeEndPoint, {
     signKey:  config.signKey  // we also need the address of hub here, no?
   });
+
   web3.setProvider(gsnProvider);
 
   //@todo  get hash method sha256 and keccak
   //const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
 
   let notaryReceipt = {};
+  const signature = req.body.signature || nullBytes;
+  const hashType = hashTypes[req.body.hashType] || hashTypes.Exists;
+  const link  = req.body.link || '';
+
   try {
-    notaryReceipt = await notaryContract.methods.relayAnonProofOfExistence(req.body.hash).send({from: signerAccount.address, gas: 4000000});
-    const p = 3.1;
+    // console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
+    notaryReceipt = await notaryContract.methods.storeItem(req.body.hash, hashType, '', nullBytes).send({from: signerAccount.address, gas: '200000'});
+    console.log('hash receipt: ', notaryReceipt)
     if (notaryReceipt.status === false) {
-      res.sendStatus(400);
-      return;
+      return res.sendStatus(400);
     }
   }
   catch(e) {
+    console.error('file fail: ', e)
     if (e.message.indexOf('Hash already recorded') !== -1) {
-      res.status('422').send(e.message);
+      return res.status('422').send(e.message);
     } else {
-      res.status('422').send(e.message);
+      return res.status('400').send(e.message);
     }
     //@todo: default clause
   }
@@ -121,31 +158,30 @@ exports.insertHash = async (req, res) => {
   // unable to create object
 
   req.body.txStatus = notaryReceipt.status;
-  req.body.confirmations = 1; //@todo actual or scrubb it
   req.body.fileHash = req.body.hash; //@todo undo dup
   req.body.txId = notaryReceipt.transactionHash || null;
   req.body.gasUsed = notaryReceipt.gasUsed || null;
 
   // Prepare response
   const response = {
-    txStatus: txState.success,
+    txStatus: req.body.txStatus,
     fileHash: req.body.hash,
-    hashType: 'sha256',
-    docType: 'text/plain', // @todo rename to fileType
+    hashType: hashType,
+    docType: req.body.docType || 'application/octet-stream',
     txId: notaryReceipt.transactionHash || null,
     chainId: 1, // as below
-    timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
+    timestamp: Date.now(), // @todo derive from receipt -- mebs check block :/
+    gasUsed: req.body.gasUsed
   };
-
-  //@todo actually we really really need to know the chain id otherwise can not create a link
 
   NotaryItemModel.createItem(req.body)
     .then((result) => {
-      req.body.dbId = result._id.toHexString();
-      res.status(200).send(response); // @todo 20x?
+      req.body.dbId = response.id = result._id.toHexString();
+      // response.id = re
+      return res.status(200).send(response);
     })
     .catch((e) => {
-      res.status(400).send(e.message)
+      return res.status(400).send(e.message)
       // console.log('exception: ', e);
     });
 };
@@ -237,8 +273,9 @@ exports.verifyTransactionByTxId = (req, res) => {
         });
 };
 
+//@todo confirm based on type!!!
 exports.verifyHash = (req, res) => {
-  const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
+  const docHash = '0x' + crypto.createHash('sha3-256').update(req.body.file).digest('hex');
   if (docHash === req.body.fileHash) {
     // @todo strip stuff from body if necessary
     // should it be base64 with type?
@@ -250,8 +287,23 @@ exports.verifyHash = (req, res) => {
 
 
 
-//@todo allow creation of tx to be signed or could add a wrapper around something for client to do ny self
+exports.recoverSigner = async (req, res) => {
 
+  const signer = await web3.eth.accounts.recover(req.params.fileHash, req.params.signature, false);
+  console.log('signer', signer);
+  // check is not 0x
+  // check for bad data
+  // send 40x where appropriate
+  if (signer) {
+    return res.status(200).send({signer: signer});
+  } else {
+    return res.status(400).send({signer: signer})
+  }
+};
+
+
+
+//@todo allow creation of tx to be signed or could add a wrapper around something for client to do ny self
 
 // exports.patchById = (req, res) => {
 //     if (req.body.password) {

@@ -1,13 +1,26 @@
 README
 ======
 
-@todo v2
-*  now that all the pieces are put together reworking api to match what is given in swagger
+About
+=====
 
+Repo is composed of three parts.
+
+* contracts: Smart contracts, tests for contracts and deployment of contracts and setup of Gas Station Network (GSN).
+* API: API for posting files and hashes to Ethereum blockchain.
+* WebApp: Very basic demo application for drag and drop proof of existence. 
+    
 How It Works
 ============
 
+Users may post a file or a sha-256 or sha3-256 hash.
+
 Uses Gas Station Network to forward transactions. Thus, users account holders may participate with out owning any eth.
+ 
+Whats in the version
+==================== 
+
+For simplicity and speed of roll out
  
  
  @see

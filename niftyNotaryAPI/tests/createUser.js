@@ -14,10 +14,6 @@ const testUser = {
   permissionLevel: config.permissionLevels.PAID_USER,
 };
 
-
-
-
-
 // module.exports = async function ()   {
 // //   console.log('Creating user');
 // //   const createdUser = await userModel.createUser(testUser);
@@ -25,10 +21,6 @@ const testUser = {
 // //
 // //   return createdUser;
 // // };
-
-
-
-
 
 //exports.createUser = createUser;
 
