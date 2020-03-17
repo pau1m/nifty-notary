@@ -151,17 +151,20 @@ contract("Notary", accounts => {
   });
 
   it("Should store and verify item with signature", async () => {
-    await itemNotary.updateRegistry(alice, true);
+    await itemNotary.updateRegistry(admin, true);
     const itemHash = generateHash();
 
-    const sig = await web3.eth.sign(itemHash, alice);
+    const sig = await web3.eth.sign(itemHash, admin);
+    console.log('sig', sig);
+    console.log('itemHash', itemHash);
+    console.log('admnin', admin);
     const signer = await web3.eth.accounts.recover(itemHash, sig, false);
 
-    const storedItem = await itemNotary.storeItem(itemHash, '5', '', sig, {from: alice});
+    const storedItem = await itemNotary.storeItem(itemHash, '5', '', sig, {from: admin});
 
     expect(await itemNotary.getItemSig(itemHash)).to.equal(sig);
-    expect(await itemNotary.addressIsOwner(alice, itemHash)).to.equal(true);
-    expect(await itemNotary.senderIsSigner(itemHash, {from: alice}), {from: alice}).to.equal(true);
+    expect(await itemNotary.addressIsOwner(admin, itemHash)).to.equal(true);
+    expect(await itemNotary.senderIsSigner(itemHash, {from: admin})).to.equal(true);
 
   });
 

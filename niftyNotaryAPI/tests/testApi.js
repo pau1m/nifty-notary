@@ -20,12 +20,22 @@ const crypto = require('crypto');
 const content = () => {
   return {
     file: makeId(200), // mod this to use an actual file, cos we will have to deal with
-    fileType: 'text/plain',    // should probs be utf 8 or something like that
+      fileType: 'text/plain',    // should probs be utf 8 or something like that
     hashType: 'sha3-256',
   }
 };
 
-let itemHash = () => '0x' + crypto.createHash('sha3-256').update(content()['file']).digest('hex');
+const itemHash = () => '0x' + crypto.createHash('sha3-256').update(content()['file']).digest('hex');
+
+// need to make sure we add the
+const signHash = async (itemHash, pvtKey) => {
+  const prefix = '\x19Ethereum Signed Message:\n' + String.fromCharCode(message.length);
+  const prefixedItemHash = prefix + message;
+
+  await web3.eth.accounts.sign(prefixedItemHash, config.signKey);
+};
+
+const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(itemHash, sig, false);
 
  describe('API Happy Path', () => {
    // Assumes user already created
@@ -70,8 +80,8 @@ let itemHash = () => '0x' + crypto.createHash('sha3-256').update(content()['file
              .set('Content-Type', 'application/json')
              .end((err, idRes) => {
                // console.log(idRes)
-               assert(err === null, 'err')
-               console.log('fetched by id: ', idRes.body.fileHash)
+               assert(err === null, 'err');
+               console.log('fetched by id: ', idRes.body.fileHash);
                assert(idRes.id === idRes.id);
                assert(idRes.fileHash === idRes.fileHash);
                assert(idRes.txId === idRes.txId);
@@ -100,7 +110,7 @@ let itemHash = () => '0x' + crypto.createHash('sha3-256').update(content()['file
    // post by file
    describe('Post a file', () => {
 
-     before(done => setTimeout(done, 1000));
+     before(done => setTimeout(done, 250));
 
      it('Should post file and get data by db id and txid', (done) => {
        superagent
@@ -142,6 +152,54 @@ let itemHash = () => '0x' + crypto.createHash('sha3-256').update(content()['file
          })
      });
    });
+
+   // post by file
+   describe('Post a file', () => {
+
+     before(done => setTimeout(done, 250));
+
+     it('Should post file and get data by db id and txid', (done) => {
+       superagent
+         .post('http://localhost:3600/notarise/file')
+         .set({Authorization: 'Bearer ' + jwt.accessToken})
+         .set('Content-Type', 'application/json')
+         .send(content())
+         .then((res) => {
+           console.log('second');
+           superagent
+             .get('http://localhost:3600/notarised/getById/' + res.body.id)
+             .set({Authorization: 'Bearer ' + jwt.accessToken})
+             .set('Content-Type', 'application/json')
+             .end((err, idRes) => {
+               assert(err === null, 'err')
+               console.log('fetched by id: ', idRes.body.fileHash)
+               assert(idRes.id === idRes.id);
+               assert(idRes.fileHash === idRes.fileHash);
+               assert(idRes.txId === idRes.txId);
+
+               superagent
+                 .get('http://localhost:3600/notarised/getByTxId/' + res.body.txId)
+                 .set({Authorization: 'Bearer ' + jwt.accessToken})
+                 .set('Content-Type', 'application/json')
+                 .end((err, txIdRes) => {
+
+                   assert(err === null, 'err');
+                   console.log('fetched by txId: ', txIdRes.body.fileHash);
+                   assert(txIdRes.id === res.id);
+                   assert(txIdRes.fileHash === txIdRes.fileHash);
+                   assert(txIdRes.txId === txIdRes.txId);
+                   done();
+                 })
+             })
+         })
+         .catch((e) => {
+           console.error(e)
+           done(e)
+         })
+     });
+   });
+
+
  });
 
 
@@ -154,5 +212,5 @@ function makeId(length) {
     }
     console.log('MAKEID', result);
     return result;
-};
+}
 

@@ -22,19 +22,26 @@ const txState = {
     fail: 'fail'
 };
 
+
+// mebs add an object that has a list of gas estimates...
+// can enforce it here!!!!!! what types do we expect
+
 const nullBytes = '0x0';
 const emptyString = '';
-
 
 // @todo should
 // @todo add typing
 // uhmmm.... how are we going to verify or encrypt with other types????
 // what if we have passed a file
+// @todo
 const hashData = (data, hashType) => {
   hashType.toLowerCase();
-  if (['sha3-256', 'sha256'].indexOf(hashType) === -1) {
-    throw "Unknown encryption format";
+  // @todo also add password
+  if (['sha3-256', 'sha256'/*, 'passphrase'*/].indexOf(hashType) === -1) {
+    throw "Unknown encryption type";
   }
+
+  // we add password as a salt effectively.... @todo
 
   return  '0x' + crypto.createHash(hashType).update(data).digest('hex');
 };
@@ -43,8 +50,6 @@ exports.insertFile = async (req, res) => {
 
    const contractAddress = config.notaryContract; //notaryArtifacts.networks[networkId].address;
    const notaryContract = new web3.eth.Contract(notaryArtifacts.abi, contractAddress);
-
-
 
    // const notaryContract = await ethService.getWeb3NotaryContract();
    // console.log(notaryContract);
@@ -57,25 +62,23 @@ exports.insertFile = async (req, res) => {
   });
   web3.setProvider(gsnProvider);
 
-  //@todo  get hash method sha256 and keccak
-  const fileHash = hashData(req.body.file, req.body.hashType); // '0x' + crypto.createHash('sha3-256').update(req.body.file).digest('hex');
-  const hashType = hashTypes[req.body.hashType] || hashTypes.Exists;
-  const signature = req.body.signature || nullBytes;
 
-  //  const roo = await web3.eth.getTransactionCount(signerAccount.address, 'pending');
+  const hashType = 'sha3-256';
+  const fileHash = hashData(req.body.file, hashType);
   let notaryReceipt = {};
-  try {
-    console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
-    notaryReceipt = await notaryContract.methods.storeItem(fileHash, hashType, emptyString, nullBytes).send({
+  try { //@todo enum for hashtype
+    console.log('grarrr', await notaryContract.methods.storeItem(fileHash, 3, emptyString, nullBytes).estimateGas({from: signerAccount.address}));
+    // console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
+    notaryReceipt = await notaryContract.methods.storeItem(fileHash, 3, emptyString, nullBytes).send({
       from: signerAccount.address,
-      gas: '200000',
+      gas: '80000',
      // gasPrice: web3.utils.toWei('40', 'gwei'),
      // nonce: await web3.eth.getTransactionCount(signerAccount.address, "pending")
     });
-    console.log('file receipt: ', notaryReceipt)
-    let $pi = 3;
+    console.log('file receipt: ', notaryReceipt);
+
   }
-  catch(e) { //@todo test this... line and make sure it works
+  catch(e) {
 
     if (e.message.indexOf('Hash already recorded') !== -1) {
       return res.status('422').send(e.message);
@@ -279,6 +282,22 @@ exports.verifyHash = (req, res) => {
     res.sendStatus(200).send({matches: true});
   } else {
     res.sendStatus(404).send({matches: false});
+  }
+};
+
+
+
+exports.recoverSigner = async (req, res) => {
+
+  const signer = await web3.eth.accounts.recover(req.params.fileHash, req.params.signature, false);
+  console.log('signer', signer);
+  // check is not 0x
+  // check for bad data
+  // send 40x where appropriate
+  if (signer) {
+    return res.status(200).send({signer: signer});
+  } else {
+    return res.status(400).send({signer: signer})
   }
 };
 

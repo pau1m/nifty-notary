@@ -121,26 +121,35 @@ paths:
                 $ref: "#/components/schemas/Notarised"
         '203':
           description: Transaction submitted but not mined
-  /notarised/verifySignature:
-    post:
-      summary: Verify that a given signature matches the given hash
-      requestBody:
-        description: Post hash and a signature to verify signer address
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VerifiableSig'
-      #    opeationId: notariseFile
+  /notarised/recoverSigner/{fileHash}/{signature}:
+    get:
+      summary: Verify that a given signature matches the given hash. Does not check anything on-chain. Only applies to sha3-256 sigs. #@todo see btc bride for how to apply to sha-256
+      parameters:
+        - name: fileHash
+          in: path
+          required: true
+          description: Hash that has been signed
+          schema:
+            type: string
+          example: '0x87f5f792ee21e482ea41bc34156621218c43e904e01c779412fb5fd1af01ea8e'
+        - name: signature
+          in: path
+          description: Signature of fileHash
+          schema:
+            type: string
+          example: '0x1ff91ef1973b3260f5b0db26408960d52bec04b73da23344075e67a9c27e455509e662a7a033c68a7d15fd41157529ceb404a9f83e1eb75e9548bcf4d1bb286401'
+          #@todo give a working example
       tags:
         - notary
       responses:
         '200':
-          description: Response object
+          description: Address of signer
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Notarised"
+                object:
+                  string: signer
+              example: {signer: '0xc64bED8034A556720290840C53047ae79a251087'}
         '203':
           description: Transaction submitted but not mined
   /notarised/getById/{id}:
@@ -404,7 +413,7 @@ components:
           description: mime type @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
       example:
         file: 'SGVsbG8gV29ybGQ=' #Hello World
-        fileType: 'text/plain' #maybe not best to send as json could be described otherwise
+#        fileType: 'text/plain' #maybe not best to send as json could be described otherwise
     Login:
       type: object
       required:

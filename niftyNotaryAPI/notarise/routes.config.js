@@ -44,6 +44,17 @@ const PAID = config.permissionLevels.PAID_USER;
     //     NotariseController.insertHash
     // ]);
 
+        /*
+
+
+        exports.recoverSigner = async (req, res) => {
+
+         */
+
+    app.get('/notarised/recoverSigner/:fileHash/:signature', [
+        NotariseController.recoverSigner,
+    ]);
+
     // @todo not sure whether should also use api token on gets
     app.get('/notarised/getById/:id', [
       //  PermissionMiddleware.minimumPermissionLevelRequired(PAID),
