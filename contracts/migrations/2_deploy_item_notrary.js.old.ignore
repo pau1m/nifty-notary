@@ -1,34 +1,36 @@
+// @todo refqctor in to multiple files 1_migrations 2_contracts 3_setup
+
 const Migrations = artifacts.require("Migrations");
-// const Notary = artifacts.require("Notary");
-// // const { fundRecipient } = require('@openzeppelin/gsn-helpers');
-// const RelayHub = artifacts.require("IRelayHub");
+const Notary = artifacts.require("Notary");
+// const { fundRecipient } = require('@openzeppelin/gsn-helpers');
+const RelayHub = artifacts.require("IRelayHub");
 
 // This gets called from elsewhere so need to fix dir location
-// const config = require(__dirname+'./../config');
-// console.log('CONFIG', config);
+const config = require(__dirname+'./../config');
+console.log('CONFIG', config);
 // context of execution loses config :/ not sure how to add it
 // console.log('why no config? ', config);
 
 // Format of async deploy JS adapted from https://github.com/trufflesuite/truffle/issues/501#issuecomment-373886205
 module.exports = (deployer) => {
   deployer.then(async () => {
-    // const accounts = await web3.eth.getAccounts();
+    const accounts = await web3.eth.getAccounts();
 
     await deployer.deploy(Migrations);
-    // await deployer.deploy(Notary);
-    //
-    // const notary = await Notary.deployed();
-    // console.log('Contract deployed at: ', notary.address);
-    //
-    // const relayHub = new web3.eth.Contract(RelayHub.abi, config.relayHub);
-    // await relayHub.methods.depositFor(notary.address).send({
-    //   from: accounts[0],
-    //   value: web3.utils.toWei('0.2', 'ether')
-    // });
-    //
-    // await notary.updateRegistry(accounts[0], true);
-    // await notary.updateRegistry(accounts[1], true);
-    // await notary.updateRegistry(accounts[2], true);
+    await deployer.deploy(Notary);
+
+    const notary = await Notary.deployed();
+    console.log('Contract deployed at: ', notary.address);
+
+    const relayHub = new web3.eth.Contract(RelayHub.abi, config.relayHub);
+    await relayHub.methods.depositFor(notary.address).send({
+      from: accounts[0],
+      value: web3.utils.toWei('0.2', 'ether')
+    });
+
+    await notary.updateRegistry(accounts[0], true);
+    await notary.updateRegistry(accounts[1], true);
+    await notary.updateRegistry(accounts[2], true);
   })
 };
 
