@@ -11,7 +11,9 @@ const notaryArtifacts = require('../../../contracts/build/contracts/ItemNotary')
 const Web3 = require('web3');
 const web3 = new Web3(config.nodeEndPoint);
 const signerAccount = web3.eth.accounts.wallet.add(config.signKey);
+const itemTypes = require('../../common/config/itemTypes');
 
+//@todo intended for future use when when handling batching and responding to gas costs.
 const txState = {
     sending: 'sending', // just getting things going, not yet submitted
     pending: 'pending', // submitted onchain
@@ -36,12 +38,10 @@ const emptyString = '';
 // @todo
 const hashData = (data, hashType) => {
   hashType.toLowerCase();
-  // @todo also add password
+
   if (['sha3-256', 'sha256'/*, 'passphrase'*/].indexOf(hashType) === -1) {
     throw "Unknown encryption type";
   }
-
-  // we add password as a salt effectively.... @todo
 
   return  '0x' + crypto.createHash(hashType).update(data).digest('hex');
 };
@@ -62,14 +62,13 @@ exports.insertFile = async (req, res) => {
   });
   web3.setProvider(gsnProvider);
 
-
   const hashType = 'sha3-256';
   const fileHash = hashData(req.body.file, hashType);
   let notaryReceipt = {};
-  try { //@todo enum for hashtype
-    console.log('grarrr', await notaryContract.methods.storeItem(fileHash, 3, emptyString, nullBytes).estimateGas({from: signerAccount.address}));
-    // console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
-    notaryReceipt = await notaryContract.methods.storeItem(fileHash, 3, emptyString, nullBytes).send({
+  try {
+    console.log('*****TYPE', itemTypes[hashType])
+   // console.log('Gas Estimate', await notaryContract.methods.storeItem(fileHash, itemTypes[hashType], emptyString, nullBytes).estimateGas({from: signerAccount.address}));
+    notaryReceipt = await notaryContract.methods.storeItem(fileHash, itemTypes[hashType], emptyString, nullBytes).send({
       from: signerAccount.address,
       gas: '80000',
      // gasPrice: web3.utils.toWei('40', 'gwei'),
@@ -130,15 +129,14 @@ exports.insertHash = async (req, res) => {
 
   //@todo  get hash method sha256 and keccak
   //const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
-
   let notaryReceipt = {};
+  const hashType = itemTypes[req.body.hashType] || itemTypes['exists'];
+  const link  = req.body.link || emptyString;
   const signature = req.body.signature || nullBytes;
-  const hashType = hashTypes[req.body.hashType] || hashTypes.Exists;
-  const link  = req.body.link || '';
 
   try {
     // console.log(await web3.eth.getTransactionCount(signerAccount.address, "pending"))
-    notaryReceipt = await notaryContract.methods.storeItem(req.body.hash, hashType, '', nullBytes).send({from: signerAccount.address, gas: '200000'});
+    notaryReceipt = await notaryContract.methods.storeItem(req.body.hash, hashType, link, signature).send({from: signerAccount.address, gas: '200000'});
     console.log('hash receipt: ', notaryReceipt)
     if (notaryReceipt.status === false) {
       return res.sendStatus(400);
