@@ -320,6 +320,24 @@
                 {
                   "externalReferences": [
                     {
+                      "signature": {
+                        "declaration": 5,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1818:9:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "v": {
+                        "declaration": 28,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1848:1:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
                       "r": {
                         "declaration": 22,
                         "isOffset": false,
@@ -343,24 +361,6 @@
                         "isOffset": false,
                         "isSlot": false,
                         "src": "1803:1:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
-                      "signature": {
-                        "declaration": 5,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1818:9:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
-                      "v": {
-                        "declaration": 28,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1848:1:0",
                         "valueSize": 1
                       }
                     },
@@ -1631,6 +1631,24 @@
                 {
                   "externalReferences": [
                     {
+                      "signature": {
+                        "declaration": 5,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1818:9:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "v": {
+                        "declaration": 28,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1848:1:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
                       "r": {
                         "declaration": 22,
                         "isOffset": false,
@@ -1654,24 +1672,6 @@
                         "isOffset": false,
                         "isSlot": false,
                         "src": "1803:1:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
-                      "signature": {
-                        "declaration": 5,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1818:9:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
-                      "v": {
-                        "declaration": 28,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1848:1:0",
                         "valueSize": 1
                       }
                     },
@@ -2634,17 +2634,9 @@
     "name": "solc",
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
-  "networks": {
-    "666": {
-      "events": {},
-      "links": {},
-      "address": "0xf6C0A0ec3d1474DCc5ec08E145979CAB1D1bdcEE",
-      "transactionHash": "0xf89907bbaf75c486be31c41b2e730c6b4549297f306b9300c9d88591cbf77d60"
-    }
-  },
+  "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-17T22:28:39.418Z",
-  "networkType": "ethereum",
+  "updatedAt": "2020-03-18T08:14:14.961Z",
   "devdoc": {
     "details": "Elliptic Curve Digital Signature Algorithm (ECDSA) operations. * These functions can be used to verify that a message was signed by the holder of the private keys of a given address.",
     "methods": {}

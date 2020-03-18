@@ -4,6 +4,7 @@ module.exports = {
     "signKey": process.env.SIGN_KEY,
     "seedPhrase": process.env.SEED_PHRASE,
     "nodeEndPoint": process.env.NODE_HTTP_ENDPOINT,
+    "chainId": process.env.CHAIN_ID,
     "relayHub": process.env.GSN_HUB,
     "notaryContract": process.env.NOTARY_CONTRACT,
     "port": 3600,

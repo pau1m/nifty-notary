@@ -9,8 +9,6 @@ const PAID = config.permissionLevels.PAID_USER;
 
 //@todo how to do we implement requests and request limit?
 
-    // so we should have an ethereum bridge...
-
 // @todo make route root /notary
 // giving post: /notary/notarise
 // and get /notary/\
@@ -89,19 +87,6 @@ const PAID = config.permissionLevels.PAID_USER;
     app.post('/notarised/verify', [
         NotariseController.verifyHash
     ]);
-
-
-    // app.post('/notarise', [
-    //     NotariseController.insert,
-    //     NotariseController.submitToChain
-
-
-        // can write it in place and then refactor to here
-        // create a model for the thing that we want
- //   ]);
-
-    // @todo
-    // no
 
     // @todo rename all the endpoints for consistancy
     // app.post('/notarise-basic', [

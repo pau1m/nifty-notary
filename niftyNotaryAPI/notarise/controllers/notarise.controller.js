@@ -103,15 +103,14 @@ exports.insertFile = async (req, res) => {
     timestamp: Date.now() // @todo derive from receipt -- mebs check block :/
   };
 
-  // @TODO EVERY HOUR WE COULD HASH THESE IN TO A MERCKLE TREE AND JUST STORE THAT
-
   NotaryItemModel.createItem(req.body)
     .then((result) => {
       response.id = result._id.toHexString();
-      res.status(200).send(response); // @todo 20x?
+      return res.status(201).send(response); // @todo 20x?
     })
     .catch((e) => {
-      console.log('exception: ', e);
+      console.error('exception: ', e);
+      return res.sendStatus(400);
     });
 };
 
@@ -127,8 +126,6 @@ exports.insertHash = async (req, res) => {
 
   web3.setProvider(gsnProvider);
 
-  //@todo  get hash method sha256 and keccak
-  //const docHash = '0x' + crypto.createHash('sha256').update(req.body.file).digest('hex');
   let notaryReceipt = {};
   const hashType = itemTypes[req.body.hashType] || itemTypes['exists'];
   const link  = req.body.link || emptyString;
@@ -146,17 +143,14 @@ exports.insertHash = async (req, res) => {
     console.error('file fail: ', e)
     if (e.message.indexOf('Hash already recorded') !== -1) {
       return res.status('422').send(e.message);
-    } else {
-      return res.status('400').send(e.message);
     }
-    //@todo: default clause
+    return res.sendStatus('400');  //.send(e.message);
   }
-
   // if txStatus = false
   // unable to create object
-
+  req.body.chainId = config.chainId;
   req.body.txStatus = notaryReceipt.status;
-  req.body.fileHash = req.body.hash; //@todo undo dup
+  req.body.fileHash = req.body.hash;
   req.body.txId = notaryReceipt.transactionHash || null;
   req.body.gasUsed = notaryReceipt.gasUsed || null;
 
@@ -165,9 +159,9 @@ exports.insertHash = async (req, res) => {
     txStatus: req.body.txStatus,
     fileHash: req.body.hash,
     hashType: hashType,
-    docType: req.body.docType || 'application/octet-stream',
+    docType: req.body.docType || 'application/octet-stream', // generic term for any blob of data
     txId: notaryReceipt.transactionHash || null,
-    chainId: 1, // as below
+    chainId: req.body.chainId, //
     timestamp: Date.now(), // @todo derive from receipt -- mebs check block :/
     gasUsed: req.body.gasUsed
   };
@@ -190,12 +184,7 @@ exports.insertHash = async (req, res) => {
 //   //  const accounts = await web3.eth.getAccounts(); // ahhhh... here is the problem we can't get accounts from web3 because we are on ropsten and its not a local node
 //   //  const networkId = await web3.eth.net.getId();
 
-
-exports.submitToChain = (req, res) => {
-
-    console.log('SUBMITTING TO CHAIN')
-};
-
+//
 
 //@todo retrieve data after posting it from the id
 exports.getById = (req, res) => {

@@ -63,6 +63,8 @@ module.exports = {
         },
         gasPrice: Web3.utils.toWei('5', 'gwei'), //@todo check before actually deploy
     }
+
+    // Example config
     // Another network with more advanced options...
     // advanced: {
       // port: 8777,             // Custom port
