@@ -32,6 +32,9 @@ https://github.com/OpenZeppelin/gsn-site
 Getting Started
 ===============
 
+copy example.env to .env
+
+
 Requirements
 ============
 
