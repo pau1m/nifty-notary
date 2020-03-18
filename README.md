@@ -29,6 +29,20 @@ https://eips.ethereum.org/EIPS/eip-1613
 https://github.com/OpenZeppelin/gsn-site
 ```
 
+Getting Started
+===============
+
+Requirements
+============
+
+* MongoDB
+* Node v10.17
+* ganache-cli v xxxx (global)
+* yarn
+
+
+
+
 Testing API
 ===========
 
