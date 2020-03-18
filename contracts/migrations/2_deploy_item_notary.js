@@ -1,21 +1,19 @@
-//@todo additional setup?
-//@todo take values from config
 const ItemNotary = artifacts.require('ItemNotary');
 const ECDSA = artifacts.require('ECDSA')
-
-// const { fundRecipient } = require('@openzeppelin/gsn-helpers');
 const RelayHub = artifacts.require("IRelayHub");
 
 const config = require(__dirname+'/./../config');
+
 console.log(config);
 // Format of async deploy JS adapted from https://github.com/trufflesuite/truffle/issues/501#issuecomment-373886205
-//@todo live deployment take values from env
-// have to take private key and use to add register
 module.exports = (deployer) => {
-
+  console.log(deployer.network_id);
   deployer.then(async () => {
 
+    console.log(deployer.network_id);
     const accounts = await web3.eth.getAccounts();
+    const deployAccount = web3.eth.accounts.privateKeyToAccount(config.deployKey)['address'] || accounts[0];
+    const signerAccount = web3.eth.accounts.privateKeyToAccount(config.signKey)['address'];
 
     await deployer.deploy(ECDSA);
     await deployer.link(ECDSA, ItemNotary);
@@ -23,19 +21,27 @@ module.exports = (deployer) => {
 
     const itemNotary = await ItemNotary.deployed();
     console.log('Contract deployed at: ', itemNotary.address);
-    // deal with this setup... for different networks ie live
-    const relayHub = new web3.eth.Contract(RelayHub.abi, /*'0xD216153c06E857cD7f72665E0aF1d7D82172F494'*/config.relayHub);
-    await relayHub.methods.depositFor(itemNotary.address).send({
-      from: accounts[0], // @todo from config
-      value: web3.utils.toWei('0.2', 'ether')
-    });
+    //@todo move this setup to next 3_xxx deployer item
+    const relayHub = new web3.eth.Contract(RelayHub.abi, config.relayHub);
 
-    // we need to check if this is a test or real deploy
-    // and then treat this stuff differently
-    //@todo need to add to truffle config
-    //@todo remove in prod
-    await itemNotary.updateRegistry(accounts[0], true);
-    await itemNotary.updateRegistry(accounts[1], true);
-    await itemNotary.updateRegistry(accounts[2], true);
+    if (config.initialGSNFunding > 0) {
+      await relayHub.methods.depositFor(itemNotary.address).send({
+        from: deployAccount, // @todo from config
+        value: web3.utils.toWei(config.initialGSNFunding, 'ether')
+      });
+    }
+
+    if (deployer.network_id === 666) {
+
+      await itemNotary.updateRegistry(accounts[0], true);
+      await itemNotary.updateRegistry(accounts[1], true);
+      await itemNotary.updateRegistry(accounts[2], true);
+    }
+    // If live or Ropsten
+    if (deployer.network_id === 1 || deployer.network_id === 3) {
+      // Add default signing key to account.
+      const defaultAccount = await itemNotary.updateRegistry(signerAccount, true);
+      console.log('default account', defaultAccount)
+    }
   })
 };

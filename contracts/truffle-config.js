@@ -61,7 +61,7 @@ module.exports = {
         provider: function() {
           return new PrivateKeyProvider(config.deployKey, 'https://mainnet.infura.io/v3/' + config.infuraKey);
         },
-        gasPrice: Web3.utils.toWei('5', 'gwei'), //@todo check before actually deploy
+        gasPrice: Web3.utils.toWei('5', 'gwei'),
     }
 
     // Example config

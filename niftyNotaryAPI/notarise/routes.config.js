@@ -13,7 +13,6 @@ const PAID = config.permissionLevels.PAID_USER;
 // giving post: /notary/notarise
 // and get /notary/\
 
-
 // So we basically just have to make all of these end points work
 // mebs should be doing postman instead of
 // can potentially just add admin and ignore piad just now

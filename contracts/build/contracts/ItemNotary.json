@@ -9396,9 +9396,179 @@
     "name": "solc",
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "3": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0xb9f84b8e65164b14439ae3620df0a4d8786d896996c0282b683f9d8c08f046e8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "oldRelayHub",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newRelayHub",
+              "type": "address"
+            }
+          ],
+          "name": "RelayHubChanged",
+          "type": "event"
+        },
+        "0x351e5d0cad7bc76760c9be0a0ed708768225aac9fd434422fb126edd014a42df": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "bytes32",
+              "name": "itemHash",
+              "type": "bytes32"
+            }
+          ],
+          "name": "addedItem",
+          "type": "event"
+        },
+        "0x853a9427df8a0651f0d4e2becc999cb44652a366116a16fd1507b13d85ccdeb2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "foo",
+              "type": "address"
+            }
+          ],
+          "name": "testSomething",
+          "type": "event"
+        },
+        "0x4a249455b9cbb17d2537cf8b10b48f47d4a3662fa15715680e3488480c7df20f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "name": "updatedRegistry",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x16b9cFd143d660FDD753770C31299eBCC6A92DbB",
+      "transactionHash": "0x87c3d6c44655553d40d36a432e3b5a6d16eb416b046f5c91df06c61d0a4540a9"
+    },
+    "666": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0xb9f84b8e65164b14439ae3620df0a4d8786d896996c0282b683f9d8c08f046e8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "oldRelayHub",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newRelayHub",
+              "type": "address"
+            }
+          ],
+          "name": "RelayHubChanged",
+          "type": "event"
+        },
+        "0x351e5d0cad7bc76760c9be0a0ed708768225aac9fd434422fb126edd014a42df": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "bytes32",
+              "name": "itemHash",
+              "type": "bytes32"
+            }
+          ],
+          "name": "addedItem",
+          "type": "event"
+        },
+        "0x853a9427df8a0651f0d4e2becc999cb44652a366116a16fd1507b13d85ccdeb2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "foo",
+              "type": "address"
+            }
+          ],
+          "name": "testSomething",
+          "type": "event"
+        },
+        "0x4a249455b9cbb17d2537cf8b10b48f47d4a3662fa15715680e3488480c7df20f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "name": "updatedRegistry",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x1B59461a8b841e59239c0b29789727eFb6A3ed6a",
+      "transactionHash": "0xe675e6a0938adf859356ad99dc70f70f6e871462f9c08ea0ad39fa07920a980e"
+    }
+  },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-18T08:14:14.963Z",
+  "updatedAt": "2020-03-18T09:48:57.107Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "getHubAddr()": {

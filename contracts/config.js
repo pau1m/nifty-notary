@@ -6,5 +6,7 @@ module.exports =  {
   relayHub: process.env.GSN_HUB,
   notaryContract: process.env.NOTARY_CONTRACT,
   deployKey: process.env.DEPLOY_KEY,
-  infuraKey: process.env.INFURA_KEY
+  signKey: process.env.SIGN_KEY,
+  infuraKey: process.env.INFURA_KEY,
+  initialGSNFunding: process.env.INITIAL_GSN_FUNDING
 };

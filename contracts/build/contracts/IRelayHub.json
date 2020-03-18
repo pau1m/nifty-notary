@@ -6674,7 +6674,8 @@
   },
   "networks": {},
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-18T08:14:14.977Z",
+  "updatedAt": "2020-03-18T09:48:57.127Z",
+  "networkType": "ethereum",
   "devdoc": {
     "details": "Interface for `RelayHub`, the core contract of the GSN. Users should not need to interact with this contract directly. * See the https://github.com/OpenZeppelin/openzeppelin-gsn-helpers[OpenZeppelin GSN helpers] for more information on how to deploy an instance of `RelayHub` on your local test network.",
     "methods": {
