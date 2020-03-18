@@ -320,6 +320,24 @@
                 {
                   "externalReferences": [
                     {
+                      "signature": {
+                        "declaration": 5,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1818:9:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "v": {
+                        "declaration": 28,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1848:1:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
                       "r": {
                         "declaration": 22,
                         "isOffset": false,
@@ -343,24 +361,6 @@
                         "isOffset": false,
                         "isSlot": false,
                         "src": "1803:1:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
-                      "signature": {
-                        "declaration": 5,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1818:9:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
-                      "v": {
-                        "declaration": 28,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1848:1:0",
                         "valueSize": 1
                       }
                     },
@@ -962,7 +962,7 @@
                       "name": "ecrecover",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3325,
+                      "referencedDeclaration": 2938,
                       "src": "3144:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_ecrecover_pure$_t_bytes32_$_t_uint8_$_t_bytes32_$_t_bytes32_$returns$_t_address_$",
@@ -1158,7 +1158,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3320,
+                            "referencedDeclaration": 2933,
                             "src": "3638:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -1205,7 +1205,7 @@
                       "name": "keccak256",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3327,
+                      "referencedDeclaration": 2940,
                       "src": "3628:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -1631,6 +1631,24 @@
                 {
                   "externalReferences": [
                     {
+                      "signature": {
+                        "declaration": 5,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1818:9:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "v": {
+                        "declaration": 28,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1848:1:0",
+                        "valueSize": 1
+                      }
+                    },
+                    {
                       "r": {
                         "declaration": 22,
                         "isOffset": false,
@@ -1654,24 +1672,6 @@
                         "isOffset": false,
                         "isSlot": false,
                         "src": "1803:1:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
-                      "signature": {
-                        "declaration": 5,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1818:9:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
-                      "v": {
-                        "declaration": 28,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "1848:1:0",
                         "valueSize": 1
                       }
                     },
@@ -2273,7 +2273,7 @@
                       "name": "ecrecover",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3325,
+                      "referencedDeclaration": 2938,
                       "src": "3144:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_ecrecover_pure$_t_bytes32_$_t_uint8_$_t_bytes32_$_t_bytes32_$returns$_t_address_$",
@@ -2469,7 +2469,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3320,
+                            "referencedDeclaration": 2933,
                             "src": "3638:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -2516,7 +2516,7 @@
                       "name": "keccak256",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3327,
+                      "referencedDeclaration": 2940,
                       "src": "3628:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -2635,15 +2635,21 @@
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {
+    "3": {
+      "events": {},
+      "links": {},
+      "address": "0xf4d010Cb9AE15621221e9Fcf01F64bA86f0de5Da",
+      "transactionHash": "0x9a9c30df87f95e3019a7723801c3a76f1aded9c14b7ab91208899821059877a4"
+    },
     "666": {
       "events": {},
       "links": {},
-      "address": "0x734CdbCF0eC996ce80Ba7aE68c8528D49939226a",
-      "transactionHash": "0x902c4c96e86f3639a85b02f35e6f62007610ed02acec39a5f5cd660f3977c1b3"
+      "address": "0x08a6542Bdbc5a34cBE5B4b5E6628e554B6A176EB",
+      "transactionHash": "0x32e8d3f7861c9d3aa4502e1a2762e93697e2db50154e31e5df6f4954a9ae5cac"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-17T18:39:20.271Z",
+  "updatedAt": "2020-03-18T09:48:57.123Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "Elliptic Curve Digital Signature Algorithm (ECDSA) operations. * These functions can be used to verify that a message was signed by the holder of the private keys of a given address.",

@@ -4,7 +4,7 @@ const Web3 = require('web3');
 const web3 = new Web3(config.nodeEndPoint);
 const { GSNProvider } = require("@openzeppelin/gsn-provider");
 const signerAccount = web3.eth.accounts.wallet.add(config.signKey);
-const notaryArtifacts = require('../../../contracts/build/contracts/Notary');
+const notaryArtifacts = require('../../../contracts/build/contracts/ItemNotary');
 
 const txState = {
   sending: 'sending', // just getting things going, not yet submitted

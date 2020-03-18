@@ -162,11 +162,10 @@ contract ItemNotary is Registry {
     returns
     (bool)
     {
-        return (addressIsOwner(_msgSender(), _itemHash));
+        return (addressIsSigner(_msgSender(), _itemHash));
     }
 
-    // change this to addressIsSigner
-    function addressIsOwner(address _address, bytes32 _itemHash)
+    function addressIsSigner(address _address, bytes32 _itemHash)
     public
     view
     returns
@@ -179,13 +178,4 @@ contract ItemNotary is Registry {
         return _address == prefixedHash.recover(items[_itemHash].signature);
     }
 }
-
-// sign(keccak256("\x19Ethereum Signed Message:\n" + len(message) + message)))
-
-//    function compareStrings (string memory a, string memory b) public view
-//    returns (bool) {
-//        return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
-//
-//    }
-
 

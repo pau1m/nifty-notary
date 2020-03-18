@@ -5,5 +5,8 @@ module.exports =  {
   nodeEndPoint: process.env.NODE_HTTP_ENDPOINT,
   relayHub: process.env.GSN_HUB,
   notaryContract: process.env.NOTARY_CONTRACT,
-  testValue: '1',
+  deployKey: process.env.DEPLOY_KEY,
+  signKey: process.env.SIGN_KEY,
+  infuraKey: process.env.INFURA_KEY,
+  initialGSNFunding: process.env.INITIAL_GSN_FUNDING
 };
