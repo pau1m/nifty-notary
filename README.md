@@ -13,7 +13,7 @@ Repo is composed of three parts.
 How It Works
 ============
 
-Users may post a file or a sha-256 or sha3-256 hash.
+Users may post an arbitrary base64 encoded file or 32 byte hex encoded digest.
 
 Uses Gas Station Network to forward transactions. Thus, users account holders may participate with out owning any eth.
  
@@ -29,22 +29,47 @@ https://eips.ethereum.org/EIPS/eip-1613
 https://github.com/OpenZeppelin/gsn-site
 ```
 
-Getting Started
-===============
+#Getting Started
 
-copy example.env to .env
+```
+cp example.env .env
+cd contract 
+yarn install
+cd ../niftyNotaryAPI
+yarn install
+```
+
+Populate .env values
+
+```
+cd ./contract
+yarn start
+cd ../niftyNotaryAPi
+yarn start
+```
 
 
-Requirements
-============
+##Requirements
 
-* MongoDB
-* Node v10.17
-* ganache-cli v xxxx (global)
-* yarn
+###MongoDB v4.2
 
+On OSX Install with
 
+```
+brew tap gapple/services
+brew install mongodb-community
+brew services start mongodb-community
+```
 
+###Node v10.17
+
+Untested with other versions - you may need to use NVM
+
+### Truffle >= v5 (untested with v6)
+```yarn global add truffle@5.1.11```
+
+### ganache-cli v6.x
+```yarn global add ganache-cli```
 
 Testing API
 ===========
