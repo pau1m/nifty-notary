@@ -371,8 +371,8 @@ components:
           type: string
         hashType:
           type: string
-          enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other]
-          example: 'Sha3'
+          enum: ['invalid', 'exists', 'sha256', 'sha3-256', 'ethSig', 'sha3PlusEthSig', 'passphrase', 'other']
+          example: 'sha3-256'
         link:
           type: string
         signature:
@@ -400,12 +400,16 @@ components:
           example: '0x7c43a38c80ff272aa82209066a2fce0fcd9e15c60eb587f3692f43d9cd2c467a'
         hashType:
           type: string
-          enum: [Invalid, Exists, Sha256, Sha3, EthSig, Sha3PlusEthSig, Passphrase, Other]
-          example: 'Sha3'
+          enum: ['invalid', 'exists', 'sha256', 'sha3-256', 'ethSig', 'sha3PlusEthSig', 'passphrase', 'other']
+          example: 'sha3-256'
         signature:
           type: string
           example: ''
-          description: Optional value if a user wants to prove ownership
+          description: Optional value. Prove possession of item with signing account.
+        link:
+          type: string
+          description: Optional value. A link to further description of the posted item.
+          example: 'https://ipfs.io/ipfs/Qmc5gCcjYypU7y28oCALwfSvxCBskLuPKWpK4qpterKC7z'
     Document:
       type: object
       required:

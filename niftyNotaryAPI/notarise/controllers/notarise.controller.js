@@ -152,20 +152,27 @@ exports.insertHash = async (req, res) => {
   req.body.txStatus = notaryReceipt.status;
   req.body.fileHash = req.body.hash;
   req.body.txId = notaryReceipt.transactionHash || null;
-  req.body.gasUsed = notaryReceipt.gasUsed || null;
+  req.body.gasUsed = notaryReceipt.gasUsed || null; // required for billing
 
-  // Prepare response
   const response = {
     txStatus: req.body.txStatus,
     fileHash: req.body.hash,
+    signature: req.body.signature || nullBytes,
+    link: req.body.link || emptyString,
     hashType: hashType,
-    docType: req.body.docType || 'application/octet-stream', // generic term for any blob of data
+ //   docType: req.body.docType || 'application/octet-stream', // generic term for any blob of data
     txId: notaryReceipt.transactionHash || null,
-    chainId: req.body.chainId, //
+    chainId: config.chainId,
     timestamp: Date.now(), // @todo derive from receipt -- mebs check block :/
-    gasUsed: req.body.gasUsed
+    // cost: someNumber
+    // gasUsed: req.body.gasUsed // no need for this atm
+    // @todo add explorer
+    explorer: 'https://etherscan.io/tx/' + notaryReceipt.transactionHash
+    // update explorer depending on value of chain id
+    // we could also store this on BTC blockchain
   };
 
+  //@todo derive link from chain id
   NotaryItemModel.createItem(req.body)
     .then((result) => {
       req.body.dbId = response.id = result._id.toHexString();
@@ -178,15 +185,6 @@ exports.insertHash = async (req, res) => {
     });
 };
 
-
-//     // const accounts = await web3.eth.getAccounts();
-//     // const networkId = await web3.eth.net.getId();
-//   //  const accounts = await web3.eth.getAccounts(); // ahhhh... here is the problem we can't get accounts from web3 because we are on ropsten and its not a local node
-//   //  const networkId = await web3.eth.net.getId();
-
-//
-
-//@todo retrieve data after posting it from the id
 exports.getById = (req, res) => {
     //@todo make sure we get all the stuff back that we need
     // so we can post the same data as we get when we do a post
@@ -200,8 +198,7 @@ exports.getById = (req, res) => {
 };
 
 exports.getByFileHash = (req, res) => {
-  //@todo make sure we get all the stuff back that we need
-  // so we can post the same data as we get when we do a post
+
   NotaryItemModel.findByFileHash(req.params.fileHash)
     .then((result) => {
       res.status(200).send(result);
@@ -245,8 +242,6 @@ exports.getByTxId = (req, res) => {
             console.error('Could not retrieve receipt ', e);
             res.status(400).send(e);
         });
-
-    // res.status(200).send(await web3.eth.getTransactionReceipt(req.params.txId));
 };
 
 /*
@@ -260,7 +255,7 @@ exports.verifyTransactionByTxId = (req, res) => {
         });
 };
 
-//@todo confirm based on type!!!
+// @todo verifyFileHash
 exports.verifyHash = (req, res) => {
   const docHash = '0x' + crypto.createHash('sha3-256').update(req.body.file).digest('hex');
   if (docHash === req.body.fileHash) {
@@ -271,8 +266,6 @@ exports.verifyHash = (req, res) => {
     res.sendStatus(404).send({matches: false});
   }
 };
-
-
 
 exports.recoverSigner = async (req, res) => {
 
@@ -287,28 +280,3 @@ exports.recoverSigner = async (req, res) => {
     return res.status(400).send({signer: signer})
   }
 };
-
-
-
-//@todo allow creation of tx to be signed or could add a wrapper around something for client to do ny self
-
-// exports.patchById = (req, res) => {
-//     if (req.body.password) {
-//         let salt = crypto.randomBytes(16).toString('base64');
-//         let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
-//         req.body.password = salt + "$" + hash;
-//     }
-//
-//     UserModel.patchUser(req.params.userId, req.body)
-//         .then((result) => {
-//             res.status(204).send({});
-//         });
-//
-// };
-//
-// exports.removeById = (req, res) => {
-//     UserModel.removeById(req.params.userId)
-//         .then((result)=>{
-//             res.status(204).send({});
-//         });
-// };

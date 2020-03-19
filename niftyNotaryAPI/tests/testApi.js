@@ -20,8 +20,8 @@ const crypto = require('crypto');
 const content = () => {
   return {
     file: makeId(200), // mod this to use an actual file, cos we will have to deal with
-      fileType: 'text/plain',    // should probs be utf 8 or something like that
     hashType: 'sha3-256',
+    link: 'https://ipfs.io/ipfs/Qmc5gCcjYypU7y28oCALwfSvxCBskLuPKWpK4qpterKC7z',
   }
 };
 
@@ -67,7 +67,7 @@ const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(i
          .post('http://localhost:3600/notarise/hash')
          .set({Authorization: 'Bearer ' + jwt.accessToken})
          .set('Content-Type', 'application/json')
-         .send({hash: itemHash(content()['file']), hashType: 2})
+         .send({hash: itemHash(content()['file']), hashType: 3})
          .then((res) => {
 
            superagent
@@ -75,7 +75,6 @@ const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(i
              .set({Authorization: 'Bearer ' + jwt.accessToken})
              .set('Content-Type', 'application/json')
              .end((err, idRes) => {
-               // console.log(idRes)
                assert(err === null, 'err');
                console.log('fetched by id: ', idRes.body.fileHash);
                assert(idRes.id === idRes.id);
@@ -105,9 +104,6 @@ const recoverSigner = async (itemHash, sig) => await web3.eth.accounts.recover(i
                    //     assert(txIdRes.txId === txIdRes.txId);
                    //     done()
                    //   })
-
-
-
                  })
              })
          })

@@ -30,6 +30,11 @@ const PAID = config.permissionLevels.PAID_USER;
         NotariseController.insertHash
     ]);
 
+    // app.post('/notarise/hashWithSignature', [
+    //     ValidationMiddleware.validJWTNeeded,
+    //     NotariseController.insertHashWithSig
+    // ]);
+
     // @todo
     // app.post('/notarise/hashWithSecret', [
     //     ValidationMiddleware.validJWTNeeded,

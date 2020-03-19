@@ -3,14 +3,14 @@ const Schema = mongoose.Schema;
 
 const notaryItemSchema = new Schema({
     txStatus: String,
-//    fileHash: String,
-//    txId: String,
     fileHash: {
       type: String,
       index: true,
       unique: true
     },
     hashType: String,
+    signature: String,
+    link: String,
     docType: String,
     txId: {
       type: String,
@@ -65,14 +65,6 @@ exports.findByTxId = (txId) => {
       delete result.__v;
       return result;
     });
-
-  // return NotaryItem.findByTxId(txId)
-  //   .then((result) => {
-  //     result = result.toJSON();
-  //     delete result._id;
-  //     delete result.__v;
-  //     return result;
-  //   })
 };
 
 exports.findByFileHash = (fileHash) => {
@@ -83,25 +75,11 @@ exports.findByFileHash = (fileHash) => {
       delete result.__v;
       return result;
     });
-
-  // return NotaryItem.findByFileHash(fileHash)
-  //   .then((result) => {
-  //     result = result.toJSON();
-  //     delete result._id;
-  //     delete result.__v;
-  //     return result;
-  //   })
 };
 
 exports.createItem = (notaryItemData) => {
-  //@todo sanitize input
-
     const item = new NotaryItem(notaryItemData);
     return item.save();
-    //return () => new Promise(() => notaryItemData);
-    // middleware ... or....?
-    // perhaps triggers an even in the system...
-    // how do we watch to observe...
 };
 
 exports.verifyItem = (notaryItemData) => {

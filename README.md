@@ -48,6 +48,10 @@ cd ../niftyNotaryAPi
 yarn start
 ```
 
+Manually add an administrative user. @todo automate this.
+```
+node niftyNotaryAPI/test/createUser.js
+```
 
 ##Requirements
 
