@@ -1,28 +1,25 @@
 const config = require('../../common/config/env.config');
-const hashTypes = require('../../common/config/itemTypes');
+const crypto = require('crypto');
 console.log('c: ', config);
 const ethService = require('../../common/services/ethereum.service');
 
 const NotaryItemModel = require('../models/notaryItem.model.js');
-const crypto = require('crypto');
-// const { generate } = require('ethereumjs-wallet');
 const notaryArtifacts = require('../../../contracts/build/contracts/ItemNotary');
-
 const Web3 = require('web3');
 const web3 = new Web3(config.nodeEndPoint);
 const signerAccount = web3.eth.accounts.wallet.add(config.signKey);
 const itemTypes = require('../../common/config/itemTypes');
 
 //@todo intended for future use when when handling batching and responding to gas costs.
-const txState = {
-    sending: 'sending', // just getting things going, not yet submitted
-    pending: 'pending', // submitted onchain
-    success: 'success',
-    failed: 'failed',
-    confirming: 'confirming', // mined but waiting a few blocks before confirming
-    rejected: 'rejected',
-    fail: 'fail'
-};
+// const txState = {
+//   sending: 'sending', // just getting things going, not yet submitted
+//   pending: 'pending', // submitted onchain
+//   success: 'success',
+//   failed: 'failed',
+//   confirming: 'confirming', // mined but waiting a few blocks before confirming
+//   rejected: 'rejected',
+//   fail: 'fail'
+// };
 
 
 // mebs add an object that has a list of gas estimates...
@@ -164,12 +161,7 @@ exports.insertHash = async (req, res) => {
     txId: notaryReceipt.transactionHash || null,
     chainId: config.chainId,
     timestamp: Date.now(), // @todo derive from receipt -- mebs check block :/
-    // cost: someNumber
-    // gasUsed: req.body.gasUsed // no need for this atm
-    // @todo add explorer
     explorer: 'https://etherscan.io/tx/' + notaryReceipt.transactionHash
-    // update explorer depending on value of chain id
-    // we could also store this on BTC blockchain
   };
 
   //@todo derive link from chain id
@@ -181,7 +173,6 @@ exports.insertHash = async (req, res) => {
     })
     .catch((e) => {
       return res.status(400).send(e.message)
-      // console.log('exception: ', e);
     });
 };
 
@@ -244,6 +235,8 @@ exports.getByTxId = (req, res) => {
         });
 };
 
+
+
 /*
 * Verify on chain. Specifics of an id.
 *
@@ -259,8 +252,6 @@ exports.verifyTransactionByTxId = (req, res) => {
 exports.verifyHash = (req, res) => {
   const docHash = '0x' + crypto.createHash('sha3-256').update(req.body.file).digest('hex');
   if (docHash === req.body.fileHash) {
-    // @todo strip stuff from body if necessary
-    // should it be base64 with type?
     res.sendStatus(200).send({matches: true});
   } else {
     res.sendStatus(404).send({matches: false});
@@ -277,6 +268,6 @@ exports.recoverSigner = async (req, res) => {
   if (signer) {
     return res.status(200).send({signer: signer});
   } else {
-    return res.status(400).send({signer: signer})
+    return res.sendStatus(400);
   }
 };

@@ -30,28 +30,12 @@ const PAID = config.permissionLevels.PAID_USER;
         NotariseController.insertHash
     ]);
 
-    // app.post('/notarise/hashWithSignature', [
-    //     ValidationMiddleware.validJWTNeeded,
-    //     NotariseController.insertHashWithSig
-    // ]);
-
     // @todo
     // app.post('/notarise/hashWithSecret', [
     //     ValidationMiddleware.validJWTNeeded,
     //     NotariseController.insertHash
     // ]);
     //
-    // app.post('/verify/hashWithSecret', [
-    //     ValidationMiddleware.validJWTNeeded,
-    //     NotariseController.insertHash
-    // ]);
-
-        /*
-
-
-        exports.recoverSigner = async (req, res) => {
-
-         */
 
     app.get('/notarised/recoverSigner/:fileHash/:signature', [
         NotariseController.recoverSigner,
